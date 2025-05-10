@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- SEO Meta Tags -->
+    <title>ToolTari - Free Online Tools for File Conversion, Compression, and More</title>
+    <meta name="description" content="ToolTari offers free online tools for file conversion, compression, and editing. Convert PDFs, images, videos, and more with no registration required.">
+    <meta name="keywords" content="online tools, file converter, PDF tools, image converter, video converter, free tools, ToolTari">
+    <meta name="author" content="ToolTari">
+    <meta name="robots" content="index, follow">
+    <!-- Open Graph Tags for Social Sharing -->
+    <meta property="og:title" content="ToolTari - Free Online Tools for File Conversion">
+    <meta property="og:description" content="Convert, compress, and edit files with ToolTari's easy-to-use online tools. No registration needed.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.tooltari.com">
+    <meta property="og:image" content="https://www.tooltari.com/images/og-image.jpg">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Gradient Background for Hero */
+        .hero-gradient {
+            background: linear-gradient(90deg, #6B48FF 0%, #A78BFA 100%);
+        }
+        /* Fade-in Animation */
+        .fade-in {
+            opacity: 0;
+            animation: fadeIn 1s ease-in forwards;
+        }
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        /* Scale Animation for Hover */
+        .tool-card, .explore-btn {
+            transition: all 0.3s ease;
+        }
+        .tool-card:hover, .explore-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+        /* Social Icons Hover */
+        .social-icon {
+            transition: all 0.3s ease;
+        }
+        .social-icon:hover {
+            transform: translateY(-3px);
+        }
+        /* Search Bar Styling */
+        .search-results {
+            max-height: 200px;
+            overflow-y: auto;
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Navigation Bar -->
+    <nav class="bg-white shadow-md py-4 px-6 flex flex-col sm:flex-row justify-between items-center sticky top-0 z-10">
+        <div class="flex items-center mb-4 sm:mb-0">
+            <span class="text-2xl font-bold text-blue-600">
+                <span class="text-pink-500">✦</span> ToolTari
+            </span>
+        </div>
+        <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6 items-center w-full sm:w-auto">
+            <a href="#" class="text-gray-600 hover:text-blue-600">All Tools</a>
+            <a href="#" class="text-gray-600 hover:text-blue-600">Features</a>
+            <a href="#" class="text-gray-600 hover:text-blue-600">Blog</a>
+            <a href="#" class="text-gray-600 hover:text-blue-600">Contact</a>
+            <div class="relative w-full sm:w-auto">
+                <input type="text" id="searchInput" placeholder="Search tools..." class="border rounded-full py-2 px-4 text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-600 w-full sm:w-64">
+                <span class="absolute right-3 top-2 text-gray-400">🔍</span>
+                <div id="searchResults" class="absolute search-results w-full mt-2 hidden"></div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-gradient text-white py-20 px-6 text-center fade-in">
+        <h1 class="text-4xl sm:text-5xl font-bold mb-4">Your Free Online Tools Collection</h1>
+        <p class="text-base sm:text-lg mb-8">Convert, compress and edit files with our easy-to-use tools. No registration required.</p>
+        <a href="#popular-tools" class="explore-btn bg-blue-600 text-white py-3 px-6 rounded-full inline-block hover:bg-blue-700">Explore Tools</a>
+    </section>
+
+    <!-- Advertisement Placeholder (AdSense) -->
+    <div class="bg-gray-100 py-4 text-center">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+             data-ad-slot="XXXXXXXXXX"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
+
+    <!-- Popular Tools Section -->
+    <section id="popular-tools" class="max-w-7xl mx-auto py-12 px-6">
+        <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 text-center mb-2 fade-in">Popular Tools</h2>
+        <p class="text-gray-600 text-center mb-8 fade-in">Click on any tool to use it instantly</p>
+        <div id="toolsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <a href="mergePDF.html" class="tool-card bg-white p-6 rounded-lg shadow-md fade-in">
+                <div class="flex items-center mb-4">
+                    <span class="text-4xl mr-4">📄</span>
+                    <h3 class="text-xl font-medium text-gray-800">PDF Tools</h3>
+                </div>
+                <p class="text-gray-600">Compress, merge, split and convert PDF files</p>
+            </a>
+            <a href="image-compression.html" class="tool-card bg-white p-6 rounded-lg shadow-md fade-in" style="animation-delay: 0.2s;">
+                <div class="flex items-center mb-4">
+                    <span class="text-4xl mr-4">🖼️</span>
+                    <h3 class="text-xl font-medium text-gray-800">Image Converter</h3>
+                </div>
+                <p class="text-gray-600">Convert between JPG, PNG, WebP, GIF and more</p>
+            </a>
+            <a href="yt-video.html" class="tool-card bg-white p-6 rounded-lg shadow-md fade-in" style="animation-delay: 0.4s;">
+                <div class="flex items-center mb-4">
+                    <span class="text-4xl mr-4">🎥</span>
+                    <h3 class="text-xl font-medium text-gray-800">Video Converter</h3>
+                </div>
+                <p class="text-gray-600">Convert videos to MP4, AVI, MOV, MKV formats</p>
+            </a>
+            <a href="word-to-PDFConverter.html" class="tool-card bg-white p-6 rounded-lg shadow-md fade-in" style="animation-delay: 0.6s;">
+                <div class="flex items-center mb-4">
+                    <span class="text-4xl mr-4">📜</span>
+                    <h3 class="text-xl font-medium text-gray-800">Document Converter</h3>
+                </div>
+                <p class="text-gray-600">Convert between Word, Excel, PowerPoint</p>
+            </a>
+            <a href="#" class="tool-card bg-white p-6 rounded-lg shadow-md fade-in" style="animation-delay: 0.8s;">
+                <div class="flex items-center mb-4">
+                    <span class="text-4xl mr-4">🎵</span>
+                    <h3 class="text-xl font-medium text-gray-800">Audio Converter</h3>
+                </div>
+                <p class="text-gray-600">Convert audio files to MP3, WAV, FLAC and more</p>
+            </a>
+            <a href="#" class="tool-card bg-white p-6 rounded-lg shadow-md fade-in" style="animation-delay: 1s;">
+                <div class="flex items-center mb-4">
+                    <span class="text-4xl mr-4">📦</span>
+                    <h3 class="text-xl font-medium text-gray-800">Archive Extractor</h3>
+                </div>
+                <p class="text-gray-600">Extract ZIP, RAR, 7Z and other archive files</p>
+            </a>
+        </div>
+    </section>
+
+    <!-- Why Choose ToolTari Section -->
+    <section class="max-w-7xl mx-auto py-12 px-6">
+        <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 text-center mb-2 fade-in">Why Choose ToolTari?</h2>
+        <p class="text-gray-600 text-center mb-8 fade-in">We make file conversion simple and accessible for everyone</p>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            <div class="text-center fade-in" style="animation-delay: 0.2s;">
+                <div class="flex justify-center mb-4">
+                    <span class="text-5xl">🔒</span>
+                </div>
+                <h3 class="text-xl font-medium text-gray-800">Secure Processing</h3>
+                <p class="text-gray-600 mt-2">All files are processed in your browser for maximum privacy</p>
+            </div>
+            <div class="text-center fade-in" style="animation-delay: 0.4s;">
+                <div class="flex justify-center mb-4">
+                    <span class="text-5xl">⚡</span>
+                </div>
+                <h3 class="text-xl font-medium text-gray-800">Fast Conversion</h3>
+                <p class="text-gray-600 mt-2">Optimized algorithms for quick file processing</p>
+            </div>
+            <div class="text-center fade-in" style="animation-delay: 0.6s;">
+                <div class="flex justify-center mb-4">
+                    <span class="text-5xl">📱</span>
+                </div>
+                <h3 class="text-xl font-medium text-gray-800">Mobile Friendly</h3>
+                <p class="text-gray-600 mt-2">Works perfectly on all devices</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Advertisement Placeholder (AdSense) -->
+    <div class="bg-gray-100 py-4 text-center">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+             data-ad-slot="XXXXXXXXXX"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12 px-6">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div>
+                <h3 class="text-xl font-bold mb-4">ToolTari</h3>
+                <p class="text-gray-400">Free online tools for all your file conversion needs.</p>
+                <div class="flex space-x-4 mt-4">
+                    <a href="#" class="social-icon">f</a>
+                    <a href="#" class="social-icon">🐦</a>
+                    <a href="#" class="social-icon">📷</a>
+                </div>
+            </div>
+            <div>
+                <h3 class="text-xl font-bold mb-4 border-b border-blue-600 inline-block">Tools</h3>
+                <ul class="text-gray-400 space-y-2">
+                    <li><a href="mergePDF.html" class="hover:text-blue-400">PDF Tools</a></li>
+                    <li><a href="image-compression.html" class="hover:text-blue-400">Image Converter</a></li>
+                    <li><a href="yt-video.html" class="hover:text-blue-400">Video Converter</a></li>
+                    <li><a href="word-to-PDFConverter.html" class="hover:text-blue-400">Document Converter</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="text-xl font-bold mb-4 border-b border-blue-600 inline-block">Company</h3>
+                <ul class="text-gray-400 space-y-2">
+                    <li><a href="#" class="hover:text-blue-400">About Us</a></li>
+                    <li><a href="#" class="hover:text-blue-400">Blog</a></li>
+                    <li><a href="#" class="hover:text-blue-400">Contact</a></li>
+                </ul>
+            </div>
+            <div>
+                <h3 class="text-xl font-bold mb-4 border-b border-blue-600 inline-block">Legal</h3>
+                <ul class="text-gray-400 space-y-2">
+                    <li><a href="#" class="hover:text-blue-400">Terms of Service</a></li>
+                    <li><a href="#" class="hover:text-blue-400">Privacy Policy</a></li>
+                    <li><a href="#" class="hover:text-blue-400">Cookie Policy</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="text-center text-gray-400 mt-8">
+            © 2025 ToolTari. All rights reserved.
+        </div>
+    </footer>
+
+    <!-- Search Functionality Script -->
+    <script>
+        const tools = [
+            { name: "PDF Tools", url: "mergePDF.html", description: "Compress, merge, split and convert PDF files" },
+            { name: "Image Converter", url: "image-compression.html", description: "Convert between JPG, PNG, WebP, GIF and more" },
+            { name: "Video Converter", url: "yt-video.html", description: "Convert videos to MP4, AVI, MOV, MKV formats" },
+            { name: "Document Converter", url: "word-to-PDFConverter.html", description: "Convert between Word, Excel, PowerPoint" },
+            { name: "Audio Converter", url: "#", description: "Convert audio files to MP3, WAV, FLAC and more" },
+            { name: "Archive Extractor", url: "#", description: "Extract ZIP, RAR, 7Z and other archive files" },
+            { name: "File Renamer", url: "file-renamer.html", description: "Easily rename multiple files at once" },
+            { name: "Image Blur", url: "image-blur.html", description: "Apply blur effects to your images" },
+            { name: "Image Editor", url: "image-editor.html", description: "Edit your images with ease" },
+            { name: "Image Flip & Rotate", url: "image-flip-rotate.html", description: "Flip or rotate your images" },
+            { name: "Image Resize", url: "image-resize.html", description: "Resize images to your desired dimensions" },
+            { name: "Image Metadata Viewer", url: "img-metadata-viewer.html", description: "View metadata of your images" },
+            { name: "PDF to Text", url: "pdf-to-text.html", description: "Extract text from PDF files" },
+            { name: "Password Strength Checker", url: "password-strength-checker.html", description: "Check the strength of your passwords" },
+            { name: "QR Code Generator", url: "qr-gen.html", description: "Generate QR codes for any text or URL" },
+            { name: "AI Background Remover", url: "ai-bg-remove.html", description: "Remove backgrounds from images using AI" },
+            { name: "Code Editor", url: "code-editor.html", description: "Write and test code online" },
+            { name: "Currency Converter", url: "currency-converter.html", description: "Convert between different currencies" },
+            { name: "Universal File Viewer", url: "universal-file-viewer.html", description: "View various file formats online" },
+            { name: "YouTube Creator Toolbox", url: "yt-creator-toolbox.html", description: "Tools for YouTube content creators" },
+            { name: "YouTube Thumbnail Downloader", url: "yt-thumbnail-downloader.html", description: "Download thumbnails from YouTube videos" },
+        ];
+
+        const searchInput = document.getElementById('searchInput');
+        const searchResults = document.getElementById('searchResults');
+        const toolsGrid = document.getElementById('toolsGrid');
+
+        searchInput.addEventListener('input', () => {
+            const query = searchInput.value.toLowerCase();
+            searchResults.innerHTML = '';
+            searchResults.classList.add('hidden');
+            toolsGrid.innerHTML = '';
+
+            const filteredTools = tools.filter(tool =>
+                tool.name.toLowerCase().includes(query) || tool.description.toLowerCase().includes(query)
+            );
+
+            if (query && filteredTools.length > 0) {
+                filteredTools.forEach(tool => {
+                    const resultItem = document.createElement('a');
+                    resultItem.href = tool.url;
+                    resultItem.className = 'block p-2 hover:bg-gray-100';
+                    resultItem.innerHTML = `<strong>${tool.name}</strong><br>${tool.description}`;
+                    searchResults.appendChild(resultItem);
+                });
+                searchResults.classList.remove('hidden');
+            }
+
+            const toolsToDisplay = query ? filteredTools : tools.slice(0, 6);
+            toolsToDisplay.forEach((tool, index) => {
+                const toolCard = document.createElement('a');
+                toolCard.href = tool.url;
+                toolCard.className = 'tool-card bg-white p-6 rounded-lg shadow-md fade-in';
+                toolCard.style.animationDelay = `${index * 0.2}s`;
+                toolCard.innerHTML = `
+                    <div class="flex items-center mb-4">
+                        <span class="text-4xl mr-4">${getIconForTool(tool.name)}</span>
+                        <h3 class="text-xl font-medium text-gray-800">${tool.name}</h3>
+                    </div>
+                    <p class="text-gray-600">${tool.description}</p>
+                `;
+                toolsGrid.appendChild(toolCard);
+            });
+        });
+
+        function getIconForTool(toolName) {
+            const icons = {
+                "PDF Tools": "📄",
+                "Image Converter": "🖼️",
+                "Video Converter": "🎥",
+                "Document Converter": "📜",
+                "Audio Converter": "🎵",
+                "Archive Extractor": "📦",
+                "File Renamer": "📂",
+                "Image Blur": "🌫️",
+                "Image Editor": "✏️",
+                "Image Flip & Rotate": "🔄",
+                "Image Resize": "📏",
+                "Image Metadata Viewer": "🔍",
+                "PDF to Text": "📝",
+                "Password Strength Checker": "🔒",
+                "QR Code Generator": "📷",
+                "AI Background Remover": "🖌️",
+                "Code Editor": "💻",
+                "Currency Converter": "💱",
+                "Universal File Viewer": "👀",
+                "YouTube Creator Toolbox": "📹",
+                "YouTube Thumbnail Downloader": "🖼️",
+            };
+            return icons[toolName] || "🛠️";
+        }
+    </script>
+
+    <!-- AdSense Script -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX"
+            crossorigin="anonymous"></script>
+</body>
+</html>

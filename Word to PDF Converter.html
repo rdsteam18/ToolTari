@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free online Word to PDF converter. Upload .doc or .docx files, preview content, and download as PDF. Fast, secure, and user-friendly.">
+    <meta name="keywords" content="word to pdf, docx to pdf, convert word to pdf, free pdf converter, online document converter">
+    <meta name="author" content="Word to PDF Converter">
+    <title>Word to PDF Converter - Free Online Tool</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .light-mode {
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        .dark-mode {
+            background-color: #1a1a1a;
+            color: #e0e0e0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            cursor: pointer;
+            font-size: 1.2em;
+        }
+
+        .upload-section {
+            background: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .dark-mode .upload-section {
+            background: #2a2a2a;
+        }
+
+        .drop-zone {
+            border: 2px dashed #007bff;
+            padding: 40px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .drop-zone.dragover {
+            background: #e6f0ff;
+        }
+
+        .dark-mode .drop-zone.dragover {
+            background: #3a3a3a;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .file-info, .preview-section {
+            margin-top: 20px;
+            text-align: left;
+        }
+
+        .preview-section {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .dark-mode .preview-section {
+            background: #333;
+        }
+
+        button {
+            background: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .ad-section {
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .ad-placeholder {
+            background: #ddd;
+            padding: 20px;
+            border-radius: 5px;
+        }
+
+        .dark-mode .ad-placeholder {
+            background: #444;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            .container {
+                padding: 10px;
+            }
+
+            .drop-zone {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body class="light-mode">
+    <div class="theme-toggle" onclick="toggleTheme()">🌙</div>
+    <div class="container">
+        <header>
+            <h1>Word to PDF Converter</h1>
+            <p>Upload your .doc or .docx file, preview, and convert to PDF</p>
+        </header>
+
+        <main>
+            <section class="upload-section">
+                <div class="drop-zone" id="dropZone">
+                    <p>Drag and drop your .doc or .docx file here</p>
+                    <p>or</p>
+                    <label for="fileInput" style="color: #007bff; cursor: pointer;">Browse Files</label>
+                    <input type="file" id="fileInput" class="file-input" accept=".doc,.docx" />
+                </div>
+                <div class="file-info" id="fileInfo" style="display: none;">
+                    <p><strong>File:</strong> <span id="fileName"></span></p>
+                    <p><strong>Size:</strong> <span id="fileSize"></span></p>
+                    <p><strong>Word Count:</strong> <span id="wordCount"></span></p>
+                </div>
+                <div class="preview-section" id="preview" style="display: none;"></div>
+                <button id="convertBtn" disabled>Convert to PDF</button>
+            </section>
+
+            <section class="ad-section">
+                <div class="ad-placeholder">
+                    <p>AdSense Ad Placeholder (300x250)</p>
+                    <!-- Replace with AdSense code -->
+                    <!-- <ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="YOUR_AD_CLIENT" data-ad-slot="YOUR_AD_SLOT"></ins> -->
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Word to PDF Converter. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.2/mammoth.browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script>
+        const { jsPDF } = window.jspdf;
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const fileInfo = document.getElementById('fileInfo');
+        const fileName = document.getElementById('fileName');
+        const fileSize = document.getElementById('fileSize');
+        const wordCount = document.getElementById('wordCount');
+        const preview = document.getElementById('preview');
+        const convertBtn = document.getElementById('convertBtn');
+
+        let currentFile = null;
+
+        // Theme Toggle
+        function toggleTheme() {
+            document.body.classList.toggle('light-mode');
+            document.body.classList.toggle('dark-mode');
+            localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+        }
+
+        // Load saved theme
+        if (localStorage.getItem('theme') === 'dark') {
+            document.body.classList.remove('light-mode');
+            document.body.classList.add('dark-mode');
+        }
+
+        // Drag and Drop
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('dragover');
+        });
+
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('dragover');
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleFile(files[0]);
+            }
+        });
+
+        fileInput.addEventListener('change', () => {
+            if (fileInput.files.length > 0) {
+                handleFile(fileInput.files[0]);
+            }
+        });
+
+        function handleFile(file) {
+            if (!file.name.match(/\.(doc|docx)$/i)) {
+                alert('Please upload a .doc or .docx file.');
+                return;
+            }
+
+            currentFile = file;
+            fileName.textContent = file.name;
+            fileSize.textContent = (file.size / 1024).toFixed(2) + ' KB';
+            fileInfo.style.display = 'block';
+            convertBtn.disabled = false;
+
+            // Preview and Word Count
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                mammoth.convertToHtml({ arrayBuffer: e.target.result })
+                    .then((result) => {
+                        preview.innerHTML = result.value;
+                        preview.style.display = 'block';
+                        const text = result.value.replace(/<[^>]+>/g, ' ').trim();
+                        const words = text.split(/\s+/).filter(word => word.length > 0);
+                        wordCount.textContent = words.length;
+                    })
+                    .catch((err) => {
+                        console.error('Error converting file:', err);
+                        alert('Error previewing the file.');
+                    });
+            };
+            reader.readAsArrayBuffer(file);
+        }
+
+        // Convert to PDF
+        convertBtn.addEventListener('click', () => {
+            if (!currentFile) return;
+
+            const doc = new jsPDF();
+            mammoth.extractRawText({ arrayBuffer: currentFile })
+                .then((result) => {
+                    const text = result.value;
+                    doc.setFontSize(12);
+                    const lines = doc.splitTextToSize(text, 180);
+                    let y = 10;
+                    lines.forEach((line) => {
+                        if (y > 280) {
+                            doc.addPage();
+                            y = 10;
+                        }
+                        doc.text(line, 10, y);
+                        y += 7;
+                    });
+                    doc.save(`${currentFile.name.replace(/\.(doc|docx)$/i, '')}.pdf`);
+                })
+                .catch((err) => {
+                    console.error('Error generating PDF:', err);
+                    alert('Error converting to PDF.');
+                });
+        });
+    </script>

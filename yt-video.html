@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Educational tool for analyzing YouTube video formats - Understand video streaming metadata">
+    <title>YouTube Video Format Analyzer - Educational Tool</title>
+    
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX"></script>
+    
+    <style>
+        :root {
+            --primary: #FF0000;
+            --secondary: #2d2d2d;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            background: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .disclaimer {
+            background: #ffeeba;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 1px solid #ffdf7e;
+        }
+
+        .input-section {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+        }
+
+        #videoUrl {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            margin: 15px 0;
+        }
+
+        .result-card {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .format-option {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px;
+            margin: 10px 0;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .input-section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>YouTube Video Format Analyzer</h1>
+        
+        <!-- AdSense Top Banner -->
+        <div class="ad-section">
+            <!-- Insert Ad Unit ID here -->
+        </div>
+
+    
+
+        <div class="input-section">
+            <input type="url" id="videoUrl" placeholder="Enter YouTube Video URL">
+            <button onclick="analyzeVideo()" class="analyze-btn">Analyze Formats</button>
+        </div>
+
+        <!-- AdSense Middle Banner -->
+        <div class="ad-section">
+            <!-- Insert Ad Unit ID here -->
+        </div>
+
+        <div id="results" class="results-section">
+            <!-- Sample Format Card (Dynamic Content) -->
+            <div class="result-card">
+                <h3>Available Formats</h3>
+                <div class="format-option">
+                    <span>MP4 1080p</span>
+                    <span>Video/Audio</span>
+                    <button class="copy-btn">Copy Info</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mock analysis function - Replace with actual API calls
+        function analyzeVideo() {
+            const url = document.getElementById('videoUrl').value;
+            const videoId = extractVideoId(url);
+            
+            if(!videoId) {
+                alert('Please enter a valid YouTube URL');
+                return;
+            }
+
+            // Mock response
+            const mockFormats = [
+                { quality: '1080p', format: 'MP4', type: 'Video+Audio' },
+                { quality: '720p', format: 'WEBM', type: 'Video Only' },
+                { quality: '480p', format: '3GP', type: 'Audio Only' }
+            ];
+
+            displayResults(mockFormats);
+        }
+
+        function extractVideoId(url) {
+            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+            const match = url.match(regExp);
+            return (match && match[2].length === 11) ? match[2] : null;
+        }
+
+        function displayResults(formats) {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = `
+                <div class="result-card">
+                    <h3>Available Formats</h3>
+                    ${formats.map(format => `
+                        <div class="format-option">
+                            <span>${format.format} ${format.quality}</span>
+                            <span>${format.type}</span>
+                            <button class="copy-btn">Copy Info</button>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>

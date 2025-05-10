@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free Online Invoice Generator - Create professional invoices instantly. Download as PDF. Perfect for freelancers and small businesses.">
+    <meta name="keywords" content="invoice generator, create invoice, free invoice maker, PDF invoice, online invoice">
+    <title>Free Invoice Generator - Instant PDF Invoice Creator</title>
+    
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX"></script>
+    
+    <!-- jsPDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            background: #f5f7fa;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .ad-section {
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .invoice-form {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-top: 5px;
+        }
+
+        .items-table {
+            width: 100%;
+            margin: 20px 0;
+            border-collapse: collapse;
+        }
+
+        .items-table th, .items-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        .btn {
+            background: #2196F3;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .invoice-form {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- AdSense Top Banner -->
+        <div class="ad-section">
+            <ins class="adsbygoogle"
+                style="display:block"
+                data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                data-ad-slot="XXXXXXXXXX"
+                data-ad-format="auto"
+                data-full-width-responsive="true"></ins>
+        </div>
+
+        <h1>Free Invoice Generator</h1>
+        
+        <div class="invoice-form">
+            <div class="form-group">
+                <label>Your Business Name:</label>
+                <input type="text" id="businessName" required>
+            </div>
+
+            <div class="form-group">
+                <label>Your Address:</label>
+                <textarea id="businessAddress" rows="3" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>Client Name:</label>
+                <input type="text" id="clientName" required>
+            </div>
+
+            <div class="form-group">
+                <label>Client Address:</label>
+                <textarea id="clientAddress" rows="3" required></textarea>
+            </div>
+
+            <h3>Invoice Items</h3>
+            <table class="items-table">
+                <thead>
+                    <tr>
+                        <th>Description</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Total</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="itemsBody">
+                    <!-- Items will be added here -->
+                </tbody>
+            </table>
+            <button class="btn" onclick="addItem()">Add Item</button>
+
+            <div class="form-group">
+                <button class="btn" onclick="generatePDF()">Generate Invoice PDF</button>
+            </div>
+        </div>
+
+        <!-- AdSense Bottom Banner -->
+        <div class="ad-section">
+            <ins class="adsbygoogle"
+                style="display:block"
+                data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                data-ad-slot="XXXXXXXXXX"
+                data-ad-format="auto"
+                data-full-width-responsive="true"></ins>
+        </div>
+    </div>
+
+    <script>
+        // Initialize jsPDF
+        window.jsPDF = window.jspdf.jsPDF;
+
+        let itemCount = 0;
+
+        function addItem() {
+            itemCount++;
+            const itemHTML = `
+                <tr id="item-${itemCount}">
+                    <td><input type="text" class="item-desc" required></td>
+                    <td><input type="number" class="item-qty" min="1" value="1" required></td>
+                    <td><input type="number" class="item-price" step="0.01" required></td>
+                    <td class="item-total">0.00</td>
+                    <td><button class="btn" onclick="removeItem(${itemCount})">Remove</button></td>
+                </tr>
+            `;
+            document.getElementById('itemsBody').insertAdjacentHTML('beforeend', itemHTML);
+        }
+
+        function removeItem(id) {
+            document.getElementById(`item-${id}`).remove();
+            calculateTotal();
+        }
+
+        function calculateTotal() {
+            let grandTotal = 0;
+            document.querySelectorAll('#itemsBody tr').forEach(row => {
+                const qty = parseFloat(row.querySelector('.item-qty').value) || 0;
+                const price = parseFloat(row.querySelector('.item-price').value) || 0;
+                const total = qty * price;
+                row.querySelector('.item-total').textContent = total.toFixed(2);
+                grandTotal += total;
+            });
+            return grandTotal;
+        }
+
+        function generatePDF() {
+            // Validate required fields
+            if (!document.getElementById('businessName').value || 
+                !document.getElementById('clientName').value ||
+                document.querySelectorAll('#itemsBody tr').length === 0) {
+                alert('Please fill all required fields and add at least one item');
+                return;
+            }
+
+            const doc = new jsPDF();
+            const margin = 15;
+            let yPos = margin;
+
+            // Add Business Info
+            doc.setFontSize(18);
+            doc.text(document.getElementById('businessName').value, margin, yPos);
+            yPos += 10;
+            doc.setFontSize(12);
+            doc.text(document.getElementById('businessAddress').value.split('\n'), margin, yPos);
+            yPos += 30;
+
+            // Add Client Info
+            doc.text(`Bill To: ${document.getElementById('clientName').value}`, margin, yPos);
+            yPos += 7;
+            doc.text(document.getElementById('clientAddress').value.split('\n'), margin, yPos);
+            yPos += 20;
+
+            // Add Invoice Items
+            doc.autoTable({
+                startY: yPos,
+                head: [['Description', 'Quantity', 'Price', 'Total']],
+                body: Array.from(document.querySelectorAll('#itemsBody tr')).map(row => {
+                    return [
+                        row.querySelector('.item-desc').value,
+                        row.querySelector('.item-qty').value,
+                        `$${parseFloat(row.querySelector('.item-price').value).toFixed(2)}`,
+                        `$${row.querySelector('.item-total').textContent}`
+                    ];
+                })
+            });
+
+            // Add Total
+            yPos = doc.autoTable.previous.finalY + 10;
+            doc.setFontSize(14);
+            doc.text(`Grand Total: $${calculateTotal().toFixed(2)}`, margin, yPos);
+
+            // Save PDF
+            doc.save(`invoice-${Date.now()}.pdf`);
+        }
+
+        // Initialize AdSense
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</body>
+</html>

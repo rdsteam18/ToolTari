@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="YouTube Toolbox - Free tools for creators including thumbnail downloader, timestamp generator, hashtag suggestions, and title/description ideas">
+    <title>YouTube Creator Toolbox - Free Tools for Video Makers</title>
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX"></script>
+    <style>
+        :root {
+            --primary: #FF0000;
+            --secondary: #282828;
+            --background: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            background: var(--background);
+            color: var(--secondary);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .tabs {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 15px;
+            background: #f0f0f0;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .tab.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        .tool-section {
+            display: none;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .tool-section.active {
+            display: block;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        input, textarea, button {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        .result-box {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 4px;
+            position: relative;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            padding: 5px 10px;
+            font-size: 0.8em;
+        }
+
+        @media (max-width: 768px) {
+            .tabs {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>YouTube Creator Toolbox</h1>
+        
+        <!-- AdSense Header -->
+        <div class="ad-section">
+            <!-- Insert Ad Unit ID here -->
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showTool('thumbnail')">Thumbnail Downloader</button>
+            <button class="tab" onclick="showTool('timestamp')">Timestamp Generator</button>
+            <button class="tab" onclick="showTool('hashtag')">Hashtag Generator</button>
+            <button class="tab" onclick="showTool('title')">Title Generator</button>
+        </div>
+
+        <!-- Thumbnail Downloader -->
+        <div id="thumbnail" class="tool-section active">
+            <div class="input-group">
+                <input type="url" id="ytUrl" placeholder="Enter YouTube URL">
+                <button onclick="getThumbnail()">Show Thumbnail</button>
+            </div>
+            <div id="thumbnailResult" class="result-box"></div>
+        </div>
+
+        <!-- Timestamp Generator -->
+        <div id="timestamp" class="tool-section">
+            <div id="timestampFields">
+                <div class="input-group">
+                    <input type="text" placeholder="Section Title">
+                    <input type="text" placeholder="Time (HH:MM:SS)">
+                </div>
+            </div>
+            <button onclick="addTimestampField()">+ Add Another</button>
+            <button onclick="generateTimestamps()">Generate</button>
+            <div id="timestampResult" class="result-box"></div>
+        </div>
+
+        <!-- Hashtag Generator -->
+        <div id="hashtag" class="tool-section">
+            <div class="input-group">
+                <input type="text" id="keywords" placeholder="Enter keywords (comma separated)">
+                <button onclick="generateHashtags()">Generate Hashtags</button>
+            </div>
+            <div id="hashtagResult" class="result-box"></div>
+        </div>
+
+        <!-- Title & Description Generator -->
+        <div id="title" class="tool-section">
+            <div class="input-group">
+                <input type="text" id="mainKeyword" placeholder="Main keyword/phrase">
+                <button onclick="generateTitles()">Generate Titles</button>
+                <button onclick="generateDescriptions()">Generate Descriptions</button>
+            </div>
+            <div id="titleResult" class="result-box"></div>
+        </div>
+
+        <!-- AdSense Footer -->
+        <div class="ad-section">
+            <!-- Insert Ad Unit ID here -->
+        </div>
+    </div>
+
+    <script>
+        // Tool Navigation
+        function showTool(toolId) {
+            document.querySelectorAll('.tool-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.getElementById(toolId).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Thumbnail Downloader
+        function getThumbnail() {
+            const url = document.getElementById('ytUrl').value;
+            const videoId = url.match(/(?:v=|\/)([a-zA-Z0-9_-]{11})/)?.[1];
+            
+            if (!videoId) {
+                alert('Invalid YouTube URL');
+                return;
+            }
+
+            const qualities = ['maxresdefault', 'hqdefault', 'sddefault', 'mqdefault'];
+            const resultDiv = document.getElementById('thumbnailResult');
+            resultDiv.innerHTML = qualities.map(quality => `
+                <div>
+                    <img src="https://img.youtube.com/vi/${videoId}/${quality}.jpg" style="max-width: 100%">
+                    <button onclick="downloadImage('${videoId}', '${quality}')">Download ${quality}</button>
+                </div>
+            `).join('');
+        }
+
+        function downloadImage(videoId, quality) {
+            const link = document.createElement('a');
+            link.href = `https://img.youtube.com/vi/${videoId}/${quality}.jpg`;
+            link.download = `yt_thumbnail_${videoId}_${quality}.jpg`;
+            link.click();
+        }
+
+        // Timestamp Generator
+        function addTimestampField() {
+            const newField = document.createElement('div');
+            newField.className = 'input-group';
+            newField.innerHTML = `
+                <input type="text" placeholder="Section Title">
+                <input type="text" placeholder="Time (HH:MM:SS)">
+            `;
+            document.getElementById('timestampFields').appendChild(newField);
+        }
+
+        function generateTimestamps() {
+            const fields = Array.from(document.querySelectorAll('#timestampFields .input-group'));
+            const timestamps = fields.map(field => {
+                const [titleInput, timeInput] = field.children;
+                return `${timeInput.value} ${titleInput.value}`;
+            }).filter(entry => entry.trim()).join('\n');
+            
+            document.getElementById('timestampResult').innerHTML = `
+                <pre>${timestamps}</pre>
+                <button class="copy-btn" onclick="copyToClipboard('${timestamps.replace(/'/g, "\\'")}')">Copy</button>
+            `;
+        }
+
+        // Hashtag Generator
+        const hashtagCategories = {
+            tech: ['TechNews', 'GadgetReview', 'TechTips', 'FutureTech'],
+            gaming: ['GamingCommunity', 'GameReview', 'Esports', 'GamingSetup'],
+            education: ['LearnWithMe', 'StudyTips', 'EduTech', 'SkillDevelopment']
+        };
+
+        function generateHashtags() {
+            const keywords = document.getElementById('keywords').value.toLowerCase().split(',');
+            const hashtags = [...new Set([
+                ...keywords.map(k => `#${k.trim().replace(/\s+/g, '')}`),
+                ...Object.values(hashtagCategories).flat().map(h => `#${h}`)
+            ])].sort(() => Math.random() - 0.5).slice(0, 15);
+            
+            document.getElementById('hashtagResult').innerHTML = `
+                <p>${hashtags.join(' ')}</p>
+                <button class="copy-btn" onclick="copyToClipboard('${hashtags.join(' ')}')">Copy</button>
+            `;
+        }
+
+        // Title & Description Generator
+        const titleTemplates = [
+            "The Ultimate Guide to {keyword}",
+            "10 {keyword} Hacks You Need to Know",
+            "{keyword} Explained in 5 Minutes"
+        ];
+
+        const descriptionTemplates = [
+            "In this video, we'll explore {keyword} and show you...",
+            "Learn everything about {keyword} in this comprehensive guide...",
+            "Discover the secrets of {keyword} with our step-by-step tutorial..."
+        ];
+
+        function generateTitles() {
+            const keyword = document.getElementById('mainKeyword').value;
+            const titles = titleTemplates.map(t => t.replace('{keyword}', keyword));
+            displayResults(titles);
+        }
+
+        function generateDescriptions() {
+            const keyword = document.getElementById('mainKeyword').value;
+            const descriptions = descriptionTemplates.map(d => d.replace('{keyword}', keyword));
+            displayResults(descriptions);
+        }
+
+        function displayResults(items) {
+            document.getElementById('titleResult').innerHTML = `
+                <ul>${items.map(item => `<li>${item}</li>`).join('')}</ul>
+                <button class="copy-btn" onclick="copyToClipboard('${items.join('\n').replace(/'/g, "\\'")}')">Copy</button>
+            `;
+        }
+
+        // Utility Functions
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text)
+                .then(() => alert('Copied to clipboard!'))
+                .catch(() => alert('Failed to copy'));
+        }
+    </script>
+</body>
+</html>

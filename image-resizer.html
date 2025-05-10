@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pro Image Resizer | Free Online Tool</title>
+    <meta name="description" content="Resize images instantly with custom dimensions. Support for JPG, PNG, WEBP. Maintain aspect ratio and adjust quality.">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #1d4ed8;
+            --background: #f8fafc;
+            --surface: #ffffff;
+            --text: #1e293b;
+            --border: #cbd5e1;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: var(--background);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .upload-container {
+            background: var(--surface);
+            border: 2px dashed var(--border);
+            border-radius: 1rem;
+            padding: 3rem;
+            text-align: center;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .upload-container:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .preview-image {
+            max-width: 300px;
+            height: auto;
+            border-radius: 0.5rem;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .control-card {
+            background: var(--surface);
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        input[type="number"], select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .dimension-wrapper {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .lock-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .lock-btn:hover {
+            background: var(--secondary);
+        }
+
+        .quality-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 0.75rem;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        button:hover {
+            background: var(--secondary);
+            transform: translateY(-1px);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .ad-section {
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            
+            .upload-container {
+                padding: 2rem;
+            }
+            
+            .controls {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>📷 Pro Image Resizer</h1>
+            <p>Resize images instantly with high quality</p>
+        </header>
+
+        <!-- File Upload Section -->
+        <div class="upload-container" id="dropZone">
+            <div class="upload-icon">
+                <i class="fas fa-cloud-upload-alt"></i>
+            </div>
+            <h3>Click to upload or drag and drop</h3>
+            <p>Supports JPG, PNG, WEBP (Max 5MB)</p>
+            <input type="file" id="fileInput" hidden accept="image/*">
+            <img class="preview-image" id="previewImage" alt="Preview">
+        </div>
+
+        <!-- Main Controls -->
+        <div class="controls">
+            <div class="control-card">
+                <div class="input-group">
+                    <label>Width (px)</label>
+                    <input type="number" id="width" min="1">
+                </div>
+                <div class="input-group">
+                    <label>Height (px)</label>
+                    <input type="number" id="height" min="1">
+                </div>
+                <div class="input-group">
+                    <button class="lock-btn" id="lockAspect">
+                        <i class="fas fa-lock"></i> Lock Aspect Ratio
+                    </button>
+                </div>
+            </div>
+
+            <div class="control-card">
+                <div class="input-group">
+                    <label>Output Format</label>
+                    <select id="format">
+                        <option value="jpeg">JPEG</option>
+                        <option value="png">PNG</option>
+                        <option value="webp">WEBP</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label>Quality</label>
+                    <div class="quality-wrapper">
+                        <input type="range" id="quality" min="0" max="1" step="0.1" value="0.8">
+                        <span id="qualityValue">80%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="button-group">
+            <button id="resizeBtn">
+                <i class="fas fa-expand-arrows-alt"></i>
+                Resize Now
+            </button>
+            <button id="downloadBtn" style="display: none;">
+                <i class="fas fa-download"></i>
+                Download
+            </button>
+        </div>
+
+        <!-- Ad Section -->
+        <div class="ad-section">
+            <!-- Insert your AdSense code here -->
+            <div style="background: #f1f5f9; padding: 1rem; border-radius: 0.5rem;">
+                Ad Space (728x90)
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const fileInput = document.getElementById('fileInput');
+        const dropZone = document.getElementById('dropZone');
+        const previewImage = document.getElementById('previewImage');
+        const widthInput = document.getElementById('width');
+        const heightInput = document.getElementById('height');
+        const lockAspect = document.getElementById('lockAspect');
+        const formatSelect = document.getElementById('format');
+        const qualityInput = document.getElementById('quality');
+        const resizeBtn = document.getElementById('resizeBtn');
+        const downloadBtn = document.getElementById('downloadBtn');
+
+        let aspectRatioLocked = true;
+        let originalWidth, originalHeight;
+
+        // File Upload Handling
+        function handleFile(file) {
+            if (!file.type.startsWith('image/')) {
+                alert('Please upload an image file');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                previewImage.style.display = 'block';
+                previewImage.src = e.target.result;
+                
+                // Get image dimensions
+                const img = new Image();
+                img.onload = () => {
+                    originalWidth = img.width;
+                    originalHeight = img.height;
+                    widthInput.value = originalWidth;
+                    heightInput.value = originalHeight;
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Drag and Drop Handling
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.style.borderColor = var(--primary);
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            handleFile(e.dataTransfer.files[0]);
+            dropZone.style.borderColor = var(--border);
+        });
+
+        dropZone.addEventListener('click', () => fileInput.click());
+        fileInput.addEventListener('change', (e) => handleFile(e.target.files[0]));
+
+        // Aspect Ratio Lock
+        lockAspect.addEventListener('click', () => {
+            aspectRatioLocked = !aspectRatioLocked;
+            lockAspect.innerHTML = aspectRatioLocked 
+                ? '<i class="fas fa-lock"></i> Lock Aspect Ratio'
+                : '<i class="fas fa-lock-open"></i> Aspect Ratio Unlocked';
+        });
+
+        // Dimension Input Handling
+        function updateDimensions(source) {
+            if (aspectRatioLocked && originalWidth && originalHeight) {
+                const aspectRatio = originalWidth / originalHeight;
+                if (source === 'width') {
+                    heightInput.value = Math.round(widthInput.value / aspectRatio);
+                } else {
+                    widthInput.value = Math.round(heightInput.value * aspectRatio);
+                }
+            }
+        }
+
+        widthInput.addEventListener('input', () => updateDimensions('width'));
+        heightInput.addEventListener('input', () => updateDimensions('height'));
+
+        // Quality Display
+        qualityInput.addEventListener('input', () => {
+            document.getElementById('qualityValue').textContent = 
+                `${Math.round(qualityInput.value * 100)}%`;
+        });
+
+        // Resize Function
+        resizeBtn.addEventListener('click', () => {
+            if (!previewImage.src) {
+                alert('Please upload an image first');
+                return;
+            }
+
+            const width = parseInt(widthInput.value);
+            const height = parseInt(heightInput.value);
+            const format = formatSelect.value;
+            const quality = format === 'jpeg' ? qualityInput.value : 1;
+
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            canvas.width = width;
+            canvas.height = height;
+            
+            ctx.drawImage(previewImage, 0, 0, width, height);
+            
+            canvas.toBlob((blob) => {
+                const url = URL.createObjectURL(blob);
+                previewImage.src = url;
+                downloadBtn.style.display = 'inline-flex';
+
+                downloadBtn.onclick = () => {
+                    const a = document.createElement('a');
+                    a.download = `resized-image.${format}`;
+                    a.href = url;
+                    a.click();
+                    URL.revokeObjectURL(url);
+                };
+            }, `image/${format}`, quality);
+        });
+    </script>
+</body>
+</html>

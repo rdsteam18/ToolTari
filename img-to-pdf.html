@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Convert images to PDF online for free. Merge multiple JPG/PNG files into one PDF document. Perfect for mobile users and all devices.">
+    <meta name="keywords" content="image to PDF, JPG to PDF, PNG to PDF, convert images to PDF, merge images">
+    
+    <!-- SEO Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Image to PDF Converter",
+        "description": "Free online tool to convert multiple images to a single PDF document",
+        "applicationCategory": "FileConversion",
+        "operatingSystem": "Web",
+        "offers": {
+            "@type": "Offer",
+            "price": "0.00",
+            "priceCurrency": "USD"
+        }
+    }
+    </script>
+    
+    <title>Free Image to PDF Converter - Merge JPG/PNG to PDF Online</title>
+    
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX"
+        crossorigin="anonymous"></script>
+    
+    <!-- PDF Generation Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .main-container {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .converter-section {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .ad-section {
+            background: #ffffff;
+            padding: 15px;
+            border-radius: 8px;
+            height: fit-content;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .upload-container {
+            border: 2px dashed #ced4da;
+            padding: 40px 20px;
+            text-align: center;
+            margin: 20px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+        }
+
+        .upload-container:hover {
+            border-color: #4dabf7;
+            background-color: #f8f9fa;
+        }
+
+        #fileInput {
+            display: none;
+        }
+
+        #imagePreview {
+            display: grid;
+            gap: 15px;
+            margin: 20px 0;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        }
+
+        .thumbnail {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 6px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .convert-btn {
+            background: #40c057;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: none;
+        }
+
+        .convert-btn:hover {
+            background: #37b24d;
+        }
+
+        .loading {
+            display: none;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .ad-section {
+                order: -1;
+                margin-bottom: 20px;
+            }
+            
+            #imagePreview {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>Image to PDF Converter</h1>
+        <p>Convert multiple images to a single PDF document</p>
+        
+        <!-- Ad Unit 1 -->
+        <div class="ad-section">
+            <ins class="adsbygoogle"
+                style="display:block"
+                data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                data-ad-slot="XXXXXXXXXX"
+                data-ad-format="auto"
+                data-full-width-responsive="true"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <section class="converter-section">
+            <div class="upload-container" onclick="document.getElementById('fileInput').click()">
+                <p>📁 Click to upload images (JPG, PNG, WEBP)</p>
+                <input type="file" id="fileInput" accept="image/*" multiple hidden>
+            </div>
+            
+            <div id="imagePreview"></div>
+            
+            <button id="convertBtn" class="convert-btn" onclick="generatePDF()">
+                Convert to PDF
+            </button>
+            
+            <div class="loading">
+                <div class="spinner"></div>
+                <p>Generating PDF...</p>
+            </div>
+        </section>
+
+        <!-- Ad Unit 2 -->
+        <aside class="ad-section">
+            <ins class="adsbygoogle"
+                style="display:block"
+                data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                data-ad-slot="XXXXXXXXXX"
+                data-ad-format="auto"
+                data-full-width-responsive="true"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </aside>
+    </main>
+
+    <script>
+        const { jsPDF } = window.jspdf;
+        const fileInput = document.getElementById('fileInput');
+        const imagePreview = document.getElementById('imagePreview');
+        const convertBtn = document.getElementById('convertBtn');
+        const loading = document.querySelector('.loading');
+
+        fileInput.addEventListener('change', function(e) {
+            const files = Array.from(e.target.files);
+            if (files.length === 0) return;
+
+            imagePreview.innerHTML = '';
+            files.forEach(file => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.createElement('img');
+                    img.className = 'thumbnail';
+                    img.src = e.target.result;
+                    imagePreview.appendChild(img);
+                };
+                reader.readAsDataURL(file);
+            });
+
+            convertBtn.style.display = 'inline-block';
+        });
+
+        async function generatePDF() {
+            if (!fileInput.files.length) return;
+
+            loading.style.display = 'block';
+            convertBtn.disabled = true;
+
+            const pdf = new jsPDF();
+            const files = Array.from(fileInput.files);
+
+            try {
+                for (let i = 0; i < files.length; i++) {
+                    const file = files[i];
+                    const img = await loadImage(file);
+                    
+                    const imgWidth = pdf.internal.pageSize.getWidth();
+                    const imgHeight = (img.height * imgWidth) / img.width;
+                    
+                    if (i !== 0) pdf.addPage();
+                    pdf.addImage(img, 'JPEG', 0, 0, imgWidth, imgHeight);
+                }
+
+                pdf.save(`converted-${Date.now()}.pdf`);
+            } catch (error) {
+                alert('Error generating PDF: ' + error.message);
+            } finally {
+                loading.style.display = 'none';
+                convertBtn.disabled = false;
+            }
+        }
+
+        function loadImage(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const img = new Image();
+                    img.onload = () => resolve(img);
+                    img.onerror = reject;
+                    img.src = e.target.result;
+                };
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free online image editor - Flip and rotate images instantly. Rotate 90° clockwise/counter-clockwise, flip horizontally/vertically. No registration required.">
+    <meta name="keywords" content="image flip, rotate image, image editor, photo tools, online photo editor">
+    
+    <!-- SEO Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Image Flip & Rotate Tool",
+        "description": "Free online image transformation tool with flip and rotate functionality",
+        "applicationCategory": "ImageEditor",
+        "operatingSystem": "Web",
+        "offers": {
+            "@type": "Offer",
+            "price": "0.00",
+            "priceCurrency": "USD"
+        }
+    }
+    </script>
+    
+    <title>Free Image Flip & Rotate Tool - Instant Online Editor</title>
+    
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX"
+        crossorigin="anonymous"></script>
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .main-container {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .editor-section {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .ad-section {
+            background: #ffffff;
+            padding: 15px;
+            border-radius: 8px;
+            height: fit-content;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .upload-container {
+            border: 2px dashed #ced4da;
+            padding: 40px 20px;
+            text-align: center;
+            margin: 20px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+        }
+
+        .upload-container:hover {
+            border-color: #4dabf7;
+            background-color: #f8f9fa;
+        }
+
+        .image-container {
+            position: relative;
+            margin: 25px 0;
+            overflow: hidden;
+            border-radius: 8px;
+            background: #f1f3f5;
+            min-height: 300px;
+        }
+
+        #imagePreview {
+            max-width: 100%;
+            max-height: 70vh;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+            display: none;
+        }
+
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 20px;
+            justify-content: center;
+        }
+
+        .control-btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 6px;
+            background: #4dabf7;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .control-btn:hover {
+            background: #339af0;
+            transform: translateY(-1px);
+        }
+
+        .download-btn {
+            background: #40c057;
+            padding: 12px 30px;
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .ad-section {
+                order: -1;
+                margin-bottom: 20px;
+            }
+            
+            .control-btn {
+                flex: 1 1 45%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>Image Flip & Rotate Tool</h1>
+        <p>Upload image to transform instantly</p>
+        
+        <!-- Ad Unit 1 -->
+        <div class="ad-section">
+            <ins class="adsbygoogle"
+                style="display:block"
+                data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                data-ad-slot="XXXXXXXXXX"
+                data-ad-format="auto"
+                data-full-width-responsive="true"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <section class="editor-section">
+            <div class="upload-container" onclick="document.getElementById('fileInput').click()">
+                <p><i class="fas fa-cloud-upload-alt"></i> Click to upload image</p>
+                <input type="file" id="fileInput" accept="image/*" hidden>
+            </div>
+            
+            <div class="image-container">
+                <img id="imagePreview" alt="Uploaded image preview">
+            </div>
+            
+            <div class="controls">
+                <button class="control-btn" onclick="rotate(-90)">
+                    <i class="fas fa-undo"></i> Rotate Left
+                </button>
+                <button class="control-btn" onclick="rotate(90)">
+                    <i class="fas fa-redo"></i> Rotate Right
+                </button>
+                <button class="control-btn" onclick="flip('horizontal')">
+                    <i class="fas fa-arrows-alt-h"></i> Flip Horizontal
+                </button>
+                <button class="control-btn" onclick="flip('vertical')">
+                    <i class="fas fa-arrows-alt-v"></i> Flip Vertical
+                </button>
+                <button class="control-btn download-btn" onclick="downloadImage()">
+                    <i class="fas fa-download"></i> Download
+                </button>
+            </div>
+        </section>
+
+        <!-- Ad Unit 2 -->
+        <aside class="ad-section">
+            <ins class="adsbygoogle"
+                style="display:block"
+                data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                data-ad-slot="XXXXXXXXXX"
+                data-ad-format="auto"
+                data-full-width-responsive="true"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+        </aside>
+    </main>
+
+    <script>
+        let rotation = 0;
+        let scaleX = 1;
+        let scaleY = 1;
+        const imagePreview = document.getElementById('imagePreview');
+
+        document.getElementById('fileInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                imagePreview.src = e.target.result;
+                imagePreview.style.display = 'block';
+                resetTransformations();
+            }
+            reader.readAsDataURL(file);
+        });
+
+        function rotate(degrees) {
+            rotation = (rotation + degrees) % 360;
+            applyTransform();
+        }
+
+        function flip(direction) {
+            if (direction === 'horizontal') scaleX *= -1;
+            if (direction === 'vertical') scaleY *= -1;
+            applyTransform();
+        }
+
+        function applyTransform() {
+            imagePreview.style.transform = `
+                rotate(${rotation}deg)
+                scaleX(${scaleX})
+                scaleY(${scaleY})
+            `;
+        }
+
+        function resetTransformations() {
+            rotation = 0;
+            scaleX = 1;
+            scaleY = 1;
+            applyTransform();
+        }
+
+        function downloadImage() {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Set canvas size considering rotation
+            const isRotated = Math.abs(rotation) % 180 !== 0;
+            canvas.width = isRotated ? imagePreview.naturalHeight : imagePreview.naturalWidth;
+            canvas.height = isRotated ? imagePreview.naturalWidth : imagePreview.naturalHeight;
+
+            // Apply transformations
+            ctx.translate(canvas.width/2, canvas.height/2);
+            ctx.rotate(rotation * Math.PI/180);
+            ctx.scale(scaleX, scaleY);
+            ctx.drawImage(imagePreview, -imagePreview.naturalWidth/2, -imagePreview.naturalHeight/2);
+
+            // Create download link
+            const link = document.createElement('a');
+            link.download = `transformed-image-${Date.now()}.png`;
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+    </script>
+</body>
+</html>

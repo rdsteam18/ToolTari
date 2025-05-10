@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Universal File Viewer5 - Preview images, documents, videos, and audio files online without downloading. Supports PDF, DOCX, MP4, MP3, and more.">
+    <title>Online File Viewer - Preview Documents, Images, Videos & Audio</title>
+    
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX"></script>
+    
+    <!-- PDF.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #333333;
+            --primary: #2196F3;
+            --border-color: #dddddd;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #1a1a1a;
+            --text-color: #ffffff;
+            --border-color: #444444;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .upload-section {
+            border: 2px dashed var(--border-color);
+            padding: 40px 20px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .preview-container {
+            margin-top: 30px;
+            display: none;
+        }
+
+        .file-info {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(0,0,0,0.05);
+            border-radius: 8px;
+        }
+
+        #previewContent {
+            max-width: 100%;
+            margin: 20px auto;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .ad-section {
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .upload-section {
+                padding: 30px 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- AdSense Top Banner -->
+        <div class="ad-section">
+            <ins class="adsbygoogle"
+                style="display:block"
+                data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                data-ad-slot="XXXXXXXXXX"
+                data-ad-format="auto"
+                data-full-width-responsive="true"></ins>
+        </div>
+
+        <div class="header">
+            <h1>Universal File Viewer</h1>
+            <p>Preview documents, images, videos, and audio files online</p>
+        </div>
+
+        <div class="upload-section" id="dropZone">
+            <input type="file" id="fileInput" hidden>
+            <p>Drag & drop files or click to upload</p>
+            <p>Supported formats: JPG, PNG, PDF, DOCX, TXT, MP4, MP3, WAV</p>
+        </div>
+
+        <div class="preview-container" id="previewContainer">
+            <div class="file-info" id="fileInfo"></div>
+            <div id="previewContent"></div>
+            <div class="controls">
+                <button onclick="downloadFile()">Download</button>
+                <button onclick="toggleTheme()">Toggle Theme</button>
+                <button onclick="shareFile()">Share</button>
+            </div>
+        </div>
+
+        <!-- AdSense Bottom Banner -->
+        <div class="ad-section">
+            <ins class="adsbygoogle"
+                style="display:block"
+                data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                data-ad-slot="XXXXXXXXXX"
+                data-ad-format="auto"
+                data-full-width-responsive="true"></ins>
+        </div>
+    </div>
+
+    <script>
+        const supportedTypes = {
+            image: ['image/jpeg', 'image/png', 'image/webp', 'image/gif'],
+            video: ['video/mp4', 'video/webm'],
+            audio: ['audio/mpeg', 'audio/wav'],
+            text: ['text/plain'],
+            pdf: ['application/pdf'],
+            document: ['application/vnd.openxmlformats-officedocument.wordprocessingml.document']
+        };
+
+        let currentFile = null;
+
+        // Drag & drop handlers
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+
+        dropZone.addEventListener('click', () => fileInput.click());
+        dropZone.addEventListener('dragover', (e) => e.preventDefault());
+        dropZone.addEventListener('drop', handleFileSelect);
+        fileInput.addEventListener('change', handleFileSelect);
+
+        async function handleFileSelect(e) {
+            const file = e.dataTransfer?.files[0] || e.target.files[0];
+            currentFile = file;
+            
+            if (!file) return;
+
+            const previewContainer = document.getElementById('previewContainer');
+            const fileInfo = document.getElementById('fileInfo');
+            const previewContent = document.getElementById('previewContent');
+
+            // Show file info
+            fileInfo.innerHTML = `
+                <p>File Name: ${file.name}</p>
+                <p>File Type: ${file.type}</p>
+                <p>File Size: ${(file.size / 1024).toFixed(2)} KB</p>
+            `;
+
+            // Clear previous preview
+            previewContent.innerHTML = '';
+            previewContainer.style.display = 'block';
+
+            try {
+                if (supportedTypes.image.includes(file.type)) {
+                    previewImage(file);
+                } else if (supportedTypes.video.includes(file.type)) {
+                    previewVideo(file);
+                } else if (supportedTypes.audio.includes(file.type)) {
+                    previewAudio(file);
+                } else if (file.type === 'application/pdf') {
+                    previewPDF(file);
+                } else if (file.type === 'text/plain') {
+                    previewText(file);
+                } else if (file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+                    showError('DOCX preview not supported in browser');
+                } else {
+                    showError('File type not supported');
+                }
+            } catch (error) {
+                showError('Error loading file: ' + error.message);
+            }
+        }
+
+        function previewImage(file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.style.maxWidth = '100%';
+                previewContent.appendChild(img);
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function previewVideo(file) {
+            const video = document.createElement('video');
+            video.controls = true;
+            video.style.maxWidth = '100%';
+            video.src = URL.createObjectURL(file);
+            previewContent.appendChild(video);
+        }
+
+        function previewText(file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const pre = document.createElement('pre');
+                pre.textContent = e.target.result;
+                previewContent.appendChild(pre);
+            };
+            reader.readAsText(file);
+        }
+
+        async function previewPDF(file) {
+            const pdfData = await file.arrayBuffer();
+            const pdf = await pdfjsLib.getDocument({ data: pdfData }).promise;
+            const page = await pdf.getPage(1);
+            
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            
+            const viewport = page.getViewport({ scale: 1.5 });
+            canvas.height = viewport.height;
+            canvas.width = viewport.width;
+
+            await page.render({ canvasContext: context, viewport }).promise;
+            previewContent.appendChild(canvas);
+        }
+
+        function downloadFile() {
+            if (!currentFile) return;
+            const url = URL.createObjectURL(currentFile);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = currentFile.name;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function toggleTheme() {
+            document.body.dataset.theme = 
+                document.body.dataset.theme === 'dark' ? 'light' : 'dark';
+        }
+
+        function shareFile() {
+            if (navigator.share && currentFile) {
+                navigator.share({
+                    title: currentFile.name,
+                    files: [currentFile]
+                });
+            } else {
+                alert('Web Share API not supported in this browser');
+            }
+        }
+
+        function showError(message) {
+            previewContent.innerHTML = `<p class="error">${message}</p>`;
+        }
+
+        // Initialize AdSense
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</body>
+</html>

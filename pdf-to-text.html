@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free online PDF to Text converter. Upload PDF files, extract text, and download as .txt. Fast, secure, and mobile-friendly.">
+    <meta name="keywords" content="pdf to text, convert pdf to text, extract text from pdf, free pdf converter, online pdf tool">
+    <meta name="author" content="PDF to Text Converter">
+    <title>PDF to Text Converter - Free Online Tool</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #f4f4f4;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+        }
+
+        .upload-section {
+            background: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .drop-zone {
+            border: 2px dashed #007bff;
+            padding: 30px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .drop-zone.dragover {
+            background: #e6f0ff;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .file-info {
+            margin: 20px 0;
+            text-align: left;
+            display: none;
+        }
+
+        .text-output {
+            margin-top: 20px;
+            display: none;
+        }
+
+        .text-output textarea {
+            width: 100%;
+            min-height: 300px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            resize: vertical;
+            font-size: 1em;
+        }
+
+        button {
+            background: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 5px;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .ad-section {
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .ad-placeholder {
+            background: #ddd;
+            padding: 20px;
+            border-radius: 5px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            .container {
+                padding: 10px;
+            }
+
+            .drop-zone {
+                padding: 20px;
+            }
+
+            .text-output textarea {
+                min-height: 200px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            button {
+                width: 100%;
+                margin: 10px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>PDF to Text Converter</h1>
+            <p>Upload your PDF file, extract text, and download as .txt</p>
+        </header>
+
+        <main>
+            <section class="upload-section">
+                <div class="drop-zone" id="dropZone">
+                    <p>Drag and drop your PDF file here</p>
+                    <p>or</p>
+                    <label for="fileInput" style="color: #007bff; cursor: pointer;">Browse Files</label>
+                    <input type="file" id="fileInput" class="file-input" accept=".pdf" />
+                </div>
+                <div class="file-info" id="fileInfo">
+                    <p><strong>File:</strong> <span id="fileName"></span></p>
+                    <p><strong>Size:</strong> <span id="fileSize"></span></p>
+                </div>
+                <div class="text-output" id="textOutput">
+                    <textarea id="extractedText" placeholder="Extracted text will appear here..." readonly></textarea>
+                    <button id="copyBtn" disabled>Copy Text</button>
+                    <button id="downloadBtn" disabled>Download as .txt</button>
+                </div>
+            </section>
+
+            <section class="ad-section">
+                <div class="ad-placeholder">
+                    <p>AdSense Ad Placeholder (300x250)</p>
+                    <!-- Replace with AdSense code -->
+                    <!-- <ins class="adsbygoogle" style="display:inline-block;width:300px;height:250px" data-ad-client="YOUR_AD_CLIENT" data-ad-slot="YOUR_AD_SLOT"></ins> -->
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>© 2025 PDF to Text Converter. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    <script>
+        // Set pdf.js worker source
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const fileInfo = document.getElementById('fileInfo');
+        const fileName = document.getElementById('fileName');
+        const fileSize = document.getElementById('fileSize');
+        const textOutput = document.getElementById('textOutput');
+        const extractedText = document.getElementById('extractedText');
+        const copyBtn = document.getElementById('copyBtn');
+        const downloadBtn = document.getElementById('downloadBtn');
+
+        // Drag and Drop
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('dragover');
+        });
+
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('dragover');
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleFile(files[0]);
+            }
+        });
+
+        fileInput.addEventListener('change', () => {
+            if (fileInput.files.length > 0) {
+                handleFile(fileInput.files[0]);
+            }
+        });
+
+        async function handleFile(file) {
+            if (!file.name.match(/\.pdf$/i)) {
+                alert('Please upload a .pdf file.');
+                return;
+            }
+
+            // File size check (optional, e.g., 10MB limit)
+            if (file.size > 10 * 1024 * 1024) {
+                alert('File size exceeds 10MB limit.');
+                return;
+            }
+
+            fileName.textContent = file.name;
+            fileSize.textContent = (file.size / 1024).toFixed(2) + ' KB';
+            fileInfo.style.display = 'block';
+            extractedText.value = 'Extracting text...';
+            textOutput.style.display = 'block';
+            copyBtn.disabled = true;
+            downloadBtn.disabled = true;
+
+            try {
+                const arrayBuffer = await file.arrayBuffer();
+                const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+                let fullText = '';
+
+                for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+                    const page = await pdf.getPage(pageNum);
+                    const textContent = await page.getTextContent();
+                    const pageText = textContent.items.map(item => item.str).join(' ');
+                    fullText += pageText + '\n\n';
+                }
+
+                extractedText.value = fullText.trim() || 'No text found in the PDF.';
+                extractedText.removeAttribute('readonly');
+                copyBtn.disabled = false;
+                downloadBtn.disabled = false;
+            } catch (err) {
+                console.error('Error processing PDF:', err);
+                extractedText.value = 'Error extracting text from PDF.';
+            }
+        }
+
+        // Copy Text
+        copyBtn.addEventListener('click', () => {
+            extractedText.select();
+            try {
+                document.execCommand('copy');
+                alert('Text copied to clipboard!');
+            } catch (err) {
+                alert('Failed to copy text.');
+            }
+        });
+
+        // Download as .txt
+        downloadBtn.addEventListener('click', () => {
+            const text = extractedText.value;
+            const blob = new Blob([text], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = fileName.textContent.replace(/\.pdf$/i, '.txt');
+            a.click();
+            URL.revokeObjectURL(url);
+        });
+    </script>
+</body></html>

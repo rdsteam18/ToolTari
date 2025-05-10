@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online File Renamer Tool - Batch Rename Files Instantly</title>
+    <meta name="description" content="Rename multiple files online with prefix, suffix, replace text, and numbering. Free, fast, and secure tool to rename files in bulk in your browser.">
+    
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX"></script>
+
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #333333;
+            --border-color: #dddddd;
+            --primary: #2196F3;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #1a1a1a;
+            --text-color: #ffffff;
+            --border-color: #444444;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .upload-section {
+            border: 2px dashed var(--border-color);
+            padding: 40px 20px;
+            text-align: center;
+            margin: 20px 0;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .preview-list {
+            margin: 20px 0;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 15px;
+        }
+
+        .file-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        button {
+            padding: 10px 20px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        .ad-section {
+            margin: 25px 0;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- AdSense Top Banner -->
+        <div class="ad-section">
+            <ins class="adsbygoogle"
+                style="display:block"
+                data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                data-ad-slot="XXXXXXXXXX"
+                data-ad-format="auto"
+                data-full-width-responsive="true"></ins>
+        </div>
+
+        <h1>File Renamer Tool</h1>
+        
+        <div class="upload-section" id="dropZone">
+            <input type="file" id="fileInput" multiple hidden>
+            <p>Drag & drop files or click to select</p>
+            <p>(Multiple files supported)</p>
+        </div>
+
+        <div class="controls">
+            <div>
+                <input type="text" id="prefix" placeholder="Prefix" class="rename-control">
+                <input type="text" id="suffix" placeholder="Suffix" class="rename-control">
+            </div>
+            <div>
+                <input type="text" id="replaceFrom" placeholder="Replace from" class="rename-control">
+                <input type="text" id="replaceTo" placeholder="Replace with" class="rename-control">
+            </div>
+            <div>
+                <label>
+                    <input type="checkbox" id="addNumbering"> Add numbering
+                    <input type="number" id="startNumber" value="1" min="1" style="width: 60px;">
+                </label>
+            </div>
+        </div>
+
+        <button onclick="downloadRenamedFiles()">Download All</button>
+        <button onclick="resetAll()">Reset</button>
+        <button onclick="toggleTheme()">Toggle Theme</button>
+
+        <div class="preview-list" id="previewList"></div>
+
+        <!-- AdSense Bottom Banner -->
+        <div class="ad-section">
+            <ins class="adsbygoogle"
+                style="display:block"
+                data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                data-ad-slot="XXXXXXXXXX"
+                data-ad-format="auto"
+                data-full-width-responsive="true"></ins>
+        </div>
+    </div>
+
+    <script>
+        let files = [];
+        const renameControls = document.querySelectorAll('.rename-control');
+        
+        // Drag & drop handlers
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+
+        dropZone.addEventListener('click', () => fileInput.click());
+        dropZone.addEventListener('dragover', (e) => e.preventDefault());
+        dropZone.addEventListener('drop', handleFileDrop);
+        fileInput.addEventListener('change', handleFileSelect);
+
+        renameControls.forEach(control => {
+            control.addEventListener('input', updatePreview);
+        });
+
+        document.getElementById('addNumbering').addEventListener('change', updatePreview);
+        document.getElementById('startNumber').addEventListener('change', updatePreview);
+
+        function handleFileDrop(e) {
+            e.preventDefault();
+            files = Array.from(e.dataTransfer.files);
+            updatePreview();
+        }
+
+        function handleFileSelect(e) {
+            files = Array.from(e.target.files);
+            updatePreview();
+        }
+
+        function generateNewFilename(original, index) {
+            let newName = original;
+            const ext = original.split('.').pop();
+            const baseName = original.slice(0, -(ext.length + 1));
+
+            // Replace text
+            const replaceFrom = document.getElementById('replaceFrom').value;
+            const replaceTo = document.getElementById('replaceTo').value;
+            if (replaceFrom) {
+                newName = baseName.replace(new RegExp(replaceFrom, 'g'), replaceTo);
+            }
+
+            // Add prefix/suffix
+            const prefix = document.getElementById('prefix').value;
+            const suffix = document.getElementById('suffix').value;
+            newName = prefix + newName + suffix;
+
+            // Add numbering
+            if (document.getElementById('addNumbering').checked) {
+                const start = parseInt(document.getElementById('startNumber').value) || 1;
+                newName = `${newName}_${(index + start).toString().padStart(3, '0')}`;
+            }
+
+            return `${newName}.${ext}`;
+        }
+
+        function updatePreview() {
+            const previewList = document.getElementById('previewList');
+            previewList.innerHTML = files.map((file, index) => `
+                <div class="file-item">
+                    <span>${file.name}</span>
+                    <span>→ ${generateNewFilename(file.name, index)}</span>
+                </div>
+            `).join('');
+        }
+
+        async function downloadRenamedFiles() {
+            if (files.length === 0) return;
+
+            for (const [index, file] of files.entries()) {
+                const newName = generateNewFilename(file.name, index);
+                const blob = new Blob([await file.arrayBuffer()], { type: file.type });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = newName;
+                a.click();
+                URL.revokeObjectURL(url);
+            }
+        }
+
+        function resetAll() {
+            files = [];
+            fileInput.value = '';
+            renameControls.forEach(control => control.value = '');
+            document.getElementById('addNumbering').checked = false;
+            document.getElementById('startNumber').value = 1;
+            updatePreview();
+        }
+
+        function toggleTheme() {
+            document.body.dataset.theme = 
+                document.body.dataset.theme === 'dark' ? 'light' : 'dark';
+            localStorage.setItem('theme', document.body.dataset.theme);
+        }
+
+        // Initialize theme
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) document.body.dataset.theme = savedTheme;
+
+        // Initialize AdSense
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</body>
+</html>

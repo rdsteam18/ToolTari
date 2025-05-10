@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Image Editor - Free & Powerful Photo Editing Tool in Browser</title>
+    <meta name="description" content="Edit images online with crop, rotate, filters, text, and draw tools. 100% browser-based photo editor with no need to upload or download software.">
+    
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX"></script>
+
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #333333;
+            --toolbar-bg: #f5f5f5;
+            --border-color: #dddddd;
+            --brush-size: 5px;
+            --brush-color: #000000;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #1a1a1a;
+            --text-color: #ffffff;
+            --toolbar-bg: #2d2d2d;
+            --border-color: #444444;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 20px;
+        }
+
+        .toolbar {
+            background: var(--toolbar-bg);
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .canvas-container {
+            position: relative;
+            max-width: 100%;
+            overflow: auto;
+        }
+
+        #mainCanvas {
+            max-width: 100%;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            cursor: crosshair;
+        }
+
+        .tool-group {
+            margin: 15px 0;
+            padding: 10px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+        }
+
+        button, input[type="range"], select {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            background: var(--bg-color);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+        }
+
+        .ad-section {
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- AdSense Top -->
+    <div class="ad-section">
+        <ins class="adsbygoogle"
+            style="display:block"
+            data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+            data-ad-slot="XXXXXXXXXX"
+            data-ad-format="auto"
+            data-full-width-responsive="true"></ins>
+    </div>
+
+    <div class="container">
+        <div class="toolbar">
+            <div class="tool-group">
+                <input type="file" id="fileInput" accept="image/*">
+                <button id="downloadBtn">Download</button>
+                <button id="resetBtn">Reset</button>
+                <button id="toggleTheme">Toggle Dark Mode</button>
+            </div>
+
+            <div class="tool-group">
+                <button id="cropBtn">Crop</button>
+                <button id="rotateLeft">↺ Rotate Left</button>
+                <button id="rotateRight">↻ Rotate Right</button>
+                <button id="flipH">Flip Horizontal</button>
+                <button id="flipV">Flip Vertical</button>
+            </div>
+
+            <div class="tool-group">
+                <select id="filterSelect">
+                    <option value="none">No Filter</option>
+                    <option value="grayscale">Grayscale</option>
+                    <option value="sepia">Sepia</option>
+                    <option value="invert">Invert</option>
+                    <option value="blur">Blur</option>
+                </select>
+                <label>Brightness: <input type="range" id="brightness" min="-100" max="100" value="0"></label>
+                <label>Contrast: <input type="range" id="contrast" min="-100" max="100" value="0"></label>
+            </div>
+
+            <div class="tool-group">
+                <input type="color" id="textColor" value="#000000">
+                <input type="number" id="textSize" min="10" max="100" value="24">
+                <button id="addTextBtn">Add Text</button>
+            </div>
+
+            <div class="tool-group">
+                <input type="color" id="brushColor" value="#000000">
+                <input type="range" id="brushSize" min="1" max="50" value="5">
+                <button id="drawBtn">Draw</button>
+            </div>
+
+            <div class="tool-group">
+                <button id="undoBtn">Undo (Ctrl+Z)</button>
+                <button id="redoBtn">Redo (Ctrl+Y)</button>
+            </div>
+        </div>
+
+        <div class="canvas-container">
+            <canvas id="mainCanvas"></canvas>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('mainCanvas');
+        const ctx = canvas.getContext('2d');
+        let currentImage = null;
+        let undoStack = [];
+        let redoStack = [];
+        let isDrawing = false;
+        let isCropping = false;
+        let cropStartX, cropStartY;
+        let isAddingText = false;
+        
+        // Initialize
+        canvas.width = 800;
+        canvas.height = 600;
+
+        // Event Listeners
+        document.getElementById('fileInput').addEventListener('change', loadImage);
+        document.getElementById('downloadBtn').addEventListener('click', downloadImage);
+        document.getElementById('resetBtn').addEventListener('click', resetCanvas);
+        document.getElementById('toggleTheme').addEventListener('click', toggleTheme);
+        document.getElementById('rotateLeft').addEventListener('click', () => rotate(-90));
+        document.getElementById('rotateRight').addEventListener('click', () => rotate(90));
+        document.getElementById('flipH').addEventListener('click', flipHorizontal);
+        document.getElementById('flipV').addEventListener('click', flipVertical);
+        document.getElementById('cropBtn').addEventListener('click', startCrop);
+        document.getElementById('addTextBtn').addEventListener('click', startAddText);
+        document.getElementById('drawBtn').addEventListener('click', startDrawing);
+        document.getElementById('filterSelect').addEventListener('change', applyFilter);
+        document.getElementById('brightness').addEventListener('input', applyFilter);
+        document.getElementById('contrast').addEventListener('input', applyFilter);
+        document.getElementById('undoBtn').addEventListener('click', undo);
+        document.getElementById('redoBtn').addEventListener('click', redo);
+
+        // Canvas Events
+        canvas.addEventListener('mousedown', startAction);
+        canvas.addEventListener('mousemove', performAction);
+        canvas.addEventListener('mouseup', endAction);
+        canvas.addEventListener('mouseout', endAction);
+
+        // Keyboard Shortcuts
+        document.addEventListener('keydown', (e) => {
+            if(e.ctrlKey && e.key === 'z') undo();
+            if(e.ctrlKey && e.key === 'y') redo();
+        });
+
+        function loadImage(e) {
+            const file = e.target.files[0];
+            const reader = new FileReader();
+            
+            reader.onload = (event) => {
+                currentImage = new Image();
+                currentImage.onload = () => {
+                    canvas.width = currentImage.width;
+                    canvas.height = currentImage.height;
+                    ctx.drawImage(currentImage, 0, 0);
+                    saveState();
+                };
+                currentImage.src = event.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function applyFilter() {
+            const filter = document.getElementById('filterSelect').value;
+            let filterValue = '';
+            
+            switch(filter) {
+                case 'grayscale': filterValue = 'grayscale(1)'; break;
+                case 'sepia': filterValue = 'sepia(1)'; break;
+                case 'invert': filterValue = 'invert(1)'; break;
+                case 'blur': filterValue = 'blur(5px)'; break;
+            }
+            
+            ctx.filter = `${filterValue} 
+                brightness(${parseInt(document.getElementById('brightness').value) + 100}%)
+                contrast(${parseInt(document.getElementById('contrast').value) + 100}%)`;
+            
+            redrawImage();
+            ctx.filter = 'none';
+            saveState();
+        }
+
+        function rotate(degrees) {
+            const tempCanvas = document.createElement('canvas');
+            const tempCtx = tempCanvas.getContext('2d');
+            
+            tempCanvas.width = canvas.height;
+            tempCanvas.height = canvas.width;
+            
+            tempCtx.translate(tempCanvas.width/2, tempCanvas.height/2);
+            tempCtx.rotate(degrees * Math.PI/180);
+            tempCtx.drawImage(canvas, -canvas.width/2, -canvas.height/2);
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            canvas.width = tempCanvas.width;
+            canvas.height = tempCanvas.height;
+            ctx.drawImage(tempCanvas, 0, 0);
+            saveState();
+        }
+
+        function flipHorizontal() {
+            ctx.translate(canvas.width, 0);
+            ctx.scale(-1, 1);
+            redrawImage();
+            saveState();
+        }
+
+        function flipVertical() {
+            ctx.translate(0, canvas.height);
+            ctx.scale(1, -1);
+            redrawImage();
+            saveState();
+        }
+
+        function startCrop() {
+            isCropping = true;
+            canvas.style.cursor = 'crosshair';
+        }
+
+        function startAddText() {
+            isAddingText = true;
+            canvas.style.cursor = 'text';
+        }
+
+        function startDrawing() {
+            isDrawing = true;
+            canvas.style.cursor = 'crosshair';
+        }
+
+        function startAction(e) {
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            if(isCropping) {
+                cropStartX = x;
+                cropStartY = y;
+            }
+            else if(isDrawing) {
+                isDrawing = true;
+                ctx.beginPath();
+                ctx.moveTo(x, y);
+            }
+            else if(isAddingText) {
+                const text = prompt('Enter text:');
+                if(text) {
+                    ctx.font = `${document.getElementById('textSize').value}px Arial`;
+                    ctx.fillStyle = document.getElementById('textColor').value;
+                    ctx.fillText(text, x, y);
+                    saveState();
+                }
+                isAddingText = false;
+                canvas.style.cursor = 'default';
+            }
+        }
+
+        function performAction(e) {
+            if(!isDrawing && !isCropping) return;
+            
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            if(isDrawing) {
+                ctx.lineWidth = document.getElementById('brushSize').value;
+                ctx.strokeStyle = document.getElementById('brushColor').value;
+                ctx.lineTo(x, y);
+                ctx.stroke();
+            }
+            
+            if(isCropping) {
+                redrawImage();
+                ctx.strokeStyle = 'red';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(cropStartX, cropStartY, x - cropStartX, y - cropStartY);
+            }
+        }
+
+        function endAction() {
+            if(isCropping) {
+                const rect = canvas.getBoundingClientRect();
+                const x = event.clientX - rect.left;
+                const y = event.clientY - rect.top;
+                
+                const width = x - cropStartX;
+                const height = y - cropStartY;
+                
+                const tempCanvas = document.createElement('canvas');
+                const tempCtx = tempCanvas.getContext('2d');
+                tempCanvas.width = width;
+                tempCanvas.height = height;
+                
+                tempCtx.drawImage(canvas, cropStartX, cropStartY, width, height, 0, 0, width, height);
+                
+                canvas.width = width;
+                canvas.height = height;
+                ctx.drawImage(tempCanvas, 0, 0);
+                
+                saveState();
+                isCropping = false;
+                canvas.style.cursor = 'default';
+            }
+            
+            isDrawing = false;
+            ctx.closePath();
+        }
+
+        function redrawImage() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(currentImage, 0, 0);
+        }
+
+        function saveState() {
+            undoStack.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
+            redoStack = [];
+        }
+
+        function undo() {
+            if(undoStack.length > 1) {
+                redoStack.push(undoStack.pop());
+                ctx.putImageData(undoStack[undoStack.length-1], 0, 0);
+            }
+        }
+
+        function redo() {
+            if(redoStack.length > 0) {
+                undoStack.push(redoStack.pop());
+                ctx.putImageData(undoStack[undoStack.length-1], 0, 0);
+            }
+        }
+
+        function downloadImage() {
+            const link = document.createElement('a');
+            link.download = 'edited-image.png';
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+
+        function resetCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            undoStack = [];
+            redoStack = [];
+            currentImage = null;
+        }
+
+        function toggleTheme() {
+            document.body.dataset.theme = 
+                document.body.dataset.theme === 'dark' ? 'light' : 'dark';
+            localStorage.setItem('theme', document.body.dataset.theme);
+        }
+
+        // Initialize AdSense
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+</body>
+</html>
