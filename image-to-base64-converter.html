@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free online tool to convert images to Base64 encoding. Works with JPG, PNG, GIF, and other image formats.">
+    <meta name="keywords" content="image to base64, base64 converter, image converter, online tool, data uri">
+    <meta name="author" content="Image to Base64 Converter">
+    <meta property="og:title" content="Image to Base64 Converter - Free Online Tool">
+    <meta property="og:description" content="Convert images to Base64 encoding instantly with our free online tool">
+    <meta property="og:type" content="website">
+    <title>Image to Base64 Converter - Free Online Tool</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
+        }
+        .text-gradient {
+            background: linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .history-item:hover {
+            background-color: rgba(255, 107, 107, 0.1);
+        }
+        .dropzone {
+            border: 2px dashed #ccc;
+            transition: all 0.3s;
+        }
+        .dropzone.active {
+            border-color: #FF6B6B;
+            background-color: rgba(255, 107, 107, 0.05);
+        }
+        #preview-container {
+            max-height: 300px;
+            overflow: hidden;
+        }
+        #base64-output {
+            font-family: monospace;
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+        @media (max-width: 640px) {
+            .converter-container {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Google Analytics Placeholder -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'GA_MEASUREMENT_ID');
+    </script>
+
+    <!-- Header -->
+    <header class="gradient-bg text-white shadow-lg">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex justify-between items-center">
+                <h1 class="text-2xl md:text-3xl font-bold">Image to Base64 Converter</h1>
+                <div class="flex space-x-2">
+                    <button id="theme-toggle" class="p-2 rounded-full bg-white bg-opacity-20 hover:bg-opacity-30 transition">
+                        <i class="fas fa-moon text-white"></i>
+                    </button>
+                    <button id="info-btn" class="p-2 rounded-full bg-white bg-opacity-20 hover:bg-opacity-30 transition">
+                        <i class="fas fa-info-circle text-white"></i>
+                    </button>
+                </div>
+            </div>
+            <p class="mt-2 opacity-90">Convert images to Base64 encoding instantly</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- AdSense Placeholder -->
+        <div class="bg-gray-200 p-4 rounded-lg text-center mb-8">
+            <p class="text-gray-600">Advertisement</p>
+            <div class="h-[90px] bg-gray-300 flex items-center justify-center">
+                <p>Google AdSense</p>
+            </div>
+        </div>
+
+        <!-- Converter Tool -->
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-8">
+            <div class="p-6">
+                <div class="converter-container flex flex-col md:flex-row gap-6">
+                    <!-- Input Section -->
+                    <div class="flex-1">
+                        <div class="mb-4">
+                            <label class="font-medium text-gray-700 mb-2 block">Upload Image</label>
+                            <div id="dropzone" class="dropzone rounded-lg p-8 text-center cursor-pointer">
+                                <div class="flex flex-col items-center justify-center">
+                                    <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-2"></i>
+                                    <p class="text-gray-600">Drag & drop your image here or click to browse</p>
+                                    <p class="text-sm text-gray-500 mt-1">Supports JPG, PNG, GIF, SVG, WEBP (Max 5MB)</p>
+                                </div>
+                                <input type="file" id="file-input" class="hidden" accept="image/*">
+                            </div>
+                        </div>
+
+                        <div id="preview-container" class="hidden mb-4">
+                            <label class="font-medium text-gray-700 mb-2 block">Image Preview</label>
+                            <div class="border border-gray-200 rounded-lg p-4 flex justify-center">
+                                <img id="image-preview" class="max-h-64 max-w-full" src="" alt="Preview">
+                            </div>
+                            <div class="mt-2 flex justify-between items-center">
+                                <div>
+                                    <span id="file-name" class="font-medium"></span>
+                                    <span id="file-size" class="text-sm text-gray-500 ml-2"></span>
+                                </div>
+                                <button id="remove-image" class="text-red-500 hover:text-red-700">
+                                    <i class="fas fa-trash-alt"></i> Remove
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="space-y-2">
+                            <label class="font-medium text-gray-700 mb-2 block">Options</label>
+                            <div class="flex items-center space-x-2">
+                                <input type="checkbox" id="include-data-uri" class="rounded text-orange-500" checked>
+                                <label for="include-data-uri">Include data URI prefix</label>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <input type="checkbox" id="save-history" class="rounded text-orange-500" checked>
+                                <label for="save-history">Save to history</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Output Section -->
+                    <div class="flex-1">
+                        <div class="flex justify-between items-center mb-2">
+                            <label for="base64-output" class="font-medium text-gray-700">Base64 Output</label>
+                            <div class="flex space-x-2">
+                                <button id="copy-base64" class="text-gray-500 hover:text-gray-700 transition">
+                                    <i class="fas fa-copy"></i> Copy
+                                </button>
+                                <button id="clear-output" class="text-gray-500 hover:text-gray-700 transition">
+                                    <i class="fas fa-trash-alt"></i> Clear
+                                </button>
+                            </div>
+                        </div>
+                        <div class="relative">
+                            <textarea id="base64-output" class="w-full h-64 p-4 border border-gray-300 rounded-lg bg-gray-50 font-mono text-sm" readonly placeholder="Your Base64 encoded image will appear here..."></textarea>
+                            <div id="output-loading" class="absolute inset-0 bg-white bg-opacity-80 flex items-center justify-center hidden">
+                                <div class="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-orange-500"></div>
+                            </div>
+                        </div>
+                        <div class="flex justify-between mt-2">
+                            <span id="char-count" class="text-sm text-gray-500">0 characters</span>
+                            <span id="file-type" class="text-sm text-gray-500">No file selected</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- History Section -->
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-8">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-bold text-gray-800">Conversion History</h2>
+                    <button id="clear-history" class="text-red-500 hover:text-red-700 transition">
+                        <i class="fas fa-trash-alt"></i> Clear All
+                    </button>
+                </div>
+                <div id="history-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <!-- History items will be added here dynamically -->
+                </div>
+                <p id="empty-history-message" class="text-gray-500 text-center py-4">Your conversion history will appear here</p>
+            </div>
+        </div>
+
+        <!-- AdSense Placeholder -->
+        <div class="bg-gray-200 p-4 rounded-lg text-center mb-8">
+            <p class="text-gray-600">Advertisement</p>
+            <div class="h-[250px] bg-gray-300 flex items-center justify-center">
+                <p>Google AdSense</p>
+            </div>
+        </div>
+
+        <!-- Info Section -->
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-8">
+            <div class="p-6">
+                <h2 class="text-xl font-bold text-gray-800 mb-4">About Image to Base64 Converter</h2>
+                <div class="prose max-w-none">
+                    <p>This free online tool converts your images to Base64 encoded strings. Base64 encoding represents binary data in an ASCII string format, which is useful for embedding images directly in HTML, CSS, or JSON files.</p>
+                    
+                    <h3 class="font-bold mt-4">Common Uses:</h3>
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li>Embed images directly in HTML (data URIs)</li>
+                        <li>Include images in CSS files</li>
+                        <li>Store images in JSON documents</li>
+                        <li>Reduce HTTP requests by embedding small images</li>
+                        <li>Transfer image data through text-based protocols</li>
+                    </ul>
+
+                    <h3 class="font-bold mt-4">How it Works:</h3>
+                    <ol class="list-decimal pl-5 space-y-1">
+                        <li>Upload an image file (or drag & drop)</li>
+                        <li>The tool reads the file and converts it to Base64</li>
+                        <li>Copy the resulting Base64 string to use in your project</li>
+                    </ol>
+
+                    <p class="mt-4"><strong>Privacy Note:</strong> All processing happens in your browser - your images are never uploaded to any server.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Social Sharing -->
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-8">
+            <div class="p-6">
+                <h2 class="text-xl font-bold text-gray-800 mb-4">Share This Tool</h2>
+                <div class="flex flex-wrap gap-2">
+                    <a href="#" id="share-twitter" class="bg-blue-400 hover:bg-blue-500 text-white px-4 py-2 rounded-lg transition flex items-center space-x-2">
+                        <i class="fab fa-twitter"></i>
+                        <span>Twitter</span>
+                    </a>
+                    <a href="#" id="share-facebook" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition flex items-center space-x-2">
+                        <i class="fab fa-facebook-f"></i>
+                        <span>Facebook</span>
+                    </a>
+                    <a href="#" id="share-whatsapp" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition flex items-center space-x-2">
+                        <i class="fab fa-whatsapp"></i>
+                        <span>WhatsApp</span>
+                    </a>
+                    <a href="#" id="share-linkedin" class="bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-lg transition flex items-center space-x-2">
+                        <i class="fab fa-linkedin-in"></i>
+                        <span>LinkedIn</span>
+                    </a>
+                    <a href="#" id="share-reddit" class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg transition flex items-center space-x-2">
+                        <i class="fab fa-reddit-alien"></i>
+                        <span>Reddit</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <h3 class="text-xl font-bold">Image to Base64 Converter</h3>
+                    <p class="text-gray-400">Free online image conversion tool</p>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-gray-400 hover:text-white transition">Privacy Policy</a>
+                    <a href="#" class="text-gray-400 hover:text-white transition">Terms of Service</a>
+                    <a href="#" class="text-gray-400 hover:text-white transition">Contact</a>
+                </div>
+            </div>
+            <div class="mt-6 pt-6 border-t border-gray-700 text-center text-gray-400">
+                <p>© 2023 Image to Base64 Converter. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Info Modal -->
+    <div id="info-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg max-w-md w-full mx-4 max-h-[90vh] overflow-y-auto">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-bold text-gray-800">About Image to Base64</h3>
+                    <button id="close-modal" class="text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="prose">
+                    <p>This tool converts image files to Base64 encoded strings that can be used directly in HTML, CSS, or JSON files.</p>
+                    
+                    <h4 class="font-bold mt-3">Features:</h4>
+                    <ul class="list-disc pl-5">
+                        <li>Supports JPG, PNG, GIF, SVG, and WEBP formats</li>
+                        <li>Drag & drop interface for easy uploading</li>
+                        <li>Image preview before conversion</li>
+                        <li>Option to include/exclude data URI prefix</li>
+                        <li>Conversion history (stored in your browser)</li>
+                        <li>Copy to clipboard with one click</li>
+                    </ul>
+
+                    <h4 class="font-bold mt-3">Technical Details:</h4>
+                    <p>Base64 is a binary-to-text encoding scheme that represents binary data in an ASCII string format. When used with images, it's typically prefixed with a data URI scheme like:</p>
+                    <p class="bg-gray-100 p-2 rounded text-sm font-mono">data:image/png;base64,...</p>
+                    
+                    <p class="mt-3"><strong>Privacy:</strong> All processing happens locally in your browser - your images are never uploaded to any server.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Toast -->
+    <div id="success-toast" class="fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg flex items-center space-x-2 hidden z-50">
+        <i class="fas fa-check-circle"></i>
+        <span id="toast-message">Success!</span>
+    </div>
+
+    <script>
+        // DOM Elements
+        const fileInput = document.getElementById('file-input');
+        const dropzone = document.getElementById('dropzone');
+        const previewContainer = document.getElementById('preview-container');
+        const imagePreview = document.getElementById('image-preview');
+        const fileName = document.getElementById('file-name');
+        const fileSize = document.getElementById('file-size');
+        const removeImageBtn = document.getElementById('remove-image');
+        const base64Output = document.getElementById('base64-output');
+        const copyBase64Btn = document.getElementById('copy-base64');
+        const clearOutputBtn = document.getElementById('clear-output');
+        const charCount = document.getElementById('char-count');
+        const fileType = document.getElementById('file-type');
+        const includeDataUri = document.getElementById('include-data-uri');
+        const saveHistory = document.getElementById('save-history');
+        const outputLoading = document.getElementById('output-loading');
+        const historyList = document.getElementById('history-list');
+        const clearHistoryBtn = document.getElementById('clear-history');
+        const emptyHistoryMessage = document.getElementById('empty-history-message');
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const infoBtn = document.getElementById('info-btn');
+        const infoModal = document.getElementById('info-modal');
+        const closeModalBtn = document.getElementById('close-modal');
+        const successToast = document.getElementById('success-toast');
+        const toastMessage = document.getElementById('toast-message');
+        const shareButtons = {
+            twitter: document.getElementById('share-twitter'),
+            facebook: document.getElementById('share-facebook'),
+            whatsapp: document.getElementById('share-whatsapp'),
+            linkedin: document.getElementById('share-linkedin'),
+            reddit: document.getElementById('share-reddit')
+        };
+
+        // Initialize the app
+        function init() {
+            loadHistory();
+            setupEventListeners();
+            checkTheme();
+        }
+
+        // Set up event listeners
+        function setupEventListeners() {
+            // File input events
+            fileInput.addEventListener('change', handleFileSelect);
+            
+            // Dropzone events
+            dropzone.addEventListener('click', () => fileInput.click());
+            dropzone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dropzone.classList.add('active');
+            });
+            dropzone.addEventListener('dragleave', () => {
+                dropzone.classList.remove('active');
+            });
+            dropzone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropzone.classList.remove('active');
+                if (e.dataTransfer.files.length) {
+                    fileInput.files = e.dataTransfer.files;
+                    handleFileSelect({ target: fileInput });
+                }
+            });
+
+            // Button events
+            removeImageBtn.addEventListener('click', resetFileInput);
+            copyBase64Btn.addEventListener('click', copyToClipboard);
+            clearOutputBtn.addEventListener('click', clearOutput);
+
+            // Option changes
+            includeDataUri.addEventListener('change', updateBase64Output);
+            
+            // History events
+            clearHistoryBtn.addEventListener('click', clearHistory);
+
+            // Theme toggle
+            themeToggleBtn.addEventListener('click', toggleTheme);
+
+            // Info modal
+            infoBtn.addEventListener('click', () => infoModal.classList.remove('hidden'));
+            closeModalBtn.addEventListener('click', () => infoModal.classList.add('hidden'));
+            infoModal.addEventListener('click', (e) => {
+                if (e.target === infoModal) infoModal.classList.add('hidden');
+            });
+
+            // Share buttons
+            setupShareButtons();
+        }
+
+        // Handle file selection
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            // Check if file is an image
+            if (!file.type.match('image.*')) {
+                showToast('Please select an image file');
+                return;
+            }
+
+            // Check file size (max 5MB)
+            if (file.size > 5 * 1024 * 1024) {
+                showToast('File size exceeds 5MB limit');
+                return;
+            }
+
+            // Display preview
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                imagePreview.src = e.target.result;
+                fileName.textContent = file.name;
+                fileSize.textContent = formatFileSize(file.size);
+                fileType.textContent = file.type;
+                previewContainer.classList.remove('hidden');
+                convertToBase64(file);
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Convert image to Base64
+        function convertToBase64(file) {
+            outputLoading.classList.remove('hidden');
+            
+            // Use setTimeout to allow UI to update before heavy processing
+            setTimeout(() => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    let base64String = e.target.result.split(',')[1];
+                    
+                    // Save to history if option is checked
+                    if (saveHistory.checked) {
+                        saveToHistory(file, base64String);
+                    }
+                    
+                    updateBase64Output(base64String);
+                    outputLoading.classList.add('hidden');
+                };
+                reader.onerror = () => {
+                    showToast('Error reading file');
+                    outputLoading.classList.add('hidden');
+                };
+                reader.readAsDataURL(file);
+            }, 100);
+        }
+
+        // Update Base64 output with current options
+        function updateBase64Output(base64String) {
+            if (!base64String && imagePreview.src) {
+                // If no string provided but we have an image, get it from the preview
+                base64String = imagePreview.src.split(',')[1];
+            }
+            
+            if (!base64String) return;
+            
+            let output;
+            if (includeDataUri.checked) {
+                const mimeType = fileInput.files[0].type;
+                output = `data:${mimeType};base64,${base64String}`;
+            } else {
+                output = base64String;
+            }
+            
+            base64Output.value = output;
+            charCount.textContent = `${output.length} characters`;
+        }
+
+        // Reset file input and preview
+        function resetFileInput() {
+            fileInput.value = '';
+            imagePreview.src = '';
+            previewContainer.classList.add('hidden');
+            base64Output.value = '';
+            charCount.textContent = '0 characters';
+            fileType.textContent = 'No file selected';
+        }
+
+        // Clear output only
+        function clearOutput() {
+            base64Output.value = '';
+            charCount.textContent = '0 characters';
+        }
+
+        // Copy Base64 to clipboard
+        async function copyToClipboard() {
+            if (!base64Output.value) {
+                showToast('No Base64 data to copy');
+                return;
+            }
+
+            try {
+                await navigator.clipboard.writeText(base64Output.value);
+                showToast('Copied to clipboard!');
+            } catch (err) {
+                showToast('Failed to copy text');
+                console.error('Failed to copy:', err);
+            }
+        }
+
+        // Format file size
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        // History functions
+        function saveToHistory(file, base64String) {
+            const history = getHistory();
+            const newItem = {
+                id: Date.now(),
+                fileName: file.name,
+                fileType: file.type,
+                fileSize: file.size,
+                base64String,
+                timestamp: new Date().toISOString()
+            };
+
+            history.unshift(newItem);
+            if (history.length > 10) history.pop(); // Limit to 10 items
+
+            localStorage.setItem('imageToBase64History', JSON.stringify(history));
+            renderHistoryItem(newItem);
+            
+            if (emptyHistoryMessage.style.display !== 'none') {
+                emptyHistoryMessage.style.display = 'none';
+            }
+        }
+
+        function getHistory() {
+            const history = localStorage.getItem('imageToBase64History');
+            return history ? JSON.parse(history) : [];
+        }
+
+        function loadHistory() {
+            const history = getHistory();
+            if (history.length === 0) {
+                emptyHistoryMessage.style.display = 'block';
+                return;
+            }
+
+            emptyHistoryMessage.style.display = 'none';
+            history.forEach(item => renderHistoryItem(item));
+        }
+
+        function renderHistoryItem(item) {
+            const itemElement = document.createElement('div');
+            itemElement.className = 'history-item p-3 border border-gray-200 rounded-lg cursor-pointer transition';
+            itemElement.dataset.id = item.id;
+            
+            itemElement.innerHTML = `
+                <div class="flex items-start space-x-3">
+                    <div class="flex-shrink-0 w-12 h-12 bg-gray-100 rounded flex items-center justify-center">
+                        ${getFileIcon(item.fileType)}
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <p class="text-sm text-gray-500 mb-1">${new Date(item.timestamp).toLocaleString()}</p>
+                        <p class="font-medium truncate">${item.fileName}</p>
+                        <p class="text-sm text-gray-600">${formatFileSize(item.fileSize)} • ${item.fileType}</p>
+                    </div>
+                </div>
+                <div class="flex space-x-2 mt-2 hidden history-actions">
+                    <button class="text-blue-600 hover:text-blue-800 text-sm">
+                        <i class="fas fa-redo"></i> Reuse
+                    </button>
+                    <button class="text-gray-600 hover:text-gray-800 text-sm">
+                        <i class="fas fa-trash-alt"></i> Delete
+                    </button>
+                </div>
+            `;
+
+            // Add event listeners for the history item
+            const reuseBtn = itemElement.querySelector('.history-actions button:first-child');
+            const deleteBtn = itemElement.querySelector('.history-actions button:last-child');
+            
+            itemElement.addEventListener('mouseenter', () => {
+                itemElement.querySelector('.history-actions').classList.remove('hidden');
+            });
+            
+            itemElement.addEventListener('mouseleave', () => {
+                itemElement.querySelector('.history-actions').classList.add('hidden');
+            });
+            
+            reuseBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                // Create a dummy file object from history
+                const dummyFile = new File([], item.fileName, { type: item.fileType });
+                fileInput.files = [dummyFile];
+                
+                // Display preview without actual file data
+                imagePreview.src = `data:${item.fileType};base64,${item.base64String}`;
+                fileName.textContent = item.fileName;
+                fileSize.textContent = formatFileSize(item.fileSize);
+                fileType.textContent = item.fileType;
+                previewContainer.classList.remove('hidden');
+                
+                // Update output
+                updateBase64Output(item.base64String);
+                showToast('History item loaded');
+            });
+            
+            deleteBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                deleteHistoryItem(item.id);
+                itemElement.remove();
+                
+                if (historyList.children.length === 0) {
+                    emptyHistoryMessage.style.display = 'block';
+                }
+                
+                showToast('History item deleted');
+            });
+
+            historyList.appendChild(itemElement);
+        }
+
+        function getFileIcon(mimeType) {
+            const type = mimeType.split('/')[0];
+            const subtype = mimeType.split('/')[1];
+            
+            if (subtype === 'jpeg' || subtype === 'jpg') {
+                return '<i class="fas fa-file-image text-orange-400"></i>';
+            } else if (subtype === 'png') {
+                return '<i class="fas fa-file-image text-blue-400"></i>';
+            } else if (subtype === 'gif') {
+                return '<i class="fas fa-file-image text-purple-400"></i>';
+            } else if (subtype === 'svg+xml') {
+                return '<i class="fas fa-file-image text-green-400"></i>';
+            } else if (subtype === 'webp') {
+                return '<i class="fas fa-file-image text-yellow-400"></i>';
+            } else if (type === 'image') {
+                return '<i class="fas fa-file-image text-gray-400"></i>';
+            } else {
+                return '<i class="fas fa-file text-gray-400"></i>';
+            }
+        }
+
+        function deleteHistoryItem(id) {
+            const history = getHistory().filter(item => item.id !== id);
+            localStorage.setItem('imageToBase64History', JSON.stringify(history));
+        }
+
+        function clearHistory() {
+            if (confirm('Are you sure you want to clear all history?')) {
+                localStorage.removeItem('imageToBase64History');
+                historyList.innerHTML = '';
+                emptyHistoryMessage.style.display = 'block';
+                showToast('History cleared');
+            }
+        }
+
+        // Theme functions
+        function checkTheme() {
+            const darkMode = localStorage.getItem('darkMode') === 'true';
+            if (darkMode) {
+                document.documentElement.classList.add('dark');
+                themeToggleBtn.innerHTML = '<i class="fas fa-sun text-white"></i>';
+            } else {
+                document.documentElement.classList.remove('dark');
+                themeToggleBtn.innerHTML = '<i class="fas fa-moon text-white"></i>';
+            }
+        }
+
+        function toggleTheme() {
+            const isDark = document.documentElement.classList.toggle('dark');
+            localStorage.setItem('darkMode', isDark);
+            
+            if (isDark) {
+                themeToggleBtn.innerHTML = '<i class="fas fa-sun text-white"></i>';
+            } else {
+                themeToggleBtn.innerHTML = '<i class="fas fa-moon text-white"></i>';
+            }
+        }
+
+        // Share functions
+        function setupShareButtons() {
+            const pageUrl = encodeURIComponent(window.location.href);
+            const pageTitle = encodeURIComponent('Image to Base64 Converter - Free Online Tool');
+            const shareText = encodeURIComponent('Check out this free online tool to convert images to Base64 encoding!');
+            
+            shareButtons.twitter.href = `https://twitter.com/intent/tweet?url=${pageUrl}&text=${shareText}`;
+            shareButtons.facebook.href = `https://www.facebook.com/sharer/sharer.php?u=${pageUrl}`;
+            shareButtons.whatsapp.href = `https://wa.me/?text=${shareText}%20${pageUrl}`;
+            shareButtons.linkedin.href = `https://www.linkedin.com/shareArticle?mini=true&url=${pageUrl}&title=${pageTitle}&summary=${shareText}`;
+            shareButtons.reddit.href = `https://www.reddit.com/submit?url=${pageUrl}&title=${pageTitle}`;
+        }
+
+        // Utility functions
+        function showToast(message) {
+            toastMessage.textContent = message;
+            successToast.classList.remove('hidden');
+            setTimeout(() => {
+                successToast.classList.add('hidden');
+            }, 3000);
+        }
+
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
