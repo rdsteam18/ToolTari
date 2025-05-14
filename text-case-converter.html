@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3097658772821429"
+     crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free online tool to convert text between different cases (uppercase, lowercase, title case, sentence case, etc.)">
+    <meta name="keywords" content="text converter, case converter, uppercase, lowercase, title case, sentence case, online tool">
+    <meta name="author" content="https://tooltari.netlify.app/">
+    <meta property="og:title" content="Text Case Converter - Free Online Tool">
+    <meta property="og:description" content="ToolTari-Convert text between different cases instantly with our free online tool">
+    <meta property="og:type" content="https://tooltari.netlify.app/">
+    <title>Text Case Converter - Free Online Tool</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #6B73FF 0%, #000DFF 100%);
+        }
+        .text-gradient {
+            background: linear-gradient(135deg, #6B73FF 0%, #000DFF 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .history-item:hover {
+            background-color: rgba(107, 114, 255, 0.1);
+        }
+        textarea {
+            resize: none;
+        }
+        @media (max-width: 640px) {
+            .converter-container {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Google Analytics Placeholder -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'GA_MEASUREMENT_ID');
+    </script>
+
+    <!-- Header -->
+    <header class="gradient-bg text-white shadow-lg">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex justify-between items-center">
+                <h1 class="text-2xl md:text-3xl font-bold">Text Case Converter</h1>
+                <div class="flex space-x-2">
+                    <button id="theme-toggle" class="p-2 rounded-full bg-white bg-opacity-20 hover:bg-opacity-30 transition">
+                        <i class="fas fa-moon text-white"></i>
+                    </button>
+                    <button id="info-btn" class="p-2 rounded-full bg-white bg-opacity-20 hover:bg-opacity-30 transition">
+                        <i class="fas fa-info-circle text-white"></i>
+                    </button>
+                </div>
+            </div>
+            <p class="mt-2 opacity-90">Convert text between different cases instantly</p>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- AdSense Placeholder -->
+        <div class="bg-gray-200 p-4 rounded-lg text-center mb-8">
+            <p class="text-gray-600">Advertisement</p>
+            <div class="h-[90px] bg-gray-300 flex items-center justify-center">
+                <p>Google AdSense</p>
+            </div>
+        </div>
+
+        <!-- Converter Tool -->
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-8">
+            <div class="p-6">
+                <div class="converter-container flex flex-wrap gap-6">
+                    <!-- Input Section -->
+                    <div class="flex-1 min-w-[300px]">
+                        <div class="flex justify-between items-center mb-2">
+                            <label for="input-text" class="font-medium text-gray-700">Input Text</label>
+                            <div class="flex space-x-2">
+                                <button id="clear-input" class="text-gray-500 hover:text-gray-700 transition">
+                                    <i class="fas fa-trash-alt"></i> Clear
+                                </button>
+                                <button id="paste-text" class="text-gray-500 hover:text-gray-700 transition">
+                                    <i class="fas fa-paste"></i> Paste
+                                </button>
+                            </div>
+                        </div>
+                        <textarea id="input-text" class="w-full h-64 p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Type or paste your text here..."></textarea>
+                        <div class="flex justify-between mt-2">
+                            <span id="char-count" class="text-sm text-gray-500">0 characters</span>
+                            <span id="word-count" class="text-sm text-gray-500">0 words</span>
+                        </div>
+                    </div>
+
+                    <!-- Controls Section -->
+                    <div class="w-full md:w-auto flex flex-col space-y-4">
+                        <div>
+                            <h3 class="font-medium text-gray-700 mb-2">Convert To</h3>
+                            <div class="grid grid-cols-2 gap-2">
+                                <button data-case="uppercase" class="case-btn bg-blue-50 text-blue-700 hover:bg-blue-100 px-4 py-2 rounded-lg border border-blue-200 transition">
+                                    UPPERCASE
+                                </button>
+                                <button data-case="lowercase" class="case-btn bg-blue-50 text-blue-700 hover:bg-blue-100 px-4 py-2 rounded-lg border border-blue-200 transition">
+                                    lowercase
+                                </button>
+                                <button data-case="titlecase" class="case-btn bg-blue-50 text-blue-700 hover:bg-blue-100 px-4 py-2 rounded-lg border border-blue-200 transition">
+                                    Title Case
+                                </button>
+                                <button data-case="sentencecase" class="case-btn bg-blue-50 text-blue-700 hover:bg-blue-100 px-4 py-2 rounded-lg border border-blue-200 transition">
+                                    Sentence case
+                                </button>
+                                <button data-case="camelcase" class="case-btn bg-blue-50 text-blue-700 hover:bg-blue-100 px-4 py-2 rounded-lg border border-blue-200 transition">
+                                    camelCase
+                                </button>
+                                <button data-case="pascalcase" class="case-btn bg-blue-50 text-blue-700 hover:bg-blue-100 px-4 py-2 rounded-lg border border-blue-200 transition">
+                                    PascalCase
+                                </button>
+                                <button data-case="snakecase" class="case-btn bg-blue-50 text-blue-700 hover:bg-blue-100 px-4 py-2 rounded-lg border border-blue-200 transition">
+                                    snake_case
+                                </button>
+                                <button data-case="kebabcase" class="case-btn bg-blue-50 text-blue-700 hover:bg-blue-100 px-4 py-2 rounded-lg border border-blue-200 transition">
+                                    kebab-case
+                                </button>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h3 class="font-medium text-gray-700 mb-2">Options</h3>
+                            <div class="space-y-2">
+                                <label class="flex items-center space-x-2">
+                                    <input type="checkbox" id="preserve-newlines" class="rounded text-blue-600">
+                                    <span>Preserve new lines</span>
+                                </label>
+                                <label class="flex items-center space-x-2">
+                                    <input type="checkbox" id="trim-spaces" class="rounded text-blue-600" checked>
+                                    <span>Trim extra spaces</span>
+                                </label>
+                                <label class="flex items-center space-x-2">
+                                    <input type="checkbox" id="save-history" class="rounded text-blue-600" checked>
+                                    <span>Save to history</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="flex space-x-2">
+                            <button id="copy-output" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition flex items-center justify-center space-x-2">
+                                <i class="fas fa-copy"></i>
+                                <span>Copy</span>
+                            </button>
+                            <button id="download-output" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded-lg transition flex items-center justify-center space-x-2">
+                                <i class="fas fa-download"></i>
+                                <span>Download</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Output Section -->
+                    <div class="flex-1 min-w-[300px]">
+                        <div class="flex justify-between items-center mb-2">
+                            <label for="output-text" class="font-medium text-gray-700">Converted Text</label>
+                            <div>
+                                <button id="clear-output" class="text-gray-500 hover:text-gray-700 transition">
+                                    <i class="fas fa-trash-alt"></i> Clear
+                                </button>
+                            </div>
+                        </div>
+                        <textarea id="output-text" readonly class="w-full h-64 p-4 border border-gray-300 rounded-lg bg-gray-50" placeholder="Your converted text will appear here..."></textarea>
+                        <div class="flex justify-between mt-2">
+                            <span id="output-char-count" class="text-sm text-gray-500">0 characters</span>
+                            <span id="output-word-count" class="text-sm text-gray-500">0 words</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- History Section -->
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-8">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-bold text-gray-800">Conversion History</h2>
+                    <button id="clear-history" class="text-red-500 hover:text-red-700 transition">
+                        <i class="fas fa-trash-alt"></i> Clear All
+                    </button>
+                </div>
+                <div id="history-list" class="space-y-2 max-h-96 overflow-y-auto">
+                    <!-- History items will be added here dynamically -->
+                </div>
+                <p id="empty-history-message" class="text-gray-500 text-center py-4">Your conversion history will appear here</p>
+            </div>
+        </div>
+
+        <!-- AdSense Placeholder -->
+        <div class="bg-gray-200 p-4 rounded-lg text-center mb-8">
+            <p class="text-gray-600">Advertisement</p>
+            <div class="h-[250px] bg-gray-300 flex items-center justify-center">
+                <p>Google AdSense</p>
+            </div>
+        </div>
+
+        <!-- Info Section -->
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-8">
+            <div class="p-6">
+                <h2 class="text-xl font-bold text-gray-800 mb-4">About Text Case Converter</h2>
+                <div class="prose max-w-none">
+                    <p>This free online tool allows you to convert text between different letter cases:</p>
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li><strong>UPPERCASE</strong> - Converts all letters to uppercase</li>
+                        <li><strong>lowercase</strong> - Converts all letters to lowercase</li>
+                        <li><strong>Title Case</strong> - Capitalizes the first letter of each word</li>
+                        <li><strong>Sentence case</strong> - Capitalizes the first letter of each sentence</li>
+                        <li><strong>camelCase</strong> - Removes spaces and capitalizes first letter of each word except the first</li>
+                        <li><strong>PascalCase</strong> - Similar to camelCase but capitalizes the first letter too</li>
+                        <li><strong>snake_case</strong> - Replaces spaces with underscores</li>
+                        <li><strong>kebab-case</strong> - Replaces spaces with hyphens</li>
+                    </ul>
+                    <p class="mt-4">All processing happens in your browser - your text is never sent to any server.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Social Sharing -->
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-8">
+            <div class="p-6">
+                <h2 class="text-xl font-bold text-gray-800 mb-4">Share This Tool</h2>
+                <div class="flex flex-wrap gap-2">
+                    <a href="#" id="share-twitter" class="bg-blue-400 hover:bg-blue-500 text-white px-4 py-2 rounded-lg transition flex items-center space-x-2">
+                        <i class="fab fa-twitter"></i>
+                        <span>Twitter</span>
+                    </a>
+                    <a href="#" id="share-facebook" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition flex items-center space-x-2">
+                        <i class="fab fa-facebook-f"></i>
+                        <span>Facebook</span>
+                    </a>
+                    <a href="#" id="share-whatsapp" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition flex items-center space-x-2">
+                        <i class="fab fa-whatsapp"></i>
+                        <span>WhatsApp</span>
+                    </a>
+                    <a href="#" id="share-linkedin" class="bg-blue-700 hover:bg-blue-800 text-white px-4 py-2 rounded-lg transition flex items-center space-x-2">
+                        <i class="fab fa-linkedin-in"></i>
+                        <span>LinkedIn</span>
+                    </a>
+                    <a href="#" id="share-reddit" class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg transition flex items-center space-x-2">
+                        <i class="fab fa-reddit-alien"></i>
+                        <span>Reddit</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <h3 class="text-xl font-bold">Text Case Converter</h3>
+                    <p class="text-gray-400">Free online text conversion tool</p>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-gray-400 hover:text-white transition">Privacy Policy</a>
+                    <a href="#" class="text-gray-400 hover:text-white transition">Terms of Service</a>
+                    <a href="#" class="text-gray-400 hover:text-white transition">Contact</a>
+                </div>
+            </div>
+            <div class="mt-6 pt-6 border-t border-gray-700 text-center text-gray-400">
+                <p>© 2023 Text Case Converter. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Info Modal -->
+    <div id="info-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg max-w-md w-full mx-4 max-h-[90vh] overflow-y-auto">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xl font-bold text-gray-800">About Text Case Converter</h3>
+                    <button id="close-modal" class="text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="prose">
+                    <p>This tool helps you convert text between different cases instantly. All processing happens in your browser - your text is never sent to any server.</p>
+                    <p class="mt-2">Features:</p>
+                    <ul class="list-disc pl-5">
+                        <li>8 different case conversion options</li>
+                        <li>Preserve new lines option</li>
+                        <li>Trim extra spaces option</li>
+                        <li>Conversion history (stored in your browser)</li>
+                        <li>Copy to clipboard</li>
+                        <li>Download as text file</li>
+                    </ul>
+                    <p class="mt-2">Your converted text is never stored on any server - everything happens locally in your browser.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Toast -->
+    <div id="success-toast" class="fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg flex items-center space-x-2 hidden z-50">
+        <i class="fas fa-check-circle"></i>
+        <span id="toast-message">Success!</span>
+    </div>
+
+    <script>
+        // DOM Elements
+        const inputText = document.getElementById('input-text');
+        const outputText = document.getElementById('output-text');
+        const charCount = document.getElementById('char-count');
+        const wordCount = document.getElementById('word-count');
+        const outputCharCount = document.getElementById('output-char-count');
+        const outputWordCount = document.getElementById('output-word-count');
+        const caseButtons = document.querySelectorAll('.case-btn');
+        const clearInputBtn = document.getElementById('clear-input');
+        const clearOutputBtn = document.getElementById('clear-output');
+        const pasteTextBtn = document.getElementById('paste-text');
+        const copyOutputBtn = document.getElementById('copy-output');
+        const downloadOutputBtn = document.getElementById('download-output');
+        const preserveNewlines = document.getElementById('preserve-newlines');
+        const trimSpaces = document.getElementById('trim-spaces');
+        const saveHistory = document.getElementById('save-history');
+        const historyList = document.getElementById('history-list');
+        const clearHistoryBtn = document.getElementById('clear-history');
+        const emptyHistoryMessage = document.getElementById('empty-history-message');
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const infoBtn = document.getElementById('info-btn');
+        const infoModal = document.getElementById('info-modal');
+        const closeModalBtn = document.getElementById('close-modal');
+        const successToast = document.getElementById('success-toast');
+        const toastMessage = document.getElementById('toast-message');
+        const shareButtons = {
+            twitter: document.getElementById('share-twitter'),
+            facebook: document.getElementById('share-facebook'),
+            whatsapp: document.getElementById('share-whatsapp'),
+            linkedin: document.getElementById('share-linkedin'),
+            reddit: document.getElementById('share-reddit')
+        };
+
+        // Initialize the app
+        function init() {
+            loadHistory();
+            updateCounts();
+            setupEventListeners();
+            checkTheme();
+        }
+
+        // Set up event listeners
+        function setupEventListeners() {
+            // Text input events
+            inputText.addEventListener('input', updateCounts);
+            inputText.addEventListener('input', debounce(updateCounts, 300));
+
+            // Button events
+            caseButtons.forEach(btn => {
+                btn.addEventListener('click', () => convertCase(btn.dataset.case));
+            });
+
+            clearInputBtn.addEventListener('click', () => {
+                inputText.value = '';
+                updateCounts();
+            });
+
+            clearOutputBtn.addEventListener('click', () => {
+                outputText.value = '';
+                updateOutputCounts();
+            });
+
+            pasteTextBtn.addEventListener('click', pasteFromClipboard);
+            copyOutputBtn.addEventListener('click', copyToClipboard);
+            downloadOutputBtn.addEventListener('click', downloadOutput);
+
+            // History events
+            clearHistoryBtn.addEventListener('click', clearHistory);
+
+            // Theme toggle
+            themeToggleBtn.addEventListener('click', toggleTheme);
+
+            // Info modal
+            infoBtn.addEventListener('click', () => infoModal.classList.remove('hidden'));
+            closeModalBtn.addEventListener('click', () => infoModal.classList.add('hidden'));
+            infoModal.addEventListener('click', (e) => {
+                if (e.target === infoModal) infoModal.classList.add('hidden');
+            });
+
+            // Share buttons
+            setupShareButtons();
+        }
+
+        // Update character and word counts
+        function updateCounts() {
+            const text = inputText.value;
+            const charLength = text.length;
+            const wordLength = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
+
+            charCount.textContent = `${charLength} characters`;
+            wordCount.textContent = `${wordLength} words`;
+        }
+
+        function updateOutputCounts() {
+            const text = outputText.value;
+            const charLength = text.length;
+            const wordLength = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
+
+            outputCharCount.textContent = `${charLength} characters`;
+            outputWordCount.textContent = `${wordLength} words`;
+        }
+
+        // Convert text to different cases
+        function convertCase(caseType) {
+            let text = inputText.value;
+            
+            // Apply trim if option is checked
+            if (trimSpaces.checked) {
+                text = text.trim();
+            }
+
+            // Preserve new lines if option is checked
+            const preserveLines = preserveNewlines.checked;
+            let lines = preserveLines ? text.split('\n') : [text];
+            
+            let convertedLines = lines.map(line => {
+                switch (caseType) {
+                    case 'uppercase':
+                        return line.toUpperCase();
+                    case 'lowercase':
+                        return line.toLowerCase();
+                    case 'titlecase':
+                        return toTitleCase(line);
+                    case 'sentencecase':
+                        return toSentenceCase(line);
+                    case 'camelcase':
+                        return toCamelCase(line);
+                    case 'pascalcase':
+                        return toPascalCase(line);
+                    case 'snakecase':
+                        return toSnakeCase(line);
+                    case 'kebabcase':
+                        return toKebabCase(line);
+                    default:
+                        return line;
+                }
+            });
+
+            const convertedText = preserveLines ? convertedLines.join('\n') : convertedLines[0];
+            outputText.value = convertedText;
+            updateOutputCounts();
+
+            // Save to history if option is checked
+            if (saveHistory.checked && text.trim() !== '') {
+                saveToHistory(text, convertedText, caseType);
+            }
+        }
+
+        // Case conversion helper functions
+        function toTitleCase(str) {
+            return str.toLowerCase().replace(/\b\w/g, char => char.toUpperCase());
+        }
+
+        function toSentenceCase(str) {
+            return str.toLowerCase().replace(/(^\s*\w|[.!?]\s*\w)/g, char => char.toUpperCase());
+        }
+
+        function toCamelCase(str) {
+            return str.toLowerCase()
+                .replace(/[^a-zA-Z0-9]+(.)/g, (_, chr) => chr.toUpperCase())
+                .replace(/[^a-zA-Z0-9]/g, '');
+        }
+
+        function toPascalCase(str) {
+            return str.replace(/\w+/g, word => 
+                word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+            ).replace(/[^a-zA-Z0-9]/g, '');
+        }
+
+        function toSnakeCase(str) {
+            return str.trim().replace(/\s+/g, '_').toLowerCase();
+        }
+
+        function toKebabCase(str) {
+            return str.trim().replace(/\s+/g, '-').toLowerCase();
+        }
+
+        // Clipboard functions
+        async function pasteFromClipboard() {
+            try {
+                const text = await navigator.clipboard.readText();
+                inputText.value = text;
+                updateCounts();
+                showToast('Text pasted from clipboard!');
+            } catch (err) {
+                showToast('Failed to paste from clipboard');
+                console.error('Failed to paste:', err);
+            }
+        }
+
+        async function copyToClipboard() {
+            if (!outputText.value) {
+                showToast('No text to copy');
+                return;
+            }
+
+            try {
+                await navigator.clipboard.writeText(outputText.value);
+                showToast('Copied to clipboard!');
+            } catch (err) {
+                showToast('Failed to copy text');
+                console.error('Failed to copy:', err);
+            }
+        }
+
+        // Download output as text file
+        function downloadOutput() {
+            if (!outputText.value) {
+                showToast('No text to download');
+                return;
+            }
+
+            const blob = new Blob([outputText.value], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'converted-text.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            showToast('Download started!');
+        }
+
+        // History functions
+        function saveToHistory(original, converted, caseType) {
+            const history = getHistory();
+            const newItem = {
+                id: Date.now(),
+                original,
+                converted,
+                caseType,
+                timestamp: new Date().toISOString()
+            };
+
+            history.unshift(newItem);
+            if (history.length > 20) history.pop(); // Limit to 20 items
+
+            localStorage.setItem('textCaseConverterHistory', JSON.stringify(history));
+            renderHistoryItem(newItem);
+            
+            if (emptyHistoryMessage.style.display !== 'none') {
+                emptyHistoryMessage.style.display = 'none';
+            }
+        }
+
+        function getHistory() {
+            const history = localStorage.getItem('textCaseConverterHistory');
+            return history ? JSON.parse(history) : [];
+        }
+
+        function loadHistory() {
+            const history = getHistory();
+            if (history.length === 0) {
+                emptyHistoryMessage.style.display = 'block';
+                return;
+            }
+
+            emptyHistoryMessage.style.display = 'none';
+            history.forEach(item => renderHistoryItem(item));
+        }
+
+        function renderHistoryItem(item) {
+            const itemElement = document.createElement('div');
+            itemElement.className = 'history-item p-3 border border-gray-200 rounded-lg cursor-pointer transition';
+            itemElement.dataset.id = item.id;
+            
+            const caseTypeMap = {
+                uppercase: 'UPPERCASE',
+                lowercase: 'lowercase',
+                titlecase: 'Title Case',
+                sentencecase: 'Sentence case',
+                camelcase: 'camelCase',
+                pascalcase: 'PascalCase',
+                snakecase: 'snake_case',
+                kebabcase: 'kebab-case'
+            };
+
+            itemElement.innerHTML = `
+                <div class="flex justify-between items-start">
+                    <div class="flex-1 truncate">
+                        <p class="text-sm text-gray-500 mb-1">${new Date(item.timestamp).toLocaleString()}</p>
+                        <p class="font-medium truncate">${item.original.substring(0, 50)}${item.original.length > 50 ? '...' : ''}</p>
+                        <p class="text-sm text-gray-600 truncate">${item.converted.substring(0, 50)}${item.converted.length > 50 ? '...' : ''}</p>
+                    </div>
+                    <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">${caseTypeMap[item.caseType] || item.caseType}</span>
+                </div>
+                <div class="flex space-x-2 mt-2 hidden history-actions">
+                    <button class="text-blue-600 hover:text-blue-800 text-sm">
+                        <i class="fas fa-redo"></i> Reuse
+                    </button>
+                    <button class="text-gray-600 hover:text-gray-800 text-sm">
+                        <i class="fas fa-trash-alt"></i> Delete
+                    </button>
+                </div>
+            `;
+
+            // Add event listeners for the history item
+            const reuseBtn = itemElement.querySelector('.history-actions button:first-child');
+            const deleteBtn = itemElement.querySelector('.history-actions button:last-child');
+            
+            itemElement.addEventListener('mouseenter', () => {
+                itemElement.querySelector('.history-actions').classList.remove('hidden');
+            });
+            
+            itemElement.addEventListener('mouseleave', () => {
+                itemElement.querySelector('.history-actions').classList.add('hidden');
+            });
+            
+            itemElement.addEventListener('click', (e) => {
+                if (!reuseBtn.contains(e.target) && !deleteBtn.contains(e.target)) {
+                    inputText.value = item.original;
+                    outputText.value = item.converted;
+                    updateCounts();
+                    updateOutputCounts();
+                    showToast('History item loaded');
+                }
+            });
+            
+            reuseBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                inputText.value = item.original;
+                updateCounts();
+                showToast('Original text loaded');
+            });
+            
+            deleteBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                deleteHistoryItem(item.id);
+                itemElement.remove();
+                
+                if (historyList.children.length === 0) {
+                    emptyHistoryMessage.style.display = 'block';
+                }
+                
+                showToast('History item deleted');
+            });
+
+            historyList.insertBefore(itemElement, historyList.firstChild);
+        }
+
+        function deleteHistoryItem(id) {
+            const history = getHistory().filter(item => item.id !== id);
+            localStorage.setItem('textCaseConverterHistory', JSON.stringify(history));
+        }
+
+        function clearHistory() {
+            if (confirm('Are you sure you want to clear all history?')) {
+                localStorage.removeItem('textCaseConverterHistory');
+                historyList.innerHTML = '';
+                emptyHistoryMessage.style.display = 'block';
+                showToast('History cleared');
+            }
+        }
+
+        // Theme functions
+        function checkTheme() {
+            const darkMode = localStorage.getItem('darkMode') === 'true';
+            if (darkMode) {
+                document.documentElement.classList.add('dark');
+                themeToggleBtn.innerHTML = '<i class="fas fa-sun text-white"></i>';
+            } else {
+                document.documentElement.classList.remove('dark');
+                themeToggleBtn.innerHTML = '<i class="fas fa-moon text-white"></i>';
+            }
+        }
+
+        function toggleTheme() {
+            const isDark = document.documentElement.classList.toggle('dark');
+            localStorage.setItem('darkMode', isDark);
+            
+            if (isDark) {
+                themeToggleBtn.innerHTML = '<i class="fas fa-sun text-white"></i>';
+            } else {
+                themeToggleBtn.innerHTML = '<i class="fas fa-moon text-white"></i>';
+            }
+        }
+
+        // Share functions
+        function setupShareButtons() {
+            const pageUrl = encodeURIComponent(window.location.href);
+            const pageTitle = encodeURIComponent('Text Case Converter - Free Online Tool');
+            const shareText = encodeURIComponent('Check out this free online tool to convert text between different cases!');
+            
+            shareButtons.twitter.href = `https://twitter.com/intent/tweet?url=${pageUrl}&text=${shareText}`;
+            shareButtons.facebook.href = `https://www.facebook.com/sharer/sharer.php?u=${pageUrl}`;
+            shareButtons.whatsapp.href = `https://wa.me/?text=${shareText}%20${pageUrl}`;
+            shareButtons.linkedin.href = `https://www.linkedin.com/shareArticle?mini=true&url=${pageUrl}&title=${pageTitle}&summary=${shareText}`;
+            shareButtons.reddit.href = `https://www.reddit.com/submit?url=${pageUrl}&title=${pageTitle}`;
+        }
+
+        // Utility functions
+        function debounce(func, wait) {
+            let timeout;
+            return function() {
+                const context = this, args = arguments;
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(context, args), wait);
+            };
+        }
+
+        function showToast(message) {
+            toastMessage.textContent = message;
+            successToast.classList.remove('hidden');
+            setTimeout(() => {
+                successToast.classList.add('hidden');
+            }, 3000);
+        }
+
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
