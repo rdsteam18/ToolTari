@@ -3,270 +3,591 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Convert images to PDF online for free. Merge multiple JPG/PNG files into one PDF document. Perfect for mobile users and all devices.">
-    <meta name="keywords" content="image to PDF, JPG to PDF, PNG to PDF, convert images to PDF, merge images">
-    
-    <!-- SEO Structured Data -->
-    <script type="application/ld+json">
-    {
-        "@context": "https://schema.org",
-        "@type": "WebApplication",
-        "name": "Image to PDF Converter",
-        "description": "Free online tool to convert multiple images to a single PDF document",
-        "applicationCategory": "FileConversion",
-        "operatingSystem": "Web",
-        "offers": {
-            "@type": "Offer",
-            "price": "0.00",
-            "priceCurrency": "USD"
-        }
-    }
-    </script>
-    
-    <title>Free Image to PDF Converter - Merge JPG/PNG to PDF Online</title>
-    
-    <!-- Google AdSense -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX"
-        crossorigin="anonymous"></script>
-    
-    <!-- PDF Generation Library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    
+    <meta name="description" content="Free online tool to convert images to PDF files. Supports JPG, PNG, GIF and other image formats. No registration required.">
+    <meta name="keywords" content="image to pdf, jpg to pdf, png to pdf, convert image to pdf, free pdf converter">
+    <meta name="author" content="ImageToPDF Converter">
+    <meta property="og:title" content="Free Image to PDF Converter">
+    <meta property="og:description" content="ToolTari-Convert your images to PDF files quickly and easily">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://tooltari.netlify.app/img-to-pdf">
+    <title>Image to PDF Converter | Free Online Tool</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            line-height: 1.6;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f8f9fa;
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .main-container {
-            display: grid;
-            grid-template-columns: 1fr 300px;
-            gap: 30px;
-            margin-top: 20px;
-        }
-
-        .converter-section {
-            background: white;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-
-        .ad-section {
-            background: #ffffff;
-            padding: 15px;
+        .dropzone {
+            border: 2px dashed #ccc;
             border-radius: 8px;
-            height: fit-content;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-
-        .upload-container {
-            border: 2px dashed #ced4da;
-            padding: 40px 20px;
-            text-align: center;
-            margin: 20px 0;
-            cursor: pointer;
             transition: all 0.3s ease;
-            border-radius: 8px;
         }
-
-        .upload-container:hover {
-            border-color: #4dabf7;
-            background-color: #f8f9fa;
+        .dropzone.active {
+            border-color: #4f46e5;
+            background-color: #f0f7ff;
         }
-
-        #fileInput {
-            display: none;
+        .history-item:hover {
+            background-color: #f3f4f6;
         }
-
-        #imagePreview {
-            display: grid;
-            gap: 15px;
-            margin: 20px 0;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        .pdf-preview {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         }
-
-        .thumbnail {
-            width: 100%;
-            height: 150px;
-            object-fit: cover;
-            border-radius: 6px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .convert-btn {
-            background: #40c057;
-            color: white;
-            padding: 12px 30px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: none;
-        }
-
-        .convert-btn:hover {
-            background: #37b24d;
-        }
-
-        .loading {
-            display: none;
-            margin: 20px 0;
-            text-align: center;
-        }
-
-        @media (max-width: 768px) {
-            .main-container {
-                grid-template-columns: 1fr;
-            }
-            
-            .ad-section {
-                order: -1;
-                margin-bottom: 20px;
-            }
-            
-            #imagePreview {
-                grid-template-columns: repeat(2, 1fr);
+        @media (max-width: 640px) {
+            .settings-panel {
+                width: 90%;
+                margin: 0 auto;
             }
         }
     </style>
 </head>
-<body>
-    <header class="header">
-        <h1>Image to PDF Converter</h1>
-        <p>Convert multiple images to a single PDF document</p>
-        
-        <!-- Ad Unit 1 -->
-        <div class="ad-section">
-            <ins class="adsbygoogle"
-                style="display:block"
-                data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
-                data-ad-slot="XXXXXXXXXX"
-                data-ad-format="auto"
-                data-full-width-responsive="true"></ins>
-            <script>
-                (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Google Analytics Placeholder -->
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-XXXXXXXXXX');
+    </script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+
+    <!-- Header -->
+    <header class="bg-white shadow-sm">
+        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fas fa-file-pdf text-red-500 text-2xl"></i>
+                <h1 class="text-xl font-bold text-gray-800">ImageToPDF</h1>
+            </div>
+            <nav class="hidden md:flex space-x-6">
+                <a href="#" class="text-gray-600 hover:text-indigo-600">Home</a>
+                <a href="#" class="text-gray-600 hover:text-indigo-600">Tools</a>
+                <a href="#" class="text-gray-600 hover:text-indigo-600">About</a>
+                <a href="#" class="text-gray-600 hover:text-indigo-600">Contact</a>
+            </nav>
+            <button class="md:hidden text-gray-600">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
         </div>
     </header>
 
-    <main class="main-container">
-        <section class="converter-section">
-            <div class="upload-container" onclick="document.getElementById('fileInput').click()">
-                <p>📁 Click to upload images (JPG, PNG, WEBP)</p>
-                <input type="file" id="fileInput" accept="image/*" multiple hidden>
-            </div>
-            
-            <div id="imagePreview"></div>
-            
-            <button id="convertBtn" class="convert-btn" onclick="generatePDF()">
-                Convert to PDF
-            </button>
-            
-            <div class="loading">
-                <div class="spinner"></div>
-                <p>Generating PDF...</p>
-            </div>
-        </section>
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <div class="text-center mb-8">
+            <h2 class="text-3xl font-bold text-gray-800 mb-2">Image to PDF Converter</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">Convert your JPG, PNG, GIF, or other image files to PDF format quickly and easily. No registration required.</p>
+        </div>
 
-        <!-- Ad Unit 2 -->
-        <aside class="ad-section">
-            <ins class="adsbygoogle"
-                style="display:block"
-                data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
-                data-ad-slot="XXXXXXXXXX"
-                data-ad-format="auto"
-                data-full-width-responsive="true"></ins>
-            <script>
-                (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
-        </aside>
+        <!-- AdSense Banner (Top) -->
+        <div class="bg-gray-100 p-4 rounded-lg mb-8 text-center">
+            <div class="h-[90px] w-full bg-gray-200 flex items-center justify-center">
+                <span class="text-gray-500">Advertisement</span>
+            </div>
+        </div>
+
+        <!-- Converter Tool -->
+        <div class="bg-white rounded-xl shadow-md overflow-hidden mb-8">
+            <div class="md:flex">
+                <!-- Upload Section -->
+                <div class="md:w-1/2 p-6">
+                    <div id="dropzone" class="dropzone p-8 text-center cursor-pointer mb-4">
+                        <div class="flex flex-col items-center justify-center">
+                            <i class="fas fa-cloud-upload-alt text-4xl text-indigo-500 mb-3"></i>
+                            <p class="text-gray-600 mb-1">Drag & drop your images here</p>
+                            <p class="text-sm text-gray-500 mb-3">or</p>
+                            <label for="fileInput" class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition cursor-pointer">
+                                Select Images
+                            </label>
+                            <input type="file" id="fileInput" class="hidden" accept="image/*" multiple>
+                        </div>
+                    </div>
+                    <div id="fileList" class="space-y-2 max-h-60 overflow-y-auto hidden">
+                        <h3 class="font-medium text-gray-700">Selected Files:</h3>
+                        <ul id="selectedFiles" class="space-y-1"></ul>
+                    </div>
+                </div>
+
+                <!-- Settings & Preview Section -->
+                <div class="md:w-1/2 bg-gray-50 p-6">
+                    <div class="settings-panel mb-6">
+                        <h3 class="font-medium text-gray-700 mb-3">PDF Settings</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Page Size</label>
+                                <select id="pageSize" class="w-full p-2 border border-gray-300 rounded-md">
+                                    <option value="a4">A4 (210 × 297 mm)</option>
+                                    <option value="letter">Letter (8.5 × 11 in)</option>
+                                    <option value="legal">Legal (8.5 × 14 in)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Orientation</label>
+                                <select id="orientation" class="w-full p-2 border border-gray-300 rounded-md">
+                                    <option value="portrait">Portrait</option>
+                                    <option value="landscape">Landscape</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Margin (mm)</label>
+                                <input type="range" id="margin" min="0" max="50" value="10" class="w-full">
+                                <div class="flex justify-between text-xs text-gray-500">
+                                    <span>0</span>
+                                    <span id="marginValue">10</span>
+                                    <span>50</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center">
+                                <input type="checkbox" id="compress" class="mr-2">
+                                <label for="compress" class="text-sm text-gray-700">Compress PDF</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-between items-center">
+                        <button id="convertBtn" class="bg-indigo-600 text-white px-6 py-2 rounded-md hover:bg-indigo-700 transition disabled:opacity-50" disabled>
+                            Convert to PDF
+                        </button>
+                        <button id="resetBtn" class="text-gray-600 hover:text-indigo-600">
+                            <i class="fas fa-redo mr-1"></i> Reset
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Result Section (Initially Hidden) -->
+        <div id="resultSection" class="bg-white rounded-xl shadow-md overflow-hidden mb-8 hidden">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-medium text-gray-800">Your PDF is Ready!</h3>
+                    <div class="flex space-x-2">
+                        <button id="downloadBtn" class="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition">
+                            <i class="fas fa-download mr-1"></i> Download PDF
+                        </button>
+                        <button id="newConversionBtn" class="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition">
+                            <i class="fas fa-plus mr-1"></i> New Conversion
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="pdf-preview bg-gray-100 rounded-lg p-4 flex justify-center">
+                    <div id="pdfPreview" class="w-full max-w-md h-64 bg-white border border-gray-200 flex items-center justify-center">
+                        <p class="text-gray-500">PDF preview will appear here</p>
+                    </div>
+                </div>
+                
+                <div class="mt-4">
+                    <h4 class="font-medium text-gray-700 mb-2">Share your PDF:</h4>
+                    <div class="flex space-x-2">
+                        <button class="bg-blue-500 text-white p-2 rounded-full hover:bg-blue-600 transition">
+                            <i class="fab fa-facebook-f"></i>
+                        </button>
+                        <button class="bg-blue-400 text-white p-2 rounded-full hover:bg-blue-500 transition">
+                            <i class="fab fa-twitter"></i>
+                        </button>
+                        <button class="bg-green-500 text-white p-2 rounded-full hover:bg-green-600 transition">
+                            <i class="fab fa-whatsapp"></i>
+                        </button>
+                        <button class="bg-gray-800 text-white p-2 rounded-full hover:bg-gray-900 transition">
+                            <i class="fas fa-envelope"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- AdSense Banner (Middle) -->
+        <div class="bg-gray-100 p-4 rounded-lg mb-8 text-center">
+            <div class="h-[250px] w-full bg-gray-200 flex items-center justify-center">
+                <span class="text-gray-500">Advertisement</span>
+            </div>
+        </div>
+
+        <!-- History Section -->
+        <div class="bg-white rounded-xl shadow-md overflow-hidden mb-8">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-lg font-medium text-gray-800">Recent Conversions</h3>
+                    <button id="clearHistoryBtn" class="text-sm text-gray-600 hover:text-indigo-600">
+                        <i class="fas fa-trash-alt mr-1"></i> Clear History
+                    </button>
+                </div>
+                
+                <div id="historyList" class="space-y-2">
+                    <!-- History items will be added here by JavaScript -->
+                    <p class="text-gray-500 text-center py-4">No recent conversions yet</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features Section -->
+        <div class="grid md:grid-cols-3 gap-6 mb-8">
+            <div class="bg-white p-6 rounded-xl shadow-sm">
+                <div class="text-indigo-600 mb-3">
+                    <i class="fas fa-bolt text-2xl"></i>
+                </div>
+                <h3 class="font-medium text-gray-800 mb-2">Fast Conversion</h3>
+                <p class="text-gray-600 text-sm">Convert multiple images to PDF in seconds with our optimized processing.</p>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-sm">
+                <div class="text-indigo-600 mb-3">
+                    <i class="fas fa-lock text-2xl"></i>
+                </div>
+                <h3 class="font-medium text-gray-800 mb-2">Privacy Focused</h3>
+                <p class="text-gray-600 text-sm">Your files never leave your browser. No uploads to our servers.</p>
+            </div>
+            <div class="bg-white p-6 rounded-xl shadow-sm">
+                <div class="text-indigo-600 mb-3">
+                    <i class="fas fa-cog text-2xl"></i>
+                </div>
+                <h3 class="font-medium text-gray-800 mb-2">Customizable</h3>
+                <p class="text-gray-600 text-sm">Adjust page size, orientation and margins to fit your needs.</p>
+            </div>
+        </div>
+
+        <!-- AdSense Banner (Bottom) -->
+        <div class="bg-gray-100 p-4 rounded-lg mb-8 text-center">
+            <div class="h-[90px] w-full bg-gray-200 flex items-center justify-center">
+                <span class="text-gray-500">Advertisement</span>
+            </div>
+        </div>
     </main>
 
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-4 gap-8 mb-6">
+                <div>
+                    <h3 class="text-lg font-medium mb-4">ImageToPDF</h3>
+                    <p class="text-gray-400 text-sm">Free online tools to convert and optimize your files without compromising your privacy.</p>
+                </div>
+                <div>
+                    <h3 class="text-lg font-medium mb-4">Tools</h3>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="https://tooltari.netlify.app/img-to-pdf" class="hover:text-white">Image to PDF</a></li>
+                        <li><a href="#" class="hover:text-white">JPG to PDF</a></li>
+                        <li><a href="#" class="hover:text-white">PNG to PDF</a></li>
+                        <li><a href="https://tooltari.netlify.app/merge%20pdf" class="hover:text-white">PDF Merger</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-medium mb-4">Resources</h3>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="#" class="hover:text-white">Blog</a></li>
+                        <li><a href="#" class="hover:text-white">Tutorials</a></li>
+                        <li><a href="#" class="hover:text-white">Help Center</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="text-lg font-medium mb-4">Legal</h3>
+                    <ul class="space-y-2 text-sm text-gray-400">
+                        <li><a href="#" class="hover:text-white">Terms of Service</a></li>
+                        <li><a href="#" class="hover:text-white">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-white">Cookie Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="pt-6 border-t border-gray-700 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-400 text-sm mb-4 md:mb-0">© 2025 ToolTari. All rights reserved.</p>
+                <div class="flex space-x-4">
+                    <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
     <script>
-        const { jsPDF } = window.jspdf;
-        const fileInput = document.getElementById('fileInput');
-        const imagePreview = document.getElementById('imagePreview');
-        const convertBtn = document.getElementById('convertBtn');
-        const loading = document.querySelector('.loading');
-
-        fileInput.addEventListener('change', function(e) {
-            const files = Array.from(e.target.files);
-            if (files.length === 0) return;
-
-            imagePreview.innerHTML = '';
-            files.forEach(file => {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const img = document.createElement('img');
-                    img.className = 'thumbnail';
-                    img.src = e.target.result;
-                    imagePreview.appendChild(img);
-                };
-                reader.readAsDataURL(file);
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM Elements
+            const dropzone = document.getElementById('dropzone');
+            const fileInput = document.getElementById('fileInput');
+            const fileList = document.getElementById('fileList');
+            const selectedFiles = document.getElementById('selectedFiles');
+            const convertBtn = document.getElementById('convertBtn');
+            const resetBtn = document.getElementById('resetBtn');
+            const resultSection = document.getElementById('resultSection');
+            const downloadBtn = document.getElementById('downloadBtn');
+            const newConversionBtn = document.getElementById('newConversionBtn');
+            const clearHistoryBtn = document.getElementById('clearHistoryBtn');
+            const historyList = document.getElementById('historyList');
+            const marginInput = document.getElementById('margin');
+            const marginValue = document.getElementById('marginValue');
+            
+            // Variables
+            let files = [];
+            let conversionHistory = JSON.parse(localStorage.getItem('conversionHistory')) || [];
+            
+            // Initialize
+            updateHistoryList();
+            
+            // Event Listeners
+            dropzone.addEventListener('click', () => fileInput.click());
+            
+            fileInput.addEventListener('change', handleFileSelect);
+            
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                dropzone.addEventListener(eventName, preventDefaults, false);
             });
-
-            convertBtn.style.display = 'inline-block';
-        });
-
-        async function generatePDF() {
-            if (!fileInput.files.length) return;
-
-            loading.style.display = 'block';
-            convertBtn.disabled = true;
-
-            const pdf = new jsPDF();
-            const files = Array.from(fileInput.files);
-
-            try {
-                for (let i = 0; i < files.length; i++) {
-                    const file = files[i];
-                    const img = await loadImage(file);
-                    
-                    const imgWidth = pdf.internal.pageSize.getWidth();
-                    const imgHeight = (img.height * imgWidth) / img.width;
-                    
-                    if (i !== 0) pdf.addPage();
-                    pdf.addImage(img, 'JPEG', 0, 0, imgWidth, imgHeight);
-                }
-
-                pdf.save(`converted-${Date.now()}.pdf`);
-            } catch (error) {
-                alert('Error generating PDF: ' + error.message);
-            } finally {
-                loading.style.display = 'none';
-                convertBtn.disabled = false;
+            
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropzone.addEventListener(eventName, highlight, false);
+            });
+            
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropzone.addEventListener(eventName, unhighlight, false);
+            });
+            
+            dropzone.addEventListener('drop', handleDrop, false);
+            
+            convertBtn.addEventListener('click', convertToPDF);
+            
+            resetBtn.addEventListener('click', resetConverter);
+            
+            downloadBtn.addEventListener('click', downloadPDF);
+            
+            newConversionBtn.addEventListener('click', resetConverter);
+            
+            clearHistoryBtn.addEventListener('click', clearHistory);
+            
+            marginInput.addEventListener('input', () => {
+                marginValue.textContent = marginInput.value;
+            });
+            
+            // Functions
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
             }
-        }
-
-        function loadImage(file) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    const img = new Image();
-                    img.onload = () => resolve(img);
-                    img.onerror = reject;
-                    img.src = e.target.result;
-                };
-                reader.onerror = reject;
-                reader.readAsDataURL(file);
-            });
-        }
+            
+            function highlight() {
+                dropzone.classList.add('active');
+            }
+            
+            function unhighlight() {
+                dropzone.classList.remove('active');
+            }
+            
+            function handleDrop(e) {
+                const dt = e.dataTransfer;
+                const newFiles = dt.files;
+                handleFileSelect({ target: { files: newFiles } });
+            }
+            
+            function handleFileSelect(e) {
+                const newFiles = Array.from(e.target.files);
+                
+                // Filter only image files
+                const imageFiles = newFiles.filter(file => file.type.startsWith('image/'));
+                
+                if (imageFiles.length === 0) {
+                    alert('Please select only image files (JPG, PNG, GIF, etc.)');
+                    return;
+                }
+                
+                files = [...files, ...imageFiles];
+                updateFileList();
+                
+                // Enable convert button if we have files
+                if (files.length > 0) {
+                    convertBtn.disabled = false;
+                }
+            }
+            
+            function updateFileList() {
+                selectedFiles.innerHTML = '';
+                
+                files.forEach((file, index) => {
+                    const fileItem = document.createElement('li');
+                    fileItem.className = 'flex items-center justify-between bg-gray-50 p-2 rounded';
+                    
+                    const fileInfo = document.createElement('div');
+                    fileInfo.className = 'flex items-center truncate';
+                    
+                    const icon = document.createElement('i');
+                    icon.className = 'fas fa-image text-gray-500 mr-2';
+                    
+                    const fileName = document.createElement('span');
+                    fileName.className = 'truncate text-sm';
+                    fileName.textContent = file.name;
+                    
+                    const fileSize = document.createElement('span');
+                    fileSize.className = 'text-xs text-gray-500 ml-2';
+                    fileSize.textContent = formatFileSize(file.size);
+                    
+                    const removeBtn = document.createElement('button');
+                    removeBtn.className = 'text-red-500 hover:text-red-700 ml-2';
+                    removeBtn.innerHTML = '<i class="fas fa-times"></i>';
+                    removeBtn.addEventListener('click', () => removeFile(index));
+                    
+                    fileInfo.appendChild(icon);
+                    fileInfo.appendChild(fileName);
+                    fileInfo.appendChild(fileSize);
+                    
+                    fileItem.appendChild(fileInfo);
+                    fileItem.appendChild(removeBtn);
+                    
+                    selectedFiles.appendChild(fileItem);
+                });
+                
+                fileList.classList.remove('hidden');
+            }
+            
+            function removeFile(index) {
+                files.splice(index, 1);
+                updateFileList();
+                
+                if (files.length === 0) {
+                    fileList.classList.add('hidden');
+                    convertBtn.disabled = true;
+                }
+            }
+            
+            function formatFileSize(bytes) {
+                if (bytes === 0) return '0 Bytes';
+                const k = 1024;
+                const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+                const i = Math.floor(Math.log(bytes) / Math.log(k));
+                return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+            }
+            
+            function convertToPDF() {
+                if (files.length === 0) return;
+                
+                // Show loading state
+                convertBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Converting...';
+                convertBtn.disabled = true;
+                
+                // Simulate conversion delay
+                setTimeout(() => {
+                    // Create a dummy PDF (in a real app, you would use a library like pdf-lib or jspdf)
+                    const pdfName = files.length === 1 
+                        ? files[0].name.replace(/\.[^/.]+$/, '') + '.pdf' 
+                        : 'converted_images.pdf';
+                    
+                    // Add to history
+                    const conversion = {
+                        id: Date.now(),
+                        name: pdfName,
+                        date: new Date().toISOString(),
+                        fileCount: files.length,
+                        settings: {
+                            pageSize: document.getElementById('pageSize').value,
+                            orientation: document.getElementById('orientation').value,
+                            margin: document.getElementById('margin').value,
+                            compress: document.getElementById('compress').checked
+                        }
+                    };
+                    
+                    conversionHistory.unshift(conversion);
+                    if (conversionHistory.length > 5) {
+                        conversionHistory = conversionHistory.slice(0, 5);
+                    }
+                    
+                    localStorage.setItem('conversionHistory', JSON.stringify(conversionHistory));
+                    updateHistoryList();
+                    
+                    // Show result section
+                    document.getElementById('pdfPreview').innerHTML = `
+                        <div class="text-center p-4">
+                            <i class="fas fa-file-pdf text-5xl text-red-500 mb-3"></i>
+                            <p class="font-medium">${pdfName}</p>
+                            <p class="text-sm text-gray-500 mt-1">${files.length} ${files.length === 1 ? 'image' : 'images'} converted</p>
+                        </div>
+                    `;
+                    
+                    resultSection.classList.remove('hidden');
+                    fileList.classList.add('hidden');
+                    convertBtn.innerHTML = '<i class="fas fa-check mr-1"></i> Convert to PDF';
+                    
+                    // Scroll to result
+                    resultSection.scrollIntoView({ behavior: 'smooth' });
+                }, 1500);
+            }
+            
+            function downloadPDF() {
+                // In a real app, this would download the actual PDF
+                alert('In a real implementation, this would download the PDF file. This is a frontend demo.');
+            }
+            
+            function resetConverter() {
+                files = [];
+                fileInput.value = '';
+                fileList.classList.add('hidden');
+                selectedFiles.innerHTML = '';
+                convertBtn.disabled = true;
+                resultSection.classList.add('hidden');
+                
+                // Reset settings to defaults
+                document.getElementById('pageSize').value = 'a4';
+                document.getElementById('orientation').value = 'portrait';
+                document.getElementById('margin').value = 10;
+                marginValue.textContent = '10';
+                document.getElementById('compress').checked = false;
+            }
+            
+            function updateHistoryList() {
+                if (conversionHistory.length === 0) {
+                    historyList.innerHTML = '<p class="text-gray-500 text-center py-4">No recent conversions yet</p>';
+                    return;
+                }
+                
+                historyList.innerHTML = '';
+                
+                conversionHistory.forEach(item => {
+                    const historyItem = document.createElement('div');
+                    historyItem.className = 'history-item flex items-center justify-between p-3 rounded-lg cursor-pointer hover:bg-gray-50';
+                    historyItem.addEventListener('click', () => {
+                        alert(`Would load settings for: ${item.name}`);
+                    });
+                    
+                    const itemInfo = document.createElement('div');
+                    itemInfo.className = 'flex items-center';
+                    
+                    const icon = document.createElement('i');
+                    icon.className = 'fas fa-file-pdf text-red-500 mr-3';
+                    
+                    const textDiv = document.createElement('div');
+                    
+                    const name = document.createElement('p');
+                    name.className = 'text-sm font-medium text-gray-800 truncate max-w-xs';
+                    name.textContent = item.name;
+                    
+                    const details = document.createElement('p');
+                    details.className = 'text-xs text-gray-500';
+                    details.textContent = `${item.fileCount} ${item.fileCount === 1 ? 'image' : 'images'} • ${formatDate(item.date)}`;
+                    
+                    textDiv.appendChild(name);
+                    textDiv.appendChild(details);
+                    
+                    itemInfo.appendChild(icon);
+                    itemInfo.appendChild(textDiv);
+                    
+                    const actionBtn = document.createElement('button');
+                    actionBtn.className = 'text-indigo-600 hover:text-indigo-800';
+                    actionBtn.innerHTML = '<i class="fas fa-redo"></i>';
+                    actionBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        alert('Would reuse these settings for a new conversion');
+                    });
+                    
+                    historyItem.appendChild(itemInfo);
+                    historyItem.appendChild(actionBtn);
+                    
+                    historyList.appendChild(historyItem);
+                });
+            }
+            
+            function formatDate(isoString) {
+                const date = new Date(isoString);
+                return date.toLocaleDateString() + ' ' + date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            }
+            
+            function clearHistory() {
+                if (confirm('Are you sure you want to clear your conversion history?')) {
+                    conversionHistory = [];
+                    localStorage.setItem('conversionHistory', JSON.stringify(conversionHistory));
+                    updateHistoryList();
+                }
+            }
+        });
     </script>
 </body>
 </html>
