@@ -4,599 +4,317 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Merge PDF Files - ToolTari</title>
+    <meta name="google-site-verification" content="d1uLLcwbDH99lepVNG6a_KEpVP24yjo1DqHN4aKhWk8" />
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3097658772821429"
+crossorigin="anonymous"></script>
+<meta name="google-adsense-account" content="ca-pub-3097658772821429">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
     <style>
-        /* CSS Variables for Consistent Theme */
         :root {
-            /* Primary Colors */
-            --primary-color: #4361ee;
-            --primary-dark: #3a56d4;
-            --primary-light: #eef2ff;
-            
-            /* Neutral Colors */
-            --text-dark: #2d3748;
-            --text-light: #4a5568;
-            --text-lighter: #718096;
-            
-            /* Background Colors */
-            --bg-white: #ffffff;
-            --bg-light: #f7fafc;
-            --bg-lighter: #f8f9fa;
-            
-            /* Border & Shadow */
-            --border-color: #e2e8f0;
-            --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
-            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
-            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
-            
-            /* Border Radius */
-            --radius-sm: 6px;
-            --radius-md: 10px;
-            --radius-lg: 16px;
-            
-            /* Spacing */
-            --space-xs: 8px;
-            --space-sm: 16px;
-            --space-md: 24px;
-            --space-lg: 32px;
-            --space-xl: 48px;
-            --space-2xl: 64px;
-            
-            /* Merge PDF specific colors */
-            --tool-accent: #4361ee;
-            --tool-accent-dark: #3a56d4;
-            --tool-accent-light: #eef2ff;
-            --tool-success: #10b981;
-            --tool-warning: #f59e0b;
-            --tool-error: #ef4444;
-            
-            /* Upload area colors */
-            --upload-border: #d1d5db;
-            --upload-bg: #f9fafb;
-            --upload-hover: #f3f4f6;
-            
-            /* File item colors */
-            --file-item-bg: #ffffff;
-            --file-item-border: #e5e7eb;
-            --file-item-hover: #f8fafc;
+            --primary: #2d7ff9;
+            --primary-dark: #1a6ce8;
+            --secondary: #ff6b6b;
+            --light: #f8f9fa;
+            --dark: #333;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+            --border-radius: 8px;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 6px 20px rgba(0, 0, 0, 0.12);
+            --transition: all 0.3s ease;
         }
 
-        /* Base Styles */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
+            font-family: 'Segoe UI', system-ui, sans-serif;
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            color: var(--text-dark);
-            background-color: var(--bg-light);
+            background-color: #f5f7fb;
+            color: var(--dark);
             line-height: 1.6;
+            min-height: 100vh;
         }
 
         .container {
-            width: 100%;
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 var(--space-md);
+            padding: 0 20px;
         }
 
-        /* Typography */
-        h1, h2, h3, h4 {
-            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
-            font-weight: 600;
-            line-height: 1.3;
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: var(--space-sm);
-        }
-
-        h2 {
-            font-size: 2rem;
-            margin-bottom: var(--space-sm);
-        }
-
-        h3 {
-            font-size: 1.25rem;
-            margin-bottom: var(--space-xs);
-        }
-
-        p {
-            margin-bottom: var(--space-md);
-            color: var(--text-light);
-        }
-
-        /* Buttons & Links */
-        a {
-            text-decoration: none;
-            color: inherit;
-            transition: all 0.2s ease;
-        }
-
-        .btn-login, .btn-signup {
-            padding: 10px 20px;
-            border-radius: var(--radius-md);
-            font-weight: 500;
-            font-size: 0.95rem;
-        }
-
-        .btn-login {
-            color: var(--text-light);
-            margin-right: var(--space-sm);
-        }
-
-        .btn-login:hover {
-            color: var(--primary-color);
-        }
-
-        .btn-signup {
-            background-color: var(--primary-color);
-            color: white;
-        }
-
-        .btn-signup:hover {
-            background-color: var(--primary-dark);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-        }
-
-        .tool-link {
-            display: inline-block;
-            color: var(--primary-color);
-            font-weight: 500;
-            padding: 8px 16px;
-            border-radius: var(--radius-sm);
-            background-color: var(--primary-light);
-        }
-
-        .tool-link:hover {
-            background-color: var(--primary-color);
-            color: white;
-        }
-
-        .btn-cta {
-            display: inline-block;
-            background-color: var(--primary-color);
-            color: white;
-            padding: 16px 32px;
-            border-radius: var(--radius-md);
-            font-weight: 600;
-            font-size: 1.1rem;
-            margin-top: var(--space-sm);
-            box-shadow: var(--shadow-md);
-        }
-
-        .btn-cta:hover {
-            background-color: var(--primary-dark);
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-lg);
-        }
-
-        /* Navigation */
-        .navbar {
-            background-color: var(--bg-white);
-            box-shadow: var(--shadow-sm);
+        /* Header */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 15px 0;
             position: sticky;
             top: 0;
             z-index: 100;
-            padding: var(--space-sm) 0;
         }
 
-        .nav-content {
+        .header-content {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
         .logo {
-            font-family: 'Poppins', sans-serif;
-            font-size: 1.75rem;
-            font-weight: 700;
-            color: var(--primary-color);
             display: flex;
             align-items: center;
             gap: 10px;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
         }
 
         .logo i {
-            font-size: 1.5rem;
+            font-size: 28px;
         }
 
-        .main-nav {
+        nav ul {
             display: flex;
-            align-items: center;
-            gap: var(--space-lg);
+            list-style: none;
+            gap: 25px;
         }
 
-        .nav-link {
-            color: var(--text-light);
+        nav a {
+            text-decoration: none;
+            color: var(--dark);
             font-weight: 500;
-            font-size: 0.95rem;
-            display: flex;
-            align-items: center;
-            gap: 6px;
+            transition: var(--transition);
         }
 
-        .nav-link:hover {
-            color: var(--primary-color);
+        nav a:hover {
+            color: var(--primary);
         }
 
-        .dropdown {
-            position: relative;
-        }
-
-        .dropdown-content {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            background-color: var(--bg-white);
-            min-width: 180px;
-            box-shadow: var(--shadow-lg);
-            border-radius: var(--radius-md);
-            padding: var(--space-sm) 0;
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(10px);
-            transition: all 0.3s ease;
-            z-index: 10;
-        }
-
-        .dropdown:hover .dropdown-content {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-
-        .dropdown-content a {
-            display: block;
-            padding: 10px var(--space-md);
-            color: var(--text-light);
-        }
-
-        .dropdown-content a:hover {
-            background-color: var(--bg-light);
-            color: var(--primary-color);
-        }
-
-        .mobile-menu-btn {
-            display: none;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            color: var(--text-light);
-            cursor: pointer;
-            padding: 5px;
-        }
-
-        /* Ads Placeholder */
-        .ads-container {
-            display: flex;
-            justify-content: center;
-            margin: var(--space-lg) 0;
-            padding: 0 var(--space-md);
-        }
-
-        .ad-placeholder {
-            width: 100%;
-            max-width: 728px;
-            height: 90px;
-            background: linear-gradient(90deg, var(--bg-light) 0%, var(--border-color) 50%, var(--bg-light) 100%);
-            border-radius: var(--radius-md);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-lighter);
-            font-size: 0.9rem;
-            border: 1px dashed var(--border-color);
-        }
-
-        .ad-placeholder.mobile {
-            max-width: 320px;
-            height: 100px;
-        }
-
-        /* Tool Container */
-        .tool-container {
-            min-height: calc(100vh - 400px);
-        }
-
-        /* Tool Hero Section */
-        .tool-hero {
-            padding: var(--space-xl) 0 var(--space-lg);
-            background: linear-gradient(135deg, var(--primary-light) 0%, #f0f4ff 100%);
+        /* Ad Slots */
+        .ad-slot {
+            background-color: var(--light-gray);
+            border: 2px dashed #adb5bd;
+            color: var(--gray);
             text-align: center;
+            padding: 30px 20px;
+            margin: 25px 0;
+            border-radius: var(--border-radius);
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        /* Main Tool */
+        .tool-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 40px;
+            margin: 30px 0;
+            transition: var(--transition);
+        }
+
+        .tool-card:hover {
+            box-shadow: var(--shadow-hover);
         }
 
         .tool-title {
-            font-size: 2.5rem;
-            color: var(--text-dark);
-            margin-bottom: var(--space-sm);
+            color: var(--dark);
+            margin-bottom: 10px;
+            font-size: 32px;
+            text-align: center;
         }
 
-        .tool-tagline {
-            font-size: 1.25rem;
-            color: var(--text-light);
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        /* Tool Interface */
-        .tool-interface {
-            padding: 0 0 var(--space-2xl);
-        }
-
-        .tool-card {
-            max-width: 800px;
-            margin: -40px auto 0;
-            background-color: var(--bg-white);
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-lg);
-            overflow: hidden;
+        .tool-description {
+            color: var(--gray);
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 18px;
         }
 
         /* Upload Area */
         .upload-area {
-            padding: var(--space-xl);
-        }
-
-        .upload-icon {
+            border: 3px dashed var(--primary);
+            border-radius: var(--border-radius);
+            padding: 60px 20px;
             text-align: center;
-            margin-bottom: var(--space-md);
-        }
-
-        .upload-icon i {
-            font-size: 2.5rem;
-            color: var(--tool-accent);
-        }
-
-        .upload-title {
-            text-align: center;
-            font-size: 1.5rem;
-            margin-bottom: var(--space-xs);
-            color: var(--text-dark);
-        }
-
-        .upload-subtitle {
-            text-align: center;
-            color: var(--text-lighter);
-            margin-bottom: var(--space-xl);
-        }
-
-        .upload-box {
-            border: 2px dashed var(--upload-border);
-            border-radius: var(--radius-lg);
-            background-color: var(--upload-bg);
-            padding: var(--space-xl);
-            text-align: center;
-            margin-bottom: var(--space-xl);
-            transition: all 0.3s ease;
             cursor: pointer;
+            transition: var(--transition);
+            margin-bottom: 30px;
+            background-color: rgba(45, 127, 249, 0.02);
         }
 
-        .upload-box:hover {
-            border-color: var(--tool-accent);
-            background-color: var(--upload-hover);
+        .upload-area:hover {
+            background-color: rgba(45, 127, 249, 0.05);
+            border-color: var(--primary-dark);
         }
 
-        .upload-box-content i {
-            font-size: 3rem;
-            color: var(--tool-accent);
-            margin-bottom: var(--space-md);
+        .upload-area i {
+            font-size: 64px;
+            color: var(--primary);
+            margin-bottom: 20px;
         }
 
-        .upload-box-content h4 {
-            font-size: 1.25rem;
-            margin-bottom: var(--space-xs);
-            color: var(--text-dark);
+        .upload-area h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: var(--dark);
         }
 
-        .upload-box-content p {
-            color: var(--text-lighter);
-            margin-bottom: var(--space-md);
+        .upload-area p {
+            color: var(--gray);
+            margin-bottom: 25px;
         }
 
-        .btn-select-files {
-            background-color: var(--tool-accent);
+        .btn-select {
+            background-color: var(--primary);
             color: white;
             border: none;
-            padding: 12px 32px;
-            border-radius: var(--radius-md);
+            padding: 14px 32px;
+            border-radius: 50px;
+            font-size: 18px;
             font-weight: 600;
-            font-size: 1rem;
             cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .btn-select-files:hover {
-            background-color: var(--tool-accent-dark);
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-md);
-        }
-
-        .upload-note {
-            font-size: 0.875rem;
-            color: var(--text-lighter);
-            margin-top: var(--space-sm);
-        }
-
-        /* Uploaded Files Container */
-        .uploaded-files-container {
-            margin-bottom: var(--space-xl);
-        }
-
-        .files-title {
-            font-size: 1.25rem;
-            margin-bottom: var(--space-xs);
-            color: var(--text-dark);
-        }
-
-        .files-subtitle {
-            color: var(--text-lighter);
-            margin-bottom: var(--space-md);
-        }
-
-        .files-list {
-            min-height: 120px;
-            border: 1px solid var(--file-item-border);
-            border-radius: var(--radius-md);
-            background-color: var(--upload-bg);
-            padding: var(--space-md);
-            margin-bottom: var(--space-lg);
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: var(--space-xl) var(--space-md);
-            color: var(--text-lighter);
-        }
-
-        .empty-state i {
-            font-size: 2.5rem;
-            margin-bottom: var(--space-sm);
-            color: var(--upload-border);
-        }
-
-        .file-item.template {
-            display: none;
-        }
-
-        /* File Item */
-        .file-item {
-            display: flex;
-            align-items: center;
-            background-color: var(--file-item-bg);
-            border: 1px solid var(--file-item-border);
-            border-radius: var(--radius-md);
-            padding: var(--space-sm);
-            margin-bottom: var(--space-sm);
-            transition: all 0.2s ease;
-        }
-
-        .file-item:hover {
-            background-color: var(--file-item-hover);
-            border-color: var(--tool-accent);
-        }
-
-        .file-handle {
-            color: var(--text-lighter);
-            padding: 0 var(--space-sm);
-            cursor: move;
-        }
-
-        .file-handle i {
-            font-size: 1.1rem;
-        }
-
-        .file-icon {
-            width: 40px;
-            height: 40px;
-            background-color: var(--tool-accent-light);
-            border-radius: var(--radius-sm);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: var(--space-sm);
-            color: var(--tool-accent);
-        }
-
-        .file-info {
-            flex: 1;
-        }
-
-        .file-name {
-            font-weight: 500;
-            color: var(--text-dark);
-            margin-bottom: 2px;
-        }
-
-        .file-size {
-            font-size: 0.875rem;
-            color: var(--text-lighter);
-        }
-
-        .file-remove {
-            background: none;
-            border: none;
-            color: var(--text-lighter);
-            cursor: pointer;
-            padding: 8px;
-            border-radius: var(--radius-sm);
-            transition: all 0.2s ease;
-        }
-
-        .file-remove:hover {
-            color: var(--tool-error);
-            background-color: #fef2f2;
-        }
-
-        /* Action Area */
-        .action-area {
-            text-align: center;
-            padding-top: var(--space-lg);
-            border-top: 1px solid var(--border-color);
-        }
-
-        .btn-merge {
-            background-color: var(--tool-accent);
-            color: white;
-            border: none;
-            padding: 16px 48px;
-            border-radius: var(--radius-md);
-            font-weight: 600;
-            font-size: 1.1rem;
-            cursor: pointer;
+            transition: var(--transition);
             display: inline-flex;
             align-items: center;
             gap: 10px;
-            transition: all 0.3s ease;
         }
 
-        .btn-merge:hover:not(:disabled) {
-            background-color: var(--tool-accent-dark);
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-lg);
+        .btn-select:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
         }
 
-        .btn-merge:disabled {
-            background-color: var(--upload-border);
-            cursor: not-allowed;
-            opacity: 0.7;
+        .file-input {
+            display: none;
         }
 
-        .action-states {
-            margin-top: var(--space-md);
-            min-height: 40px;
+        /* File List */
+        .file-list {
+            margin-bottom: 30px;
         }
 
-        .state-disabled, .state-loading {
+        .file-list h3 {
+            font-size: 22px;
+            margin-bottom: 20px;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .file-list-container {
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        }
+
+        .file-item {
+            display: flex;
+            align-items: center;
+            padding: 18px 20px;
+            background-color: white;
+            border-bottom: 1px solid var(--light-gray);
+            transition: var(--transition);
+        }
+
+        .file-item:last-child {
+            border-bottom: none;
+        }
+
+        .file-item:hover {
+            background-color: rgba(45, 127, 249, 0.03);
+        }
+
+        .file-icon {
+            color: var(--primary);
+            font-size: 24px;
+            margin-right: 15px;
+        }
+
+        .file-name {
+            flex-grow: 1;
+            font-weight: 500;
+            word-break: break-all;
+        }
+
+        .file-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-action {
+            background: none;
+            border: 1px solid var(--light-gray);
+            color: var(--gray);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: var(--transition);
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            color: var(--text-lighter);
-            font-size: 0.95rem;
         }
 
-        .state-disabled i {
-            color: var(--tool-warning);
+        .btn-action:hover {
+            background-color: var(--light-gray);
+            color: var(--dark);
         }
 
-        .state-loading {
-            color: var(--tool-accent);
+        .btn-up:hover {
+            color: var(--primary);
+            border-color: var(--primary);
         }
 
-        .loading-spinner {
-            width: 20px;
-            height: 20px;
-            border: 2px solid var(--tool-accent-light);
-            border-top: 2px solid var(--tool-accent);
-            border-radius: 50%;
+        .btn-down:hover {
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .btn-remove:hover {
+            color: var(--secondary);
+            border-color: var(--secondary);
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .btn-merge {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 16px 48px;
+            border-radius: 50px;
+            font-size: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn-merge:hover:not(:disabled) {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(45, 127, 249, 0.2);
+        }
+
+        .btn-merge:disabled {
+            background-color: var(--light-gray);
+            color: var(--gray);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-merge.loading i {
             animation: spin 1s linear infinite;
         }
 
@@ -605,749 +323,562 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* How To Section */
-        .how-to-section {
-            padding: var(--space-2xl) 0;
-            background-color: var(--bg-light);
-        }
-
-        .section-title {
+        /* Result Section */
+        .result-section {
+            background-color: #e8f4ff;
+            border-radius: var(--border-radius);
+            padding: 30px;
             text-align: center;
-            margin-bottom: var(--space-sm);
+            margin-bottom: 30px;
+            display: none;
         }
 
-        .section-subtitle {
-            text-align: center;
-            color: var(--text-lighter);
-            margin-bottom: var(--space-xl);
-            max-width: 600px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .steps-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: var(--space-xl);
-            margin-top: var(--space-xl);
-        }
-
-        .step-card {
-            text-align: center;
-            background-color: var(--bg-white);
-            padding: var(--space-xl);
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-md);
-            position: relative;
-        }
-
-        .step-number {
-            position: absolute;
-            top: -20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 40px;
-            height: 40px;
-            background-color: var(--tool-accent);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            font-size: 1.25rem;
-        }
-
-        .step-icon {
-            width: 70px;
-            height: 70px;
-            background-color: var(--tool-accent-light);
-            border-radius: var(--radius-lg);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto var(--space-md);
-            color: var(--tool-accent);
-            font-size: 1.75rem;
-        }
-
-        .step-title {
-            margin-bottom: var(--space-sm);
-        }
-
-        .step-desc {
-            font-size: 0.95rem;
-            color: var(--text-light);
-        }
-
-        /* Trust Section */
-        .trust-section {
-            padding: var(--space-2xl) 0;
-        }
-
-        .trust-card {
-            display: flex;
-            align-items: center;
-            background-color: var(--bg-white);
-            border-radius: var(--radius-lg);
-            padding: var(--space-xl);
-            box-shadow: var(--shadow-md);
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .trust-icon {
-            width: 80px;
-            height: 80px;
-            background-color: var(--tool-accent-light);
-            border-radius: var(--radius-lg);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: var(--space-xl);
-            color: var(--tool-accent);
-            font-size: 2rem;
-            flex-shrink: 0;
-        }
-
-        .trust-content {
-            flex: 1;
-        }
-
-        .trust-content h3 {
-            margin-bottom: var(--space-sm);
-            color: var(--text-dark);
-        }
-
-        .trust-features {
-            display: flex;
-            flex-wrap: wrap;
-            gap: var(--space-md);
-            margin-top: var(--space-md);
-        }
-
-        .trust-feature {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--tool-success);
-            font-weight: 500;
-        }
-
-        /* Related Tools Section */
-        .related-tools {
-            padding: var(--space-2xl) 0;
-            background-color: var(--bg-light);
-        }
-
-        .tools-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: var(--space-lg);
-        }
-
-        .related-tool-card {
+        .result-section.active {
             display: block;
-            background-color: var(--bg-white);
-            border-radius: var(--radius-lg);
-            padding: var(--space-lg);
-            box-shadow: var(--shadow-md);
-            text-align: center;
-            transition: all 0.3s ease;
-            border: 1px solid transparent;
+            animation: fadeIn 0.5s ease;
         }
 
-        .related-tool-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-lg);
-            border-color: var(--tool-accent);
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        .tool-icon {
-            width: 64px;
-            height: 64px;
-            background-color: var(--tool-accent-light);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto var(--space-md);
-            color: var(--tool-accent);
-            font-size: 1.5rem;
+        .result-section i {
+            font-size: 60px;
+            color: var(--primary);
+            margin-bottom: 20px;
         }
 
-        /* Footer */
-        .footer {
-            background-color: #1a202c;
-            color: #cbd5e0;
-            padding: var(--space-2xl) 0 var(--space-lg);
+        .result-section h3 {
+            font-size: 26px;
+            margin-bottom: 10px;
+            color: var(--dark);
         }
 
-        .footer-content {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: var(--space-xl);
-            margin-bottom: var(--space-xl);
+        .result-section p {
+            color: var(--gray);
+            margin-bottom: 25px;
         }
 
-        .footer-logo {
-            font-family: 'Poppins', sans-serif;
-            font-size: 1.5rem;
-            font-weight: 700;
+        .btn-download {
+            background-color: var(--primary);
             color: white;
+            border: none;
+            padding: 16px 40px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .btn-download:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        /* History Section */
+        .history-section {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .history-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: var(--dark);
             display: flex;
             align-items: center;
             gap: 10px;
-            margin-bottom: var(--space-md);
         }
 
-        .footer-about {
-            font-size: 0.95rem;
-            line-height: 1.7;
-            color: #a0aec0;
+        .history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
         }
 
-        .footer-section h4 {
-            color: white;
-            margin-bottom: var(--space-md);
-            font-size: 1.1rem;
-        }
-
-        .footer-links {
-            list-style: none;
-        }
-
-        .footer-links li {
-            margin-bottom: 12px;
-        }
-
-        .footer-links a {
-            color: #a0aec0;
-            font-size: 0.95rem;
-        }
-
-        .footer-links a:hover {
-            color: white;
-        }
-
-        .footer-bottom {
-            border-top: 1px solid #2d3748;
-            padding-top: var(--space-lg);
+        .history-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            padding: 15px;
+            background-color: var(--light);
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--primary);
+        }
+
+        .history-name {
+            font-weight: 500;
+        }
+
+        .history-date {
+            color: var(--gray);
+            font-size: 14px;
+        }
+
+        .empty-history {
+            text-align: center;
+            color: var(--gray);
+            padding: 30px;
+            font-style: italic;
+        }
+
+        /* Footer */
+        footer {
+            background-color: white;
+            padding: 30px 0;
+            margin-top: 40px;
+            border-top: 1px solid var(--light-gray);
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .privacy-message {
+            color: var(--gray);
+            margin-bottom: 20px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         .copyright {
-            color: #a0aec0;
-            font-size: 0.9rem;
-            margin: 0;
+            color: var(--gray);
+            font-size: 14px;
         }
 
-        .footer-social {
-            display: flex;
-            gap: var(--space-sm);
-        }
-
-        .footer-social a {
-            width: 36px;
-            height: 36px;
-            background-color: #2d3748;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #a0aec0;
-        }
-
-        .footer-social a:hover {
-            background-color: var(--primary-color);
-            color: white;
-        }
-
-        /* Responsive Design for Tool Page */
-        @media (max-width: 1024px) {
-            .steps-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .trust-card {
-                flex-direction: column;
-                text-align: center;
-            }
-            
-            .trust-icon {
-                margin-right: 0;
-                margin-bottom: var(--space-lg);
-            }
-            
-            .trust-features {
-                justify-content: center;
-            }
-            
-            .tools-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-            
-            .footer-content {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
+        /* Responsive */
         @media (max-width: 768px) {
-            .tool-title {
-                font-size: 2rem;
-            }
-            
-            .tool-tagline {
-                font-size: 1.1rem;
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
             }
             
             .tool-card {
-                margin-top: -20px;
+                padding: 25px;
+            }
+            
+            .tool-title {
+                font-size: 28px;
             }
             
             .upload-area {
-                padding: var(--space-lg);
+                padding: 40px 15px;
             }
             
-            .upload-box {
-                padding: var(--space-lg);
+            .btn-merge, .btn-select, .btn-download {
+                padding: 14px 30px;
+                font-size: 18px;
             }
             
-            .steps-grid {
-                grid-template-columns: 1fr;
+            .file-item {
+                flex-wrap: wrap;
+                gap: 10px;
             }
             
-            .tools-grid {
-                grid-template-columns: repeat(2, 1fr);
+            .file-name {
+                flex-basis: 100%;
+                margin-bottom: 10px;
             }
             
-            .main-nav, .auth-buttons {
-                display: none;
-            }
-            
-            .mobile-menu-btn {
-                display: block;
-            }
-            
-            .ad-placeholder {
-                height: 100px;
+            .history-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
             }
         }
 
         @media (max-width: 480px) {
             .tool-title {
-                font-size: 1.75rem;
+                font-size: 24px;
             }
             
-            .upload-box-content h4 {
-                font-size: 1.1rem;
+            .tool-description {
+                font-size: 16px;
             }
             
-            .btn-select-files, .btn-merge {
-                padding: 12px 24px;
+            .upload-area h3 {
+                font-size: 20px;
+            }
+            
+            .upload-area i {
+                font-size: 48px;
+            }
+            
+            .btn-merge, .btn-select, .btn-download {
                 width: 100%;
-            }
-            
-            .upload-area {
-                padding: var(--space-md);
-            }
-            
-            .tools-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .footer-content {
-                grid-template-columns: 1fr;
-            }
-            
-            .footer-bottom {
-                flex-direction: column;
-                gap: var(--space-md);
-                text-align: center;
-            }
-            
-            .ad-placeholder {
-                height: 50px;
-                font-size: 0.8rem;
+                justify-content: center;
             }
         }
     </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <!-- Top Navigation -->
-    <header class="navbar">
-        <div class="container">
-            <div class="nav-content">
-                <a href="index.html" class="logo">
-                    <i class="fas fa-tools"></i>
-                    ToolTari
-                </a>
-                
-                <nav class="main-nav">
-                    <a href="index.html" class="nav-link">Home</a>
-                    <div class="dropdown">
-                        <a href="#" class="nav-link">
-                            PDF Tools <i class="fas fa-chevron-down"></i>
-                        </a>
-                        <div class="dropdown-content">
-                            <a href="merge-pdf.html">Merge PDF</a>
-                            <a href="split-pdf.html">Split PDF</a>
-                            <a href="#">Compress PDF</a>
-                            <a href="#">Convert PDF</a>
-                            <a href="#">Edit PDF</a>
-                        </div>
-                    </div>
-                    <a href="#" class="nav-link">Image Tools</a>
-                    <a href="#" class="nav-link">Converters</a>
-                    <a href="#" class="nav-link">More Tools</a>
-                </nav>
-                
-                <div class="auth-buttons">
-                    <a href="#" class="btn-login">Log In</a>
-                    <a href="#" class="btn-signup">Sign Up Free</a>
-                </div>
-                
-                <button class="mobile-menu-btn">
-                    <i class="fas fa-bars"></i>
-                </button>
-            </div>
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <a href="#" class="logo">
+                <i class="fas fa-tools"></i>
+                <span>ToolTari</span>
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="#"><i class="fas fa-th"></i> All Tools</a></li>
+                </ul>
+            </nav>
         </div>
     </header>
 
-    <!-- Ad Placeholder -->
-    <div class="ads-container">
-        <div class="ad-placeholder">
-            Advertisement - 728 x 90
+    <!-- Top Ad Slot -->
+    <div class="container">
+        <div class="ad-slot">AdSense Placeholder - Top Banner (728x90)</div>
+    </div>
+
+    <!-- Main Tool -->
+    <div class="container">
+        <div class="tool-card">
+            <h1 class="tool-title">Merge PDF Files</h1>
+            <p class="tool-description">Combine PDFs in the order you want with the easiest PDF merger available.</p>
+            
+            <!-- Upload Area -->
+            <div class="upload-area" id="uploadArea">
+                <i class="fas fa-file-pdf"></i>
+                <h3>Drop PDF files here</h3>
+                <p>or click to select files from your computer</p>
+                <button class="btn-select" id="selectFilesBtn">
+                    <i class="fas fa-folder-open"></i> Select PDF Files
+                </button>
+                <input type="file" class="file-input" id="fileInput" accept=".pdf" multiple>
+            </div>
+
+            <!-- In-content Ad Slot -->
+            <div class="ad-slot">AdSense Placeholder - In-Content (300x250)</div>
+
+            <!-- File List -->
+            <div class="file-list">
+                <h3><i class="fas fa-list"></i> Selected Files</h3>
+                <div class="file-list-container" id="fileListContainer">
+                    <!-- Files will be added here dynamically -->
+                    <div class="empty-list" id="emptyListMessage" style="text-align: center; padding: 40px; color: var(--gray);">
+                        <i class="fas fa-file-alt" style="font-size: 48px; margin-bottom: 15px; opacity: 0.5;"></i>
+                        <p>No files selected yet. Add PDF files to begin merging.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Merge Button -->
+            <div class="action-buttons">
+                <button class="btn-merge" id="mergeBtn" disabled>
+                    <i class="fas fa-merge"></i> Merge PDF Files
+                </button>
+            </div>
+
+            <!-- Result Section -->
+            <div class="result-section" id="resultSection">
+                <i class="fas fa-check-circle"></i>
+                <h3>PDF Files Merged Successfully!</h3>
+                <p>Your merged PDF file is ready to download.</p>
+                <a href="#" class="btn-download" id="downloadBtn" download="merged-tooltari.pdf">
+                    <i class="fas fa-download"></i> Download Merged PDF
+                </a>
+            </div>
+        </div>
+
+        <!-- History Section -->
+        <div class="history-section">
+            <h3 class="history-title"><i class="fas fa-history"></i> Recent Merges</h3>
+            <div class="history-list" id="historyList">
+                <!-- History items will be added here dynamically -->
+                <div class="empty-history">No merge history yet. Merge your first PDF to see it here.</div>
+            </div>
         </div>
     </div>
 
-    <!-- Tool Main Content -->
-    <main class="tool-container">
-        <!-- Tool Hero Section -->
-        <section class="tool-hero">
-            <div class="container">
-                <div class="tool-hero-content">
-                    <h1 class="tool-title">Merge PDF Files</h1>
-                    <p class="tool-tagline">Combine PDFs in the order you want with the easiest PDF merger available.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Ad Placeholder Mobile -->
-        <div class="ads-container">
-            <div class="ad-placeholder mobile">
-                Advertisement - 320 x 100
-            </div>
-        </div>
-
-        <!-- Tool Interface Card -->
-        <section class="tool-interface">
-            <div class="container">
-                <div class="tool-card">
-                    <!-- File Upload Area -->
-                    <div class="upload-area">
-                        <div class="upload-icon">
-                            <i class="fas fa-object-group"></i>
-                        </div>
-                        <h2 class="upload-title">Merge multiple PDF files</h2>
-                        <p class="upload-subtitle">Combine PDF documents into a single file in the order you want</p>
-                        
-                        <div class="upload-box">
-                            <div class="upload-box-content">
-                                <i class="fas fa-file-pdf"></i>
-                                <h3>Drag & Drop your PDF files</h3>
-                                <p>or click to browse</p>
-                                <button class="btn-select-files">Select PDF files</button>
-                                <p class="upload-note">Maximum 20 files • 100 MB each</p>
-                            </div>
-                        </div>
-                        
-                        <div class="uploaded-files-container">
-                            <h3 class="files-title">Files to merge</h3>
-                            <p class="files-subtitle">Drag files to reorder them</p>
-                            
-                            <div class="files-list">
-                                <!-- Empty state -->
-                                <div class="empty-state">
-                                    <i class="far fa-file-pdf"></i>
-                                    <p>No files selected yet</p>
-                                </div>
-                                
-                                <!-- File items will be added here dynamically -->
-                                <!-- Template for file item -->
-                                <div class="file-item template">
-                                    <div class="file-handle">
-                                        <i class="fas fa-grip-vertical"></i>
-                                    </div>
-                                    <div class="file-icon">
-                                        <i class="fas fa-file-pdf"></i>
-                                    </div>
-                                    <div class="file-info">
-                                        <div class="file-name">document.pdf</div>
-                                        <div class="file-size">1.2 MB</div>
-                                    </div>
-                                    <button class="file-remove">
-                                        <i class="fas fa-times"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            
-                            <!-- File preview with sample data for UI -->
-                            <div class="file-preview">
-                                <div class="file-item">
-                                    <div class="file-handle">
-                                        <i class="fas fa-grip-vertical"></i>
-                                    </div>
-                                    <div class="file-icon">
-                                        <i class="fas fa-file-pdf"></i>
-                                    </div>
-                                    <div class="file-info">
-                                        <div class="file-name">report.pdf</div>
-                                        <div class="file-size">2.4 MB</div>
-                                    </div>
-                                    <button class="file-remove">
-                                        <i class="fas fa-times"></i>
-                                    </button>
-                                </div>
-                                
-                                <div class="file-item">
-                                    <div class="file-handle">
-                                        <i class="fas fa-grip-vertical"></i>
-                                    </div>
-                                    <div class="file-icon">
-                                        <i class="fas fa-file-pdf"></i>
-                                    </div>
-                                    <div class="file-info">
-                                        <div class="file-name">presentation.pdf</div>
-                                        <div class="file-size">5.1 MB</div>
-                                    </div>
-                                    <button class="file-remove">
-                                        <i class="fas fa-times"></i>
-                                    </button>
-                                </div>
-                                
-                                <div class="file-item">
-                                    <div class="file-handle">
-                                        <i class="fas fa-grip-vertical"></i>
-                                    </div>
-                                    <div class="file-icon">
-                                        <i class="fas fa-file-pdf"></i>
-                                    </div>
-                                    <div class="file-info">
-                                        <div class="file-name">contract.pdf</div>
-                                        <div class="file-size">3.7 MB</div>
-                                    </div>
-                                    <button class="file-remove">
-                                        <i class="fas fa-times"></i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <!-- Action Area -->
-                        <div class="action-area">
-                            <button class="btn-merge" id="mergeBtn">
-                                <i class="fas fa-object-group"></i>
-                                Merge PDF
-                            </button>
-                            <div class="action-states">
-                                <div class="state-disabled">
-                                    <i class="fas fa-info-circle"></i>
-                                    Select PDF files to enable merging
-                                </div>
-                                <div class="state-loading">
-                                    <div class="loading-spinner"></div>
-                                    Processing your files...
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Ad Placeholder -->
-        <div class="ads-container">
-            <div class="ad-placeholder">
-                Advertisement - 728 x 90
-            </div>
-        </div>
-
-        <!-- How To Section -->
-        <section class="how-to-section">
-            <div class="container">
-                <h2 class="section-title">How to merge PDF files</h2>
-                <p class="section-subtitle">Merge multiple PDF documents in three simple steps</p>
-                
-                <div class="steps-grid">
-                    <div class="step-card">
-                        <div class="step-number">1</div>
-                        <div class="step-icon">
-                            <i class="fas fa-cloud-upload-alt"></i>
-                        </div>
-                        <h3 class="step-title">Upload PDFs</h3>
-                        <p class="step-desc">Select multiple PDF files from your computer or drag and drop them into the upload area.</p>
-                    </div>
-                    
-                    <div class="step-card">
-                        <div class="step-number">2</div>
-                        <div class="step-icon">
-                            <i class="fas fa-sort-amount-down"></i>
-                        </div>
-                        <h3 class="step-title">Arrange order</h3>
-                        <p class="step-desc">Drag files to rearrange them in the order you want for the final merged document.</p>
-                    </div>
-                    
-                    <div class="step-card">
-                        <div class="step-number">3</div>
-                        <div class="step-icon">
-                            <i class="fas fa-download"></i>
-                        </div>
-                        <h3 class="step-title">Merge & Download</h3>
-                        <p class="step-desc">Click the Merge PDF button and download your combined PDF file instantly.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Trust & Privacy Section -->
-        <section class="trust-section">
-            <div class="container">
-                <div class="trust-card">
-                    <div class="trust-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <div class="trust-content">
-                        <h3>Secure PDF merging</h3>
-                        <p>All files are processed securely in your browser using advanced web technologies. Your documents never leave your computer and are not stored on our servers. We respect your privacy.</p>
-                        <div class="trust-features">
-                            <div class="trust-feature">
-                                <i class="fas fa-check-circle"></i>
-                                <span>No file storage</span>
-                            </div>
-                            <div class="trust-feature">
-                                <i class="fas fa-check-circle"></i>
-                                <span>Client-side processing</span>
-                            </div>
-                            <div class="trust-feature">
-                                <i class="fas fa-check-circle"></i>
-                                <span>No registration required</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Ad Placeholder Mobile -->
-        <div class="ads-container">
-            <div class="ad-placeholder mobile">
-                Advertisement - 320 x 100
-            </div>
-        </div>
-
-        <!-- Related Tools Section -->
-        <section class="related-tools">
-            <div class="container">
-                <h2 class="section-title">Other PDF tools you might like</h2>
-                <div class="tools-grid">
-                    <a href="split-pdf.html" class="related-tool-card">
-                        <div class="tool-icon">
-                            <i class="fas fa-cut"></i>
-                        </div>
-                        <h3>Split PDF</h3>
-                        <p>Separate PDF pages into individual files or extract specific pages.</p>
-                    </a>
-                    
-                    <a href="#" class="related-tool-card">
-                        <div class="tool-icon">
-                            <i class="fas fa-compress-alt"></i>
-                        </div>
-                        <h3>Compress PDF</h3>
-                        <p>Reduce PDF file size without losing quality for easy sharing.</p>
-                    </a>
-                    
-                    <a href="#" class="related-tool-card">
-                        <div class="tool-icon">
-                            <i class="far fa-file-word"></i>
-                        </div>
-                        <h3>PDF to Word</h3>
-                        <p>Convert PDF documents to editable Word files with high accuracy.</p>
-                    </a>
-                    
-                    <a href="#" class="related-tool-card">
-                        <div class="tool-icon">
-                            <i class="fas fa-lock"></i>
-                        </div>
-                        <h3>Protect PDF</h3>
-                        <p>Add password protection to your PDF files to control access.</p>
-                    </a>
-                </div>
-            </div>
-        </section>
-    </main>
+    <!-- Footer Ad Slot -->
+    <div class="container">
+        <div class="ad-slot">AdSense Placeholder - Footer (728x90)</div>
+    </div>
 
     <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <div class="footer-logo">
-                        <i class="fas fa-tools"></i>
-                        ToolTari
-                    </div>
-                    <p class="footer-about">
-                        ToolTari provides free, fast, and secure online PDF and image tools. All processing happens in your browser for maximum privacy.
-                    </p>
-                </div>
-                
-                <div class="footer-section">
-                    <h4>PDF Tools</h4>
-                    <ul class="footer-links">
-                        <li><a href="merge-pdf.html">Merge PDF</a></li>
-                        <li><a href="split-pdf.html">Split PDF</a></li>
-                        <li><a href="#">Compress PDF</a></li>
-                        <li><a href="#">Convert PDF</a></li>
-                        <li><a href="#">Edit PDF</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-section">
-                    <h4>Image Tools</h4>
-                    <ul class="footer-links">
-                        <li><a href="#">Compress Image</a></li>
-                        <li><a href="#">Crop Image</a></li>
-                        <li><a href="#">Resize Image</a></li>
-                        <li><a href="#">Convert Image</a></li>
-                        <li><a href="#">Watermark Image</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-section">
-                    <h4>Company</h4>
-                    <ul class="footer-links">
-                        <li><a href="#">About Us</a></li>
-                        <li><a href="#">Contact</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Terms of Use</a></li>
-                        <li><a href="#">Help Center</a></li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="footer-bottom">
-                <p class="copyright">&copy; 2023 ToolTari. All rights reserved. Free online tools for everyone.</p>
-                <div class="footer-social">
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                    <a href="#"><i class="fab fa-github"></i></a>
-                </div>
-            </div>
+    <footer>
+        <div class="container footer-content">
+            <p class="privacy-message">
+                <i class="fas fa-lock"></i> Your files are processed locally in your browser. No data is sent to any server.
+            </p>
+            <p class="copyright">
+                &copy; 2023 ToolTari. All rights reserved. | Merge PDF Files Tool
+            </p>
         </div>
     </footer>
+
+    <script>
+        // State management
+        const state = {
+            files: [],
+            mergedPdfBlob: null,
+            history: JSON.parse(localStorage.getItem('pdfMergeHistory')) || []
+        };
+
+        // DOM Elements
+        const fileInput = document.getElementById('fileInput');
+        const selectFilesBtn = document.getElementById('selectFilesBtn');
+        const uploadArea = document.getElementById('uploadArea');
+        const fileListContainer = document.getElementById('fileListContainer');
+        const emptyListMessage = document.getElementById('emptyListMessage');
+        const mergeBtn = document.getElementById('mergeBtn');
+        const resultSection = document.getElementById('resultSection');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const historyList = document.getElementById('historyList');
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            renderFileList();
+            renderHistory();
+        });
+
+        // Event Listeners
+        selectFilesBtn.addEventListener('click', () => fileInput.click());
+        fileInput.addEventListener('change', handleFileSelect);
+        uploadArea.addEventListener('dragover', handleDragOver);
+        uploadArea.addEventListener('drop', handleDrop);
+        mergeBtn.addEventListener('click', mergePdfs);
+        downloadBtn.addEventListener('click', handleDownload);
+
+        // File handling functions
+        function handleFileSelect(e) {
+            const files = Array.from(e.target.files);
+            addFiles(files);
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+            uploadArea.style.backgroundColor = 'rgba(45, 127, 249, 0.1)';
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            uploadArea.style.backgroundColor = '';
+            
+            const files = Array.from(e.dataTransfer.files)
+                .filter(file => file.type === 'application/pdf' || file.name.endsWith('.pdf'));
+            
+            if (files.length === 0) {
+                alert('Please drop PDF files only.');
+                return;
+            }
+            
+            addFiles(files);
+        }
+
+        function addFiles(files) {
+            files.forEach(file => {
+                if (file.type !== 'application/pdf' && !file.name.endsWith('.pdf')) {
+                    alert(`"${file.name}" is not a PDF file. Only PDF files are supported.`);
+                    return;
+                }
+
+                const fileId = Date.now() + Math.random();
+                state.files.push({
+                    id: fileId,
+                    name: file.name,
+                    file: file
+                });
+            });
+
+            renderFileList();
+            updateMergeButton();
+        }
+
+        function removeFile(fileId) {
+            state.files = state.files.filter(file => file.id !== fileId);
+            renderFileList();
+            updateMergeButton();
+        }
+
+        function moveFile(fileId, direction) {
+            const index = state.files.findIndex(file => file.id === fileId);
+            
+            if (direction === 'up' && index > 0) {
+                [state.files[index], state.files[index - 1]] = [state.files[index - 1], state.files[index]];
+            } else if (direction === 'down' && index < state.files.length - 1) {
+                [state.files[index], state.files[index + 1]] = [state.files[index + 1], state.files[index]];
+            }
+            
+            renderFileList();
+        }
+
+        // Rendering functions
+        function renderFileList() {
+            fileListContainer.innerHTML = '';
+            
+            if (state.files.length === 0) {
+                fileListContainer.appendChild(emptyListMessage);
+                return;
+            }
+
+            state.files.forEach((file, index) => {
+                const fileItem = document.createElement('div');
+                fileItem.className = 'file-item';
+                fileItem.innerHTML = `
+                    <div class="file-icon">
+                        <i class="fas fa-file-pdf"></i>
+                    </div>
+                    <div class="file-name">${file.name}</div>
+                    <div class="file-actions">
+                        <button class="btn-action btn-up" ${index === 0 ? 'disabled style="opacity:0.5; cursor:default;"' : ''} 
+                            onclick="moveFile('${file.id}', 'up')">
+                            <i class="fas fa-arrow-up"></i>
+                        </button>
+                        <button class="btn-action btn-down" ${index === state.files.length - 1 ? 'disabled style="opacity:0.5; cursor:default;"' : ''} 
+                            onclick="moveFile('${file.id}', 'down')">
+                            <i class="fas fa-arrow-down"></i>
+                        </button>
+                        <button class="btn-action btn-remove" onclick="removeFile('${file.id}')">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+                fileListContainer.appendChild(fileItem);
+            });
+        }
+
+        function updateMergeButton() {
+            mergeBtn.disabled = state.files.length < 2;
+        }
+
+        // PDF Merging function
+        async function mergePdfs() {
+            if (state.files.length < 2) {
+                alert('Please select at least 2 PDF files to merge.');
+                return;
+            }
+
+            try {
+                mergeBtn.innerHTML = '<i class="fas fa-spinner"></i> Merging...';
+                mergeBtn.classList.add('loading');
+                mergeBtn.disabled = true;
+
+                const mergedPdf = await PDFLib.PDFDocument.create();
+
+                for (const fileObj of state.files) {
+                    const file = fileObj.file;
+                    const arrayBuffer = await file.arrayBuffer();
+                    const pdf = await PDFLib.PDFDocument.load(arrayBuffer);
+                    const pages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
+                    pages.forEach(page => mergedPdf.addPage(page));
+                }
+
+                const mergedPdfBytes = await mergedPdf.save();
+                state.mergedPdfBlob = new Blob([mergedPdfBytes], { type: 'application/pdf' });
+                
+                const url = URL.createObjectURL(state.mergedPdfBlob);
+                downloadBtn.href = url;
+                
+                resultSection.classList.add('active');
+                mergeBtn.innerHTML = '<i class="fas fa-merge"></i> Merge PDF Files';
+                mergeBtn.classList.remove('loading');
+                mergeBtn.disabled = false;
+                
+                // Save to history
+                saveToHistory();
+                
+                // Scroll to result
+                resultSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                
+            } catch (error) {
+                console.error('Error merging PDFs:', error);
+                alert('An error occurred while merging the PDF files. Please try again.');
+                
+                mergeBtn.innerHTML = '<i class="fas fa-merge"></i> Merge PDF Files';
+                mergeBtn.classList.remove('loading');
+                mergeBtn.disabled = false;
+            }
+        }
+
+        function handleDownload(e) {
+            if (!state.mergedPdfBlob) {
+                e.preventDefault();
+                return;
+            }
+            
+            // Update download count in history
+            const history = state.history;
+            if (history.length > 0) {
+                history[0].downloads = (history[0].downloads || 0) + 1;
+                localStorage.setItem('pdfMergeHistory', JSON.stringify(history));
+            }
+        }
+
+        // History functions
+        function saveToHistory() {
+            const mergeRecord = {
+                id: Date.now(),
+                name: 'merged-tooltari.pdf',
+                date: new Date().toISOString(),
+                fileCount: state.files.length,
+                downloads: 0
+            };
+            
+            state.history.unshift(mergeRecord);
+            
+            // Keep only last 10 records
+            if (state.history.length > 10) {
+                state.history = state.history.slice(0, 10);
+            }
+            
+            localStorage.setItem('pdfMergeHistory', JSON.stringify(state.history));
+            renderHistory();
+        }
+
+        function renderHistory() {
+            historyList.innerHTML = '';
+            
+            if (state.history.length === 0) {
+                historyList.innerHTML = '<div class="empty-history">No merge history yet. Merge your first PDF to see it here.</div>';
+                return;
+            }
+            
+            state.history.forEach(record => {
+                const historyItem = document.createElement('div');
+                historyItem.className = 'history-item';
+                
+                const date = new Date(record.date);
+                const formattedDate = date.toLocaleDateString('en-US', {
+                    month: 'short',
+                    day: 'numeric',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+                
+                historyItem.innerHTML = `
+                    <div>
+                        <div class="history-name">${record.name}</div>
+                        <div class="history-date">${record.fileCount} files merged</div>
+                    </div>
+                    <div class="history-date">${formattedDate}</div>
+                `;
+                
+                historyList.appendChild(historyItem);
+            });
+        }
+
+        // Make functions available globally for onclick handlers
+        window.moveFile = moveFile;
+        window.removeFile = removeFile;
+    </script>
 </body>
 </html>
