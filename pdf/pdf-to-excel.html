@@ -1,0 +1,1532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF to EXCEL Converter - ToolTari</title>
+  <meta name="google-site-verification" content="d1uLLcwbDH99lepVNG6a_KEpVP24yjo1DqHN4aKhWk8" />
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3097658772821429"
+crossorigin="anonymous"></script>
+<meta name="google-adsense-account" content="ca-pub-3097658772821429">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <style>
+        :root {
+            --primary: #2d7ff9;
+            --primary-dark: #1a6ce8;
+            --secondary: #ff6b6b;
+            --success: #28a745;
+            --warning: #ffc107;
+            --light: #f8f9fa;
+            --dark: #333;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+            --border-radius: 8px;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 6px 20px rgba(0, 0, 0, 0.12);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fb;
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .logo i {
+            font-size: 28px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        nav a:hover {
+            color: var(--primary);
+        }
+
+        /* Ad Slots */
+        .ad-slot {
+            background-color: var(--light-gray);
+            border: 2px dashed #adb5bd;
+            color: var(--gray);
+            text-align: center;
+            padding: 30px 20px;
+            margin: 25px 0;
+            border-radius: var(--border-radius);
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        /* Main Tool */
+        .tool-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 40px;
+            margin: 30px 0;
+            transition: var(--transition);
+        }
+
+        .tool-card:hover {
+            box-shadow: var(--shadow-hover);
+        }
+
+        .tool-title {
+            color: var(--dark);
+            margin-bottom: 10px;
+            font-size: 32px;
+            text-align: center;
+        }
+
+        .tool-description {
+            color: var(--gray);
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 18px;
+        }
+
+        /* Upload Area */
+        .upload-area {
+            border: 3px dashed var(--primary);
+            border-radius: var(--border-radius);
+            padding: 60px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-bottom: 30px;
+            background-color: rgba(45, 127, 249, 0.02);
+        }
+
+        .upload-area:hover {
+            background-color: rgba(45, 127, 249, 0.05);
+            border-color: var(--primary-dark);
+        }
+
+        .upload-area i {
+            font-size: 64px;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .upload-area h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+
+        .upload-area p {
+            color: var(--gray);
+            margin-bottom: 25px;
+        }
+
+        .btn-select {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-select:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        /* Conversion Options */
+        .options-section {
+            background-color: #f8fafd;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            margin-bottom: 30px;
+            display: none;
+        }
+
+        .options-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .options-title {
+            font-size: 22px;
+            margin-bottom: 20px;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .option-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            transition: var(--transition);
+            border: 2px solid transparent;
+            cursor: pointer;
+        }
+
+        .option-card.active {
+            border-color: var(--primary);
+            background-color: rgba(45, 127, 249, 0.03);
+        }
+
+        .option-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 15px;
+        }
+
+        .option-icon {
+            width: 40px;
+            height: 40px;
+            background-color: rgba(45, 127, 249, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 18px;
+        }
+
+        .option-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .option-description {
+            color: var(--gray);
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .range-inputs {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .range-input {
+            padding: 12px 15px;
+            border: 1px solid var(--light-gray);
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            width: 120px;
+        }
+
+        .range-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .range-hint {
+            font-size: 14px;
+            color: var(--gray);
+            margin-top: 10px;
+        }
+
+        .mode-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .mode-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px;
+            border: 1px solid var(--light-gray);
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .mode-option:hover {
+            border-color: var(--primary);
+            background-color: rgba(45, 127, 249, 0.03);
+        }
+
+        .mode-option.selected {
+            border-color: var(--primary);
+            background-color: rgba(45, 127, 249, 0.05);
+        }
+
+        .mode-radio {
+            accent-color: var(--primary);
+        }
+
+        .mode-label {
+            flex-grow: 1;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .mode-badge {
+            background-color: var(--primary);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* File Info */
+        .file-info {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            display: none;
+        }
+
+        .file-info.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .file-info-title {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .file-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .file-detail {
+            background-color: var(--light);
+            border-radius: var(--border-radius);
+            padding: 20px;
+        }
+
+        .detail-label {
+            font-size: 14px;
+            color: var(--gray);
+            margin-bottom: 8px;
+        }
+
+        .detail-value {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .file-name {
+            word-break: break-all;
+        }
+
+        .detection-info {
+            background-color: rgba(255, 193, 7, 0.1);
+            border-left: 4px solid var(--warning);
+            padding: 15px;
+            border-radius: 4px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .detection-info i {
+            color: var(--warning);
+            font-size: 18px;
+        }
+
+        .detection-text {
+            color: var(--dark);
+            font-size: 14px;
+        }
+
+        .progress-container {
+            margin-top: 25px;
+            display: none;
+        }
+
+        .progress-container.active {
+            display: block;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background-color: var(--light-gray);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: var(--primary);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            text-align: center;
+            color: var(--gray);
+            font-size: 14px;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            gap: 20px;
+        }
+
+        .btn-convert {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 16px 48px;
+            border-radius: 50px;
+            font-size: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn-convert:hover:not(:disabled) {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(45, 127, 249, 0.2);
+        }
+
+        .btn-convert:disabled {
+            background-color: var(--light-gray);
+            color: var(--gray);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-convert.loading i {
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Result Section */
+        .result-section {
+            background-color: #e8f4ff;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            margin-bottom: 30px;
+            display: none;
+        }
+
+        .result-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .result-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .result-icon {
+            width: 60px;
+            height: 60px;
+            background-color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--success);
+            font-size: 28px;
+            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.2);
+        }
+
+        .result-title {
+            font-size: 26px;
+            color: var(--dark);
+        }
+
+        .result-content {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 25px;
+            text-align: center;
+        }
+
+        .result-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .stat-item {
+            background-color: var(--light);
+            border-radius: var(--border-radius);
+            padding: 15px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--gray);
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .btn-download {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 16px 40px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .btn-download:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-another {
+            background-color: white;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 16px 40px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-left: 15px;
+        }
+
+        .btn-another:hover {
+            background-color: rgba(45, 127, 249, 0.05);
+        }
+
+        /* History Section */
+        .history-section {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .history-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background-color: var(--light);
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--primary);
+        }
+
+        .history-info {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .history-name {
+            font-weight: 500;
+            word-break: break-all;
+        }
+
+        .history-details {
+            font-size: 14px;
+            color: var(--gray);
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .history-date {
+            color: var(--gray);
+            font-size: 14px;
+            text-align: right;
+            white-space: nowrap;
+        }
+
+        .format-badge {
+            background-color: var(--success);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .empty-history {
+            text-align: center;
+            color: var(--gray);
+            padding: 30px;
+            font-style: italic;
+        }
+
+        /* Footer */
+        footer {
+            background-color: white;
+            padding: 30px 0;
+            margin-top: 40px;
+            border-top: 1px solid var(--light-gray);
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .privacy-message {
+            color: var(--gray);
+            margin-bottom: 20px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .copyright {
+            color: var(--gray);
+            font-size: 14px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .tool-card {
+                padding: 25px;
+            }
+            
+            .tool-title {
+                font-size: 28px;
+            }
+            
+            .upload-area {
+                padding: 40px 15px;
+            }
+            
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn-convert {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .result-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+            
+            .btn-download, .btn-another {
+                width: 100%;
+                justify-content: center;
+                margin: 5px 0;
+            }
+            
+            .btn-another {
+                margin-left: 0;
+            }
+            
+            .history-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .history-date {
+                text-align: left;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .tool-title {
+                font-size: 24px;
+            }
+            
+            .tool-description {
+                font-size: 16px;
+            }
+            
+            .upload-area h3 {
+                font-size: 20px;
+            }
+            
+            .upload-area i {
+                font-size: 48px;
+            }
+            
+            .btn-select {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .range-inputs {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .range-input {
+                width: 100%;
+            }
+            
+            .file-details, .result-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <a href="#" class="logo">
+                <i class="fas fa-tools"></i>
+                <span>ToolTari</span>
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="#"><i class="fas fa-th"></i> All Tools</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Top Ad Slot -->
+    <div class="container">
+        <div class="ad-slot">AdSense Placeholder - Top Banner (728x90)</div>
+    </div>
+
+    <!-- Main Tool -->
+    <div class="container">
+        <div class="tool-card">
+            <h1 class="tool-title">PDF to EXCEL Converter</h1>
+            <p class="tool-description">Convert PDF Data to EXCEL Spreadsheets.</p>
+            
+            <!-- Upload Area -->
+            <div class="upload-area" id="uploadArea">
+                <i class="fas fa-file-pdf"></i>
+                <h3>Drop PDF file here</h3>
+                <p>or click to select a PDF file from your computer</p>
+                <button class="btn-select" id="selectFileBtn">
+                    <i class="fas fa-folder-open"></i> Select PDF File
+                </button>
+                <input type="file" class="file-input" id="fileInput" accept=".pdf">
+            </div>
+
+            <!-- Conversion Options -->
+            <div class="options-section" id="optionsSection">
+                <h3 class="options-title"><i class="fas fa-cog"></i> Conversion Options</h3>
+                <div class="options-grid">
+                    <div class="option-card active" id="optionAll">
+                        <div class="option-header">
+                            <div class="option-icon">
+                                <i class="fas fa-copy"></i>
+                            </div>
+                            <div class="option-name">Convert All Pages</div>
+                        </div>
+                        <p class="option-description">Extract data from all PDF pages.</p>
+                        <div class="range-hint">Will process <span id="pageCountText">0</span> pages</div>
+                    </div>
+
+                    <div class="option-card" id="optionRange">
+                        <div class="option-header">
+                            <div class="option-icon">
+                                <i class="fas fa-exchange-alt"></i>
+                            </div>
+                            <div class="option-name">Convert Page Range</div>
+                        </div>
+                        <p class="option-description">Select specific pages to convert.</p>
+                        <div class="range-inputs">
+                            <input type="number" class="range-input" id="rangeFrom" placeholder="From" min="1">
+                            <span>to</span>
+                            <input type="number" class="range-input" id="rangeTo" placeholder="To" min="1">
+                        </div>
+                        <div class="range-hint">Example: 1-3, 5, 7-9</div>
+                    </div>
+
+                    <div class="option-card" id="optionMode">
+                        <div class="option-header">
+                            <div class="option-icon">
+                                <i class="fas fa-table"></i>
+                            </div>
+                            <div class="option-name">Data Detection Mode</div>
+                        </div>
+                        <p class="option-description">Choose how to extract data from PDF.</p>
+                        <div class="mode-options">
+                            <div class="mode-option selected" data-mode="tables">
+                                <input type="radio" class="mode-radio" name="mode" id="modeTables" checked>
+                                <label for="modeTables" class="mode-label">Tables Only</label>
+                                <span class="mode-badge">Recommended</span>
+                            </div>
+                            <div class="mode-option" data-mode="text">
+                                <input type="radio" class="mode-radio" name="mode" id="modeText">
+                                <label for="modeText" class="mode-label">Text to Rows</label>
+                                <span class="mode-badge">Basic</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- In-content Ad Slot -->
+            <div class="ad-slot" id="inContentAd" style="display: none;">AdSense Placeholder - In-Content (300x250)</div>
+
+            <!-- File Info -->
+            <div class="file-info" id="fileInfo">
+                <h3 class="file-info-title"><i class="fas fa-info-circle"></i> File Information</h3>
+                <div class="file-details">
+                    <div class="file-detail">
+                        <div class="detail-label">File Name</div>
+                        <div class="detail-value file-name" id="fileName">-</div>
+                    </div>
+                    <div class="file-detail">
+                        <div class="detail-label">Total Pages</div>
+                        <div class="detail-value" id="totalPages">0</div>
+                    </div>
+                    <div class="file-detail">
+                        <div class="detail-label">Detection Mode</div>
+                        <div class="detail-value" id="detectionMode">-</div>
+                    </div>
+                </div>
+                <div class="detection-info">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <div class="detection-text">
+                        <strong>Note:</strong> Table detection accuracy depends on PDF structure. Complex layouts may require manual adjustment in Excel.
+                    </div>
+                </div>
+                <div class="progress-container" id="progressContainer">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <div class="progress-text" id="progressText">Converting: 0%</div>
+                </div>
+            </div>
+
+            <!-- Convert Button -->
+            <div class="action-buttons">
+                <button class="btn-convert" id="convertBtn" disabled>
+                    <i class="fas fa-exchange-alt"></i> Convert to EXCEL
+                </button>
+            </div>
+
+            <!-- Result Section -->
+            <div class="result-section" id="resultSection">
+                <div class="result-header">
+                    <div class="result-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h3 class="result-title">PDF Converted Successfully!</h3>
+                </div>
+                <div class="result-content">
+                    <div class="result-stats">
+                        <div class="stat-item">
+                            <div class="stat-label">Rows Extracted</div>
+                            <div class="stat-value" id="rowsExtracted">0</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Columns Found</div>
+                            <div class="stat-value" id="columnsFound">0</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Tables Detected</div>
+                            <div class="stat-value" id="tablesDetected">0</div>
+                        </div>
+                    </div>
+                    <p>Your PDF data has been converted to Excel format. Click the button below to download the spreadsheet.</p>
+                    <button class="btn-download" id="downloadBtn">
+                        <i class="fas fa-download"></i> Download Excel File
+                    </button>
+                    <button class="btn-another" id="anotherBtn">
+                        <i class="fas fa-redo"></i> Convert Another File
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- History Section -->
+        <div class="history-section">
+            <h3 class="history-title"><i class="fas fa-history"></i> Recent Conversions</h3>
+            <div class="history-list" id="historyList">
+                <!-- History items will be added here dynamically -->
+                <div class="empty-history">No conversion history yet. Convert your first PDF to see it here.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Ad Slot -->
+    <div class="container">
+        <div class="ad-slot">AdSense Placeholder - Footer (728x90)</div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-content">
+            <p class="privacy-message">
+                <i class="fas fa-lock"></i> Files are processed locally in your browser. No data is sent to any server.
+            </p>
+            <p class="copyright">
+                &copy; 2023 ToolTari. All rights reserved. | PDF to EXCEL Converter Tool
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // State management
+        const state = {
+            pdfDoc: null,
+            pdfFile: null,
+            totalPages: 0,
+            conversionType: 'all',
+            detectionMode: 'tables',
+            selectedPages: [],
+            history: JSON.parse(localStorage.getItem('pdfToExcelHistory')) || [],
+            conversionStats: {
+                rows: 0,
+                columns: 0,
+                tables: 0
+            }
+        };
+
+        // DOM Elements
+        const fileInput = document.getElementById('fileInput');
+        const selectFileBtn = document.getElementById('selectFileBtn');
+        const uploadArea = document.getElementById('uploadArea');
+        const optionsSection = document.getElementById('optionsSection');
+        const fileInfo = document.getElementById('fileInfo');
+        const inContentAd = document.getElementById('inContentAd');
+        const fileName = document.getElementById('fileName');
+        const totalPages = document.getElementById('totalPages');
+        const detectionMode = document.getElementById('detectionMode');
+        const pageCountText = document.getElementById('pageCountText');
+        const progressContainer = document.getElementById('progressContainer');
+        const progressFill = document.getElementById('progressFill');
+        const progressText = document.getElementById('progressText');
+        const convertBtn = document.getElementById('convertBtn');
+        const resultSection = document.getElementById('resultSection');
+        const rowsExtracted = document.getElementById('rowsExtracted');
+        const columnsFound = document.getElementById('columnsFound');
+        const tablesDetected = document.getElementById('tablesDetected');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const anotherBtn = document.getElementById('anotherBtn');
+        const historyList = document.getElementById('historyList');
+
+        // Option cards
+        const optionAll = document.getElementById('optionAll');
+        const optionRange = document.getElementById('optionRange');
+        const optionMode = document.getElementById('optionMode');
+
+        // Inputs
+        const rangeFrom = document.getElementById('rangeFrom');
+        const rangeTo = document.getElementById('rangeTo');
+        const modeOptions = document.querySelectorAll('.mode-option');
+        const modeRadios = document.querySelectorAll('.mode-radio');
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            renderHistory();
+            pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+        });
+
+        // Event Listeners
+        selectFileBtn.addEventListener('click', () => fileInput.click());
+        fileInput.addEventListener('change', handleFileSelect);
+        uploadArea.addEventListener('dragover', handleDragOver);
+        uploadArea.addEventListener('drop', handleDrop);
+        convertBtn.addEventListener('click', convertToExcel);
+        anotherBtn.addEventListener('click', resetTool);
+        downloadBtn.addEventListener('click', handleDownload);
+
+        // Option selection
+        optionAll.addEventListener('click', () => selectConversionType('all'));
+        optionRange.addEventListener('click', () => selectConversionType('range'));
+
+        // Mode selection
+        modeOptions.forEach(option => {
+            option.addEventListener('click', (e) => {
+                const radio = option.querySelector('.mode-radio');
+                radio.checked = true;
+                
+                modeOptions.forEach(opt => opt.classList.remove('selected'));
+                option.classList.add('selected');
+                
+                state.detectionMode = option.dataset.mode;
+                updateDetectionModeText();
+            });
+        });
+
+        // Input validation
+        rangeFrom.addEventListener('change', validateRangeInputs);
+        rangeTo.addEventListener('change', validateRangeInputs);
+
+        // File handling
+        function handleFileSelect(e) {
+            const file = e.target.files[0];
+            if (file) {
+                loadPdf(file);
+            }
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+            uploadArea.style.backgroundColor = 'rgba(45, 127, 249, 0.1)';
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            uploadArea.style.backgroundColor = '';
+            
+            const file = e.dataTransfer.files[0];
+            if (!file) return;
+            
+            if (file.type !== 'application/pdf' && !file.name.endsWith('.pdf')) {
+                alert('Please drop a PDF file only.');
+                return;
+            }
+            
+            loadPdf(file);
+        }
+
+        async function loadPdf(file) {
+            try {
+                convertBtn.innerHTML = '<i class="fas fa-spinner"></i> Loading PDF...';
+                convertBtn.classList.add('loading');
+                convertBtn.disabled = true;
+
+                // Store file info
+                state.pdfFile = file;
+                
+                // Load PDF with pdf.js
+                const arrayBuffer = await file.arrayBuffer();
+                const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
+                state.pdfDoc = await loadingTask.promise;
+                state.totalPages = state.pdfDoc.numPages;
+                
+                // Update UI
+                updateFileInfo();
+                optionsSection.classList.add('active');
+                fileInfo.classList.add('active');
+                inContentAd.style.display = 'block';
+                resultSection.classList.remove('active');
+                progressContainer.classList.remove('active');
+                
+                // Set default range values
+                rangeFrom.max = state.totalPages;
+                rangeTo.max = state.totalPages;
+                rangeFrom.value = 1;
+                rangeTo.value = state.totalPages;
+                
+                // Auto-select all pages
+                if (state.conversionType === 'all') {
+                    state.selectedPages = Array.from({ length: state.totalPages }, (_, i) => i + 1);
+                }
+                
+                convertBtn.innerHTML = '<i class="fas fa-exchange-alt"></i> Convert to EXCEL';
+                convertBtn.classList.remove('loading');
+                convertBtn.disabled = false;
+
+            } catch (error) {
+                console.error('Error loading PDF:', error);
+                alert('Failed to load PDF file. Please make sure it is a valid PDF.');
+                
+                convertBtn.innerHTML = '<i class="fas fa-exchange-alt"></i> Convert to EXCEL';
+                convertBtn.classList.remove('loading');
+                convertBtn.disabled = true;
+            }
+        }
+
+        // Conversion type selection
+        function selectConversionType(type) {
+            state.conversionType = type;
+            
+            // Update active card
+            optionAll.classList.remove('active');
+            optionRange.classList.remove('active');
+            
+            if (type === 'all') optionAll.classList.add('active');
+            if (type === 'range') optionRange.classList.add('active');
+            
+            // Update selected pages
+            updateSelectedPages();
+        }
+
+        function validateRangeInputs() {
+            if (!state.totalPages) return;
+            
+            let from = parseInt(rangeFrom.value) || 1;
+            let to = parseInt(rangeTo.value) || state.totalPages;
+            
+            from = Math.max(1, Math.min(from, state.totalPages));
+            to = Math.max(from, Math.min(to, state.totalPages));
+            
+            rangeFrom.value = from;
+            rangeTo.value = to;
+            
+            // Update selected pages
+            if (state.conversionType === 'range') {
+                updateSelectedPages();
+            }
+        }
+
+        function updateSelectedPages() {
+            if (state.conversionType === 'all') {
+                state.selectedPages = Array.from({ length: state.totalPages }, (_, i) => i + 1);
+            } else if (state.conversionType === 'range') {
+                const from = parseInt(rangeFrom.value) || 1;
+                const to = parseInt(rangeTo.value) || state.totalPages;
+                state.selectedPages = Array.from({ length: to - from + 1 }, (_, i) => from + i);
+            }
+        }
+
+        function updateDetectionModeText() {
+            const modeText = state.detectionMode === 'tables' ? 'Tables Only' : 'Text to Rows';
+            detectionMode.textContent = modeText;
+        }
+
+        function updateFileInfo() {
+            fileName.textContent = state.pdfFile.name;
+            totalPages.textContent = state.totalPages;
+            pageCountText.textContent = state.totalPages;
+            updateDetectionModeText();
+        }
+
+        // PDF to Excel Conversion
+        async function convertToExcel() {
+            if (!state.pdfDoc) {
+                alert('Please select a PDF file first.');
+                return;
+            }
+
+            try {
+                convertBtn.innerHTML = '<i class="fas fa-spinner"></i> Converting...';
+                convertBtn.classList.add('loading');
+                convertBtn.disabled = true;
+                
+                // Show progress
+                progressContainer.classList.add('active');
+                progressFill.style.width = '0%';
+                progressText.textContent = 'Converting: 0%';
+                
+                // Update selected pages based on current selection
+                updateSelectedPages();
+                
+                const totalPages = state.selectedPages.length;
+                let allData = [];
+                let detectedTables = 0;
+                let maxColumns = 0;
+                
+                // Process each page
+                for (let i = 0; i < state.selectedPages.length; i++) {
+                    const pageNum = state.selectedPages[i];
+                    
+                    // Update progress
+                    const progress = Math.round(((i + 1) / totalPages) * 100);
+                    progressFill.style.width = `${progress}%`;
+                    progressText.textContent = `Converting: ${progress}% (Page ${pageNum} of ${state.totalPages})`;
+                    
+                    // Get PDF page
+                    const page = await state.pdfDoc.getPage(pageNum);
+                    const textContent = await page.getTextContent();
+                    
+                    // Extract text items
+                    const textItems = textContent.items;
+                    
+                    if (state.detectionMode === 'tables') {
+                        // Table detection mode
+                        const pageData = detectTables(textItems);
+                        if (pageData.length > 0) {
+                            allData = allData.concat(pageData);
+                            detectedTables++;
+                            
+                            // Find max columns in this page
+                            const pageMaxColumns = Math.max(...pageData.map(row => row.length));
+                            maxColumns = Math.max(maxColumns, pageMaxColumns);
+                        }
+                    } else {
+                        // Text to rows mode
+                        const pageData = convertTextToRows(textItems);
+                        if (pageData.length > 0) {
+                            allData = allData.concat(pageData);
+                            
+                            // Find max columns in this page
+                            const pageMaxColumns = Math.max(...pageData.map(row => row.length));
+                            maxColumns = Math.max(maxColumns, pageMaxColumns);
+                        }
+                    }
+                }
+                
+                if (allData.length === 0) {
+                    throw new Error('No data could be extracted from the PDF. Try using a different detection mode.');
+                }
+                
+                // Create Excel workbook
+                const workbook = XLSX.utils.book_new();
+                
+                // Convert data to worksheet
+                const worksheet = XLSX.utils.aoa_to_sheet(allData);
+                
+                // Add worksheet to workbook
+                XLSX.utils.book_append_sheet(workbook, worksheet, 'PDF Data');
+                
+                // Generate Excel file
+                const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+                const blob = new Blob([excelBuffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+                
+                // Update conversion stats
+                state.conversionStats.rows = allData.length;
+                state.conversionStats.columns = maxColumns;
+                state.conversionStats.tables = detectedTables;
+                
+                // Update result section
+                updateResultStats();
+                
+                // Create download URL
+                const url = URL.createObjectURL(blob);
+                downloadBtn.onclick = () => {
+                    const originalName = state.pdfFile.name.replace('.pdf', '');
+                    saveAs(blob, `${originalName}-data.xlsx`);
+                };
+                
+                // Update UI
+                convertBtn.innerHTML = '<i class="fas fa-exchange-alt"></i> Convert to EXCEL';
+                convertBtn.classList.remove('loading');
+                convertBtn.disabled = false;
+                progressContainer.classList.remove('active');
+                
+                // Save to history
+                saveToHistory();
+                
+                // Show result section
+                resultSection.classList.add('active');
+                resultSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                
+            } catch (error) {
+                console.error('Error converting PDF to Excel:', error);
+                alert(`An error occurred: ${error.message}. Please try again with different settings.`);
+                
+                convertBtn.innerHTML = '<i class="fas fa-exchange-alt"></i> Convert to EXCEL';
+                convertBtn.classList.remove('loading');
+                convertBtn.disabled = false;
+                progressContainer.classList.remove('active');
+            }
+        }
+
+        // Table detection algorithm
+        function detectTables(textItems) {
+            // Group text items by their y-position (rows)
+            const rows = {};
+            
+            textItems.forEach(item => {
+                const y = Math.round(item.transform[5]); // y-coordinate
+                if (!rows[y]) {
+                    rows[y] = [];
+                }
+                rows[y].push({
+                    text: item.str,
+                    x: item.transform[4] // x-coordinate
+                });
+            });
+            
+            // Sort rows by y-position (top to bottom)
+            const sortedRows = Object.keys(rows)
+                .sort((a, b) => b - a) // PDF.js coordinates: larger y is higher
+                .map(y => rows[y]);
+            
+            // Sort items in each row by x-position (left to right)
+            sortedRows.forEach(row => {
+                row.sort((a, b) => a.x - b.x);
+            });
+            
+            // Convert to array of arrays (table data)
+            const tableData = sortedRows.map(row => 
+                row.map(item => item.text.trim()).filter(text => text.length > 0)
+            ).filter(row => row.length > 0);
+            
+            return tableData;
+        }
+
+        // Text to rows conversion
+        function convertTextToRows(textItems) {
+            // Group text items by lines based on y-position
+            const lines = {};
+            
+            textItems.forEach(item => {
+                const y = Math.round(item.transform[5] / 10) * 10; // Group by y within 10 units
+                if (!lines[y]) {
+                    lines[y] = [];
+                }
+                lines[y].push(item.str);
+            });
+            
+            // Sort lines by y-position (top to bottom)
+            const sortedLines = Object.keys(lines)
+                .sort((a, b) => b - a) // PDF.js coordinates: larger y is higher
+                .map(y => lines[y].join(' ').trim());
+            
+            // Convert each line to a row, splitting by common delimiters
+            const tableData = sortedLines
+                .filter(line => line.length > 0)
+                .map(line => {
+                    // Try to split by tabs, multiple spaces, or commas
+                    if (line.includes('\t')) {
+                        return line.split('\t').map(cell => cell.trim());
+                    } else if (line.includes('  ')) {
+                        return line.split(/\s{2,}/).map(cell => cell.trim());
+                    } else if (line.includes(',')) {
+                        return line.split(',').map(cell => cell.trim());
+                    } else {
+                        return [line];
+                    }
+                });
+            
+            return tableData;
+        }
+
+        function updateResultStats() {
+            rowsExtracted.textContent = state.conversionStats.rows;
+            columnsFound.textContent = state.conversionStats.columns;
+            tablesDetected.textContent = state.conversionStats.tables;
+        }
+
+        function handleDownload(e) {
+            if (!state.pdfFile) {
+                e.preventDefault();
+                return;
+            }
+            
+            // Update download count in history
+            const history = state.history;
+            if (history.length > 0) {
+                history[0].downloads = (history[0].downloads || 0) + 1;
+                localStorage.setItem('pdfToExcelHistory', JSON.stringify(history));
+            }
+        }
+
+        function resetTool() {
+            // Reset state
+            state.pdfDoc = null;
+            state.pdfFile = null;
+            state.totalPages = 0;
+            state.selectedPages = [];
+            state.conversionStats = { rows: 0, columns: 0, tables: 0 };
+            
+            // Reset UI
+            fileInput.value = '';
+            optionsSection.classList.remove('active');
+            fileInfo.classList.remove('active');
+            resultSection.classList.remove('active');
+            progressContainer.classList.remove('active');
+            convertBtn.disabled = true;
+            
+            // Reset file info
+            fileName.textContent = '-';
+            totalPages.textContent = '0';
+            detectionMode.textContent = '-';
+            pageCountText.textContent = '0';
+            
+            // Scroll to top
+            uploadArea.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // History functions
+        function saveToHistory() {
+            const convertRecord = {
+                id: Date.now(),
+                name: state.pdfFile.name,
+                pagesConverted: state.selectedPages.length,
+                totalPages: state.totalPages,
+                conversionType: state.conversionType,
+                detectionMode: state.detectionMode,
+                rows: state.conversionStats.rows,
+                columns: state.conversionStats.columns,
+                tables: state.conversionStats.tables,
+                date: new Date().toISOString(),
+                downloads: 0
+            };
+            
+            state.history.unshift(convertRecord);
+            
+            // Keep only last 10 records
+            if (state.history.length > 10) {
+                state.history = state.history.slice(0, 10);
+            }
+            
+            localStorage.setItem('pdfToExcelHistory', JSON.stringify(state.history));
+            renderHistory();
+        }
+
+        function renderHistory() {
+            historyList.innerHTML = '';
+            
+            if (state.history.length === 0) {
+                historyList.innerHTML = '<div class="empty-history">No conversion history yet. Convert your first PDF to see it here.</div>';
+                return;
+            }
+            
+            state.history.forEach(record => {
+                const historyItem = document.createElement('div');
+                historyItem.className = 'history-item';
+                
+                const date = new Date(record.date);
+                const formattedDate = date.toLocaleDateString('en-US', {
+                    month: 'short',
+                    day: 'numeric',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+                
+                historyItem.innerHTML = `
+                    <div class="history-info">
+                        <div class="history-name">${record.name}</div>
+                        <div class="history-details">
+                            <span>${record.rows} rows × ${record.columns} cols</span>
+                            <span class="format-badge">XLSX</span>
+                            <span>${record.detectionMode === 'tables' ? 'Tables' : 'Text'}</span>
+                        </div>
+                    </div>
+                    <div class="history-date">${formattedDate}</div>
+                `;
+                
+                historyList.appendChild(historyItem);
+            });
+        }
+    </script>
+</body>
+</html>
