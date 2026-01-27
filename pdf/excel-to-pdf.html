@@ -1,0 +1,1610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EXCEL to PDF Converter - ToolTari</title>
+<meta name="google-site-verification" content="d1uLLcwbDH99lepVNG6a_KEpVP24yjo1DqHN4aKhWk8" />
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3097658772821429"
+crossorigin="anonymous"></script>
+<meta name="google-adsense-account" content="ca-pub-3097658772821429">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <style>
+        :root {
+            --primary: #2d7ff9;
+            --primary-dark: #1a6ce8;
+            --secondary: #ff6b6b;
+            --success: #28a745;
+            --warning: #ffc107;
+            --light: #f8f9fa;
+            --dark: #333;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+            --border-radius: 8px;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 6px 20px rgba(0, 0, 0, 0.12);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fb;
+            color: var(--dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .logo i {
+            font-size: 28px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        nav a:hover {
+            color: var(--primary);
+        }
+
+        /* Ad Slots */
+        .ad-slot {
+            background-color: var(--light-gray);
+            border: 2px dashed #adb5bd;
+            color: var(--gray);
+            text-align: center;
+            padding: 30px 20px;
+            margin: 25px 0;
+            border-radius: var(--border-radius);
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        /* Main Tool */
+        .tool-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 40px;
+            margin: 30px 0;
+            transition: var(--transition);
+        }
+
+        .tool-card:hover {
+            box-shadow: var(--shadow-hover);
+        }
+
+        .tool-title {
+            color: var(--dark);
+            margin-bottom: 10px;
+            font-size: 32px;
+            text-align: center;
+        }
+
+        .tool-description {
+            color: var(--gray);
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 18px;
+        }
+
+        /* Upload Area */
+        .upload-area {
+            border: 3px dashed var(--primary);
+            border-radius: var(--border-radius);
+            padding: 60px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-bottom: 30px;
+            background-color: rgba(45, 127, 249, 0.02);
+        }
+
+        .upload-area:hover {
+            background-color: rgba(45, 127, 249, 0.05);
+            border-color: var(--primary-dark);
+        }
+
+        .upload-area i {
+            font-size: 64px;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .upload-area h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+
+        .upload-area p {
+            color: var(--gray);
+            margin-bottom: 25px;
+        }
+
+        .file-types {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        .file-type-badge {
+            background-color: rgba(45, 127, 249, 0.1);
+            color: var(--primary);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn-select {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-select:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        /* Conversion Options */
+        .options-section {
+            background-color: #f8fafd;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            margin-bottom: 30px;
+            display: none;
+        }
+
+        .options-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .options-title {
+            font-size: 22px;
+            margin-bottom: 20px;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .option-group {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        }
+
+        .option-group-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .size-options, .orientation-options, .sheet-options {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .size-btn, .orientation-btn, .sheet-btn {
+            flex: 1;
+            min-width: 100px;
+            padding: 12px;
+            border: 2px solid var(--light-gray);
+            border-radius: var(--border-radius);
+            background: white;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .size-btn:hover, .orientation-btn:hover, .sheet-btn:hover {
+            border-color: var(--primary);
+            background-color: rgba(45, 127, 249, 0.03);
+        }
+
+        .size-btn.active, .orientation-btn.active, .sheet-btn.active {
+            border-color: var(--primary);
+            background-color: rgba(45, 127, 249, 0.05);
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .formatting-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .formatting-option {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border: 1px solid var(--light-gray);
+            border-radius: var(--border-radius);
+            background-color: white;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .formatting-option:hover {
+            border-color: var(--primary);
+            background-color: rgba(45, 127, 249, 0.03);
+        }
+
+        .formatting-option.active {
+            border-color: var(--primary);
+            background-color: rgba(45, 127, 249, 0.05);
+        }
+
+        .formatting-checkbox {
+            width: 20px;
+            height: 20px;
+            accent-color: var(--primary);
+        }
+
+        .formatting-label {
+            flex-grow: 1;
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        /* Sheet Selector */
+        .sheet-selector {
+            margin-top: 15px;
+            display: none;
+        }
+
+        .sheet-selector.active {
+            display: block;
+        }
+
+        .sheet-select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--light-gray);
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            background-color: white;
+            cursor: pointer;
+        }
+
+        .sheet-select:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        /* File Info */
+        .file-info {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            display: none;
+        }
+
+        .file-info.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .file-info-title {
+            font-size: 20px;
+            margin-bottom: 20px;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .file-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .file-detail {
+            background-color: var(--light);
+            border-radius: var(--border-radius);
+            padding: 20px;
+        }
+
+        .detail-label {
+            font-size: 14px;
+            color: var(--gray);
+            margin-bottom: 8px;
+        }
+
+        .detail-value {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .file-name {
+            word-break: break-all;
+        }
+
+        .conversion-note {
+            background-color: rgba(255, 193, 7, 0.1);
+            border-left: 4px solid var(--warning);
+            padding: 15px;
+            border-radius: 4px;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .conversion-note i {
+            color: var(--warning);
+            font-size: 18px;
+        }
+
+        .conversion-text {
+            color: var(--dark);
+            font-size: 14px;
+        }
+
+        /* Progress Container */
+        .progress-container {
+            margin-top: 25px;
+            display: none;
+        }
+
+        .progress-container.active {
+            display: block;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background-color: var(--light-gray);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: var(--primary);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            text-align: center;
+            color: var(--gray);
+            font-size: 14px;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            gap: 20px;
+        }
+
+        .btn-convert {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 16px 48px;
+            border-radius: 50px;
+            font-size: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn-convert:hover:not(:disabled) {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(45, 127, 249, 0.2);
+        }
+
+        .btn-convert:disabled {
+            background-color: var(--light-gray);
+            color: var(--gray);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-convert.loading i {
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Result Section */
+        .result-section {
+            background-color: #e8f4ff;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            margin-bottom: 30px;
+            display: none;
+        }
+
+        .result-section.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .result-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .result-icon {
+            width: 60px;
+            height: 60px;
+            background-color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--success);
+            font-size: 28px;
+            box-shadow: 0 4px 12px rgba(40, 167, 69, 0.2);
+        }
+
+        .result-title {
+            font-size: 26px;
+            color: var(--dark);
+        }
+
+        .result-content {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 25px;
+            text-align: center;
+        }
+
+        .result-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .stat-item {
+            background-color: var(--light);
+            border-radius: var(--border-radius);
+            padding: 15px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--gray);
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .btn-download {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 16px 40px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .btn-download:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-another {
+            background-color: white;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 16px 40px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-left: 15px;
+        }
+
+        .btn-another:hover {
+            background-color: rgba(45, 127, 249, 0.05);
+        }
+
+        /* History Section */
+        .history-section {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .history-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .history-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background-color: var(--light);
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--primary);
+        }
+
+        .history-info {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .history-name {
+            font-weight: 500;
+            word-break: break-all;
+        }
+
+        .history-details {
+            font-size: 14px;
+            color: var(--gray);
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .history-date {
+            color: var(--gray);
+            font-size: 14px;
+            text-align: right;
+            white-space: nowrap;
+        }
+
+        .format-badge {
+            background-color: var(--success);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .empty-history {
+            text-align: center;
+            color: var(--gray);
+            padding: 30px;
+            font-style: italic;
+        }
+
+        /* Footer */
+        footer {
+            background-color: white;
+            padding: 30px 0;
+            margin-top: 40px;
+            border-top: 1px solid var(--light-gray);
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .privacy-message {
+            color: var(--gray);
+            margin-bottom: 20px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .copyright {
+            color: var(--gray);
+            font-size: 14px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .tool-card {
+                padding: 25px;
+            }
+            
+            .tool-title {
+                font-size: 28px;
+            }
+            
+            .upload-area {
+                padding: 40px 15px;
+            }
+            
+            .options-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn-convert {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .result-header {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+            
+            .btn-download, .btn-another {
+                width: 100%;
+                justify-content: center;
+                margin: 5px 0;
+            }
+            
+            .btn-another {
+                margin-left: 0;
+            }
+            
+            .history-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .history-date {
+                text-align: left;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .tool-title {
+                font-size: 24px;
+            }
+            
+            .tool-description {
+                font-size: 16px;
+            }
+            
+            .upload-area h3 {
+                font-size: 20px;
+            }
+            
+            .upload-area i {
+                font-size: 48px;
+            }
+            
+            .btn-select {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .size-options, .orientation-options, .sheet-options {
+                flex-direction: column;
+            }
+            
+            .size-btn, .orientation-btn, .sheet-btn {
+                width: 100%;
+            }
+            
+            .file-details, .result-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
+            <a href="#" class="logo">
+                <i class="fas fa-tools"></i>
+                <span>ToolTari</span>
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="#"><i class="fas fa-th"></i> All Tools</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Top Ad Slot -->
+    <div class="container">
+        <div class="ad-slot">AdSense Placeholder - Top Banner (728x90)</div>
+    </div>
+
+    <!-- Main Tool -->
+    <div class="container">
+        <div class="tool-card">
+            <h1 class="tool-title">EXCEL to PDF Converter</h1>
+            <p class="tool-description">Make EXCEL spreadsheets easy to read by converting them to PDF.</p>
+            
+            <!-- Upload Area -->
+            <div class="upload-area" id="uploadArea">
+                <i class="fas fa-file-excel"></i>
+                <h3>Drop Excel file here</h3>
+                <p>or click to select an Excel spreadsheet from your computer</p>
+                <button class="btn-select" id="selectFileBtn">
+                    <i class="fas fa-folder-open"></i> Select EXCEL File
+                </button>
+                <input type="file" class="file-input" id="fileInput" accept=".xls,.xlsx,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">
+                <div class="file-types">
+                    <div class="file-type-badge">
+                        <i class="fas fa-file-excel"></i> XLS
+                    </div>
+                    <div class="file-type-badge">
+                        <i class="fas fa-file-excel"></i> XLSX
+                    </div>
+                </div>
+            </div>
+
+            <!-- Conversion Options -->
+            <div class="options-section" id="optionsSection">
+                <h3 class="options-title"><i class="fas fa-cog"></i> Conversion Options</h3>
+                <div class="options-grid">
+                    <div class="option-group">
+                        <div class="option-group-title">
+                            <i class="fas fa-file-alt"></i> Page Size
+                        </div>
+                        <div class="size-options">
+                            <button class="size-btn active" data-size="A4">A4</button>
+                            <button class="size-btn" data-size="Letter">Letter</button>
+                        </div>
+                    </div>
+
+                    <div class="option-group">
+                        <div class="option-group-title">
+                            <i class="fas fa-compress-alt"></i> Orientation
+                        </div>
+                        <div class="orientation-options">
+                            <button class="orientation-btn active" data-orientation="portrait">Portrait</button>
+                            <button class="orientation-btn" data-orientation="landscape">Landscape</button>
+                        </div>
+                    </div>
+
+                    <div class="option-group">
+                        <div class="option-group-title">
+                            <i class="fas fa-columns"></i> Sheets to Convert
+                        </div>
+                        <div class="sheet-options">
+                            <button class="sheet-btn active" data-sheets="all">All Sheets</button>
+                            <button class="sheet-btn" data-sheets="selected">Selected Sheet</button>
+                        </div>
+                        <div class="sheet-selector" id="sheetSelector">
+                            <select class="sheet-select" id="sheetSelect">
+                                <option value="">Select a sheet</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="option-group">
+                        <div class="option-group-title">
+                            <i class="fas fa-sliders-h"></i> Layout Options
+                        </div>
+                        <div class="formatting-options">
+                            <div class="formatting-option active" id="fitOption">
+                                <input type="checkbox" class="formatting-checkbox" id="fitToPage" checked>
+                                <label for="fitToPage" class="formatting-label">Fit Sheet to Page</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- In-content Ad Slot -->
+            <div class="ad-slot" id="inContentAd" style="display: none;">AdSense Placeholder - In-Content (300x250)</div>
+
+            <!-- File Info -->
+            <div class="file-info" id="fileInfo">
+                <h3 class="file-info-title"><i class="fas fa-info-circle"></i> File Information</h3>
+                <div class="file-details">
+                    <div class="file-detail">
+                        <div class="detail-label">File Name</div>
+                        <div class="detail-value file-name" id="fileName">-</div>
+                    </div>
+                    <div class="file-detail">
+                        <div class="detail-label">File Type</div>
+                        <div class="detail-value" id="fileType">-</div>
+                    </div>
+                    <div class="file-detail">
+                        <div class="detail-label">Sheets</div>
+                        <div class="detail-value" id="sheetCount">0</div>
+                    </div>
+                </div>
+                <div class="conversion-note">
+                    <i class="fas fa-exclamation-circle"></i>
+                    <div class="conversion-text">
+                        <strong>Note:</strong> Complex Excel features like formulas, charts, and macros are not supported in PDF format. Cell values and basic formatting will be preserved.
+                    </div>
+                </div>
+                <div class="progress-container" id="progressContainer">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <div class="progress-text" id="progressText">Converting: 0%</div>
+                </div>
+            </div>
+
+            <!-- Convert Button -->
+            <div class="action-buttons">
+                <button class="btn-convert" id="convertBtn" disabled>
+                    <i class="fas fa-exchange-alt"></i> Convert to PDF
+                </button>
+            </div>
+
+            <!-- Result Section -->
+            <div class="result-section" id="resultSection">
+                <div class="result-header">
+                    <div class="result-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h3 class="result-title">Excel Converted Successfully!</h3>
+                </div>
+                <div class="result-content">
+                    <div class="result-stats">
+                        <div class="stat-item">
+                            <div class="stat-label">Original Format</div>
+                            <div class="stat-value" id="originalFormat">-</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">Sheets Converted</div>
+                            <div class="stat-value" id="sheetsConverted">0</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-label">PDF Pages</div>
+                            <div class="stat-value" id="pdfPages">0</div>
+                        </div>
+                    </div>
+                    <p>Your Excel spreadsheet has been converted to PDF format. Click the button below to download the file.</p>
+                    <button class="btn-download" id="downloadBtn">
+                        <i class="fas fa-download"></i> Download PDF File
+                    </button>
+                    <button class="btn-another" id="anotherBtn">
+                        <i class="fas fa-redo"></i> Convert Another File
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- History Section -->
+        <div class="history-section">
+            <h3 class="history-title"><i class="fas fa-history"></i> Recent Conversions</h3>
+            <div class="history-list" id="historyList">
+                <!-- History items will be added here dynamically -->
+                <div class="empty-history">No conversion history yet. Convert your first Excel file to see it here.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Ad Slot -->
+    <div class="container">
+        <div class="ad-slot">AdSense Placeholder - Footer (728x90)</div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-content">
+            <p class="privacy-message">
+                <i class="fas fa-lock"></i> Files are processed locally in your browser. No data is sent to any server.
+            </p>
+            <p class="copyright">
+                &copy; 2023 ToolTari. All rights reserved. | EXCEL to PDF Converter Tool
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // State management
+        const state = {
+            excelFile: null,
+            workbook: null,
+            fileType: '',
+            sheetNames: [],
+            selectedSheets: [],
+            conversionMode: 'all',
+            pageSize: 'A4',
+            orientation: 'portrait',
+            fitToPage: true,
+            history: JSON.parse(localStorage.getItem('excelToPdfHistory')) || []
+        };
+
+        // DOM Elements
+        const fileInput = document.getElementById('fileInput');
+        const selectFileBtn = document.getElementById('selectFileBtn');
+        const uploadArea = document.getElementById('uploadArea');
+        const optionsSection = document.getElementById('optionsSection');
+        const fileInfo = document.getElementById('fileInfo');
+        const inContentAd = document.getElementById('inContentAd');
+        const fileName = document.getElementById('fileName');
+        const fileType = document.getElementById('fileType');
+        const sheetCount = document.getElementById('sheetCount');
+        const progressContainer = document.getElementById('progressContainer');
+        const progressFill = document.getElementById('progressFill');
+        const progressText = document.getElementById('progressText');
+        const convertBtn = document.getElementById('convertBtn');
+        const resultSection = document.getElementById('resultSection');
+        const originalFormat = document.getElementById('originalFormat');
+        const sheetsConverted = document.getElementById('sheetsConverted');
+        const pdfPages = document.getElementById('pdfPages');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const anotherBtn = document.getElementById('anotherBtn');
+        const historyList = document.getElementById('historyList');
+        const sheetSelector = document.getElementById('sheetSelector');
+        const sheetSelect = document.getElementById('sheetSelect');
+
+        // Option buttons
+        const sizeBtns = document.querySelectorAll('.size-btn');
+        const orientationBtns = document.querySelectorAll('.orientation-btn');
+        const sheetBtns = document.querySelectorAll('.sheet-btn');
+        const fitOption = document.getElementById('fitOption');
+        const fitCheckbox = document.getElementById('fitToPage');
+
+        // Page size dimensions in points (1/72 inch)
+        const pageSizes = {
+            'A4': { width: 595.28, height: 841.89 },
+            'Letter': { width: 612, height: 792 }
+        };
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            renderHistory();
+        });
+
+        // Event Listeners
+        selectFileBtn.addEventListener('click', () => fileInput.click());
+        fileInput.addEventListener('change', handleFileSelect);
+        uploadArea.addEventListener('dragover', handleDragOver);
+        uploadArea.addEventListener('drop', handleDrop);
+        convertBtn.addEventListener('click', convertToPdf);
+        anotherBtn.addEventListener('click', resetTool);
+        downloadBtn.addEventListener('click', handleDownload);
+        sheetSelect.addEventListener('change', handleSheetSelect);
+
+        // Option selection
+        sizeBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                sizeBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                state.pageSize = btn.dataset.size;
+            });
+        });
+
+        orientationBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                orientationBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                state.orientation = btn.dataset.orientation;
+            });
+        });
+
+        sheetBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                sheetBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                state.conversionMode = btn.dataset.sheets;
+                
+                if (state.conversionMode === 'selected') {
+                    sheetSelector.classList.add('active');
+                } else {
+                    sheetSelector.classList.remove('active');
+                    state.selectedSheets = [...state.sheetNames];
+                }
+            });
+        });
+
+        fitOption.addEventListener('click', () => {
+            fitCheckbox.checked = !fitCheckbox.checked;
+            state.fitToPage = fitCheckbox.checked;
+            fitOption.classList.toggle('active', state.fitToPage);
+        });
+
+        // File handling
+        function handleFileSelect(e) {
+            const file = e.target.files[0];
+            if (file) {
+                processExcelFile(file);
+            }
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+            uploadArea.style.backgroundColor = 'rgba(45, 127, 249, 0.1)';
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            uploadArea.style.backgroundColor = '';
+            
+            const file = e.dataTransfer.files[0];
+            if (!file) return;
+            
+            const acceptedTypes = [
+                'application/vnd.ms-excel',
+                'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                '.xls',
+                '.xlsx'
+            ];
+            
+            const fileExt = file.name.toLowerCase().slice(-4);
+            const isExcelFile = acceptedTypes.includes(file.type) || 
+                               fileExt === '.xls' || fileExt === 'xlsx';
+            
+            if (!isExcelFile) {
+                alert('Please drop an Excel spreadsheet (.xls or .xlsx) only.');
+                return;
+            }
+            
+            processExcelFile(file);
+        }
+
+        function processExcelFile(file) {
+            // Check file type
+            const fileName = file.name.toLowerCase();
+            let fileTypeText = '';
+            
+            if (fileName.endsWith('.xlsx')) {
+                fileTypeText = 'XLSX';
+            } else if (fileName.endsWith('.xls')) {
+                fileTypeText = 'XLS';
+            } else {
+                alert('Please select a valid Excel spreadsheet (.xls or .xlsx).');
+                return;
+            }
+            
+            state.excelFile = file;
+            state.fileType = fileTypeText;
+            
+            // Read the Excel file
+            readExcelFile(file);
+        }
+
+        function readExcelFile(file) {
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                try {
+                    const data = new Uint8Array(e.target.result);
+                    const workbook = XLSX.read(data, { type: 'array' });
+                    
+                    state.workbook = workbook;
+                    state.sheetNames = workbook.SheetNames;
+                    
+                    // Update UI
+                    updateFileInfo();
+                    populateSheetSelector();
+                    
+                    // Set default selected sheets
+                    state.selectedSheets = [...state.sheetNames];
+                    
+                    optionsSection.classList.add('active');
+                    fileInfo.classList.add('active');
+                    inContentAd.style.display = 'block');
+                    resultSection.classList.remove('active');
+                    progressContainer.classList.remove('active');
+                    
+                    convertBtn.disabled = false;
+                    
+                } catch (error) {
+                    console.error('Error reading Excel file:', error);
+                    alert('Failed to read Excel file. Please make sure it is a valid Excel spreadsheet.');
+                }
+            };
+            
+            reader.readAsArrayBuffer(file);
+        }
+
+        function populateSheetSelector() {
+            sheetSelect.innerHTML = '<option value="">Select a sheet</option>';
+            
+            state.sheetNames.forEach(sheetName => {
+                const option = document.createElement('option');
+                option.value = sheetName;
+                option.textContent = sheetName;
+                sheetSelect.appendChild(option);
+            });
+        }
+
+        function handleSheetSelect(e) {
+            const selectedSheet = e.target.value;
+            if (selectedSheet) {
+                state.selectedSheets = [selectedSheet];
+            }
+        }
+
+        function updateFileInfo() {
+            fileName.textContent = state.excelFile.name;
+            fileType.textContent = state.fileType;
+            sheetCount.textContent = state.sheetNames.length;
+        }
+
+        // Excel to PDF Conversion
+        async function convertToPdf() {
+            if (!state.workbook) {
+                alert('Please select an Excel file first.');
+                return;
+            }
+
+            try {
+                convertBtn.innerHTML = '<i class="fas fa-spinner"></i> Converting...';
+                convertBtn.classList.add('loading');
+                convertBtn.disabled = true;
+                
+                // Show progress
+                progressContainer.classList.add('active');
+                progressFill.style.width = '10%';
+                progressText.textContent = 'Processing Excel file...';
+                
+                // Create PDF document
+                const pdfDoc = await PDFLib.PDFDocument.create();
+                
+                // Get page dimensions based on selected size and orientation
+                let { width, height } = pageSizes[state.pageSize];
+                if (state.orientation === 'landscape') {
+                    [width, height] = [height, width];
+                }
+                
+                // Calculate margins
+                const margin = 50;
+                const availableWidth = width - 2 * margin;
+                const availableHeight = height - 2 * margin;
+                
+                // Determine which sheets to convert
+                let sheetsToConvert = [];
+                if (state.conversionMode === 'all') {
+                    sheetsToConvert = state.sheetNames;
+                } else {
+                    sheetsToConvert = state.selectedSheets.length > 0 ? state.selectedSheets : [state.sheetNames[0]];
+                }
+                
+                const totalSheets = sheetsToConvert.length;
+                let totalPages = 0;
+                
+                // Process each sheet
+                for (let i = 0; i < sheetsToConvert.length; i++) {
+                    const sheetName = sheetsToConvert[i];
+                    
+                    // Update progress
+                    const progress = 10 + Math.round((i / totalSheets) * 80);
+                    progressFill.style.width = `${progress}%`;
+                    progressText.textContent = `Converting: ${Math.round((i / totalSheets) * 100)}% (Sheet ${i + 1} of ${totalSheets})`;
+                    
+                    // Get sheet data
+                    const worksheet = state.workbook.Sheets[sheetName];
+                    const data = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+                    
+                    if (data.length === 0) {
+                        continue; // Skip empty sheets
+                    }
+                    
+                    // Calculate column widths and row heights
+                    const columnCount = Math.max(...data.map(row => row.length));
+                    const rowCount = data.length;
+                    
+                    // Determine cell dimensions
+                    const cellPadding = 4;
+                    const fontSize = 10;
+                    const headerFontSize = 12;
+                    const rowHeight = 20;
+                    
+                    // Calculate column widths
+                    const columnWidths = [];
+                    for (let col = 0; col < columnCount; col++) {
+                        let maxWidth = 80; // Minimum width
+                        for (let row = 0; row < rowCount; row++) {
+                            if (data[row] && data[row][col] !== undefined) {
+                                const cellValue = String(data[row][col]);
+                                const textWidth = cellValue.length * (fontSize * 0.6); // Approximate width
+                                maxWidth = Math.max(maxWidth, textWidth + 2 * cellPadding);
+                            }
+                        }
+                        columnWidths.push(Math.min(maxWidth, 200)); // Cap column width
+                    }
+                    
+                    // Calculate total table width and height
+                    const totalTableWidth = columnWidths.reduce((sum, width) => sum + width, 0);
+                    const totalTableHeight = rowCount * rowHeight;
+                    
+                    // Calculate scale factor if fitToPage is enabled
+                    let scaleFactor = 1;
+                    if (state.fitToPage && totalTableWidth > availableWidth) {
+                        scaleFactor = availableWidth / totalTableWidth;
+                    }
+                    
+                    // Determine if we need multiple pages (vertical pagination)
+                    const scaledRowHeight = rowHeight * scaleFactor;
+                    const scaledTotalHeight = totalTableHeight * scaleFactor;
+                    
+                    let startRow = 0;
+                    let pageNumber = 1;
+                    
+                    while (startRow < rowCount) {
+                        // Add a new page
+                        const page = pdfDoc.addPage([width, height]);
+                        totalPages++;
+                        
+                        // Calculate how many rows fit on this page
+                        const maxRowsPerPage = Math.floor(availableHeight / scaledRowHeight);
+                        const endRow = Math.min(startRow + maxRowsPerPage, rowCount);
+                        
+                        // Draw sheet name at the top
+                        page.setFontSize(14);
+                        page.drawText(`Sheet: ${sheetName}`, {
+                            x: margin,
+                            y: height - margin - 20,
+                            size: 14,
+                            color: PDFLib.rgb(0, 0, 0)
+                        });
+                        
+                        // Draw page number
+                        page.setFontSize(10);
+                        page.drawText(`Page ${pageNumber}`, {
+                            x: width - margin - 50,
+                            y: height - margin - 20,
+                            size: 10,
+                            color: PDFLib.rgb(0.5, 0.5, 0.5)
+                        });
+                        
+                        // Starting position for table
+                        let currentX = margin;
+                        let currentY = height - margin - 40;
+                        
+                        // Draw table header (first row)
+                        page.setFontSize(headerFontSize * scaleFactor);
+                        page.setFont(PDFLib.StandardFonts.HelveticaBold);
+                        
+                        for (let col = 0; col < columnCount; col++) {
+                            const cellWidth = columnWidths[col] * scaleFactor;
+                            const cellValue = data[0] && data[0][col] !== undefined ? String(data[0][col]) : '';
+                            
+                            // Draw cell border
+                            page.drawRectangle({
+                                x: currentX,
+                                y: currentY - scaledRowHeight,
+                                width: cellWidth,
+                                height: scaledRowHeight,
+                                borderColor: PDFLib.rgb(0.7, 0.7, 0.7),
+                                borderWidth: 0.5,
+                            });
+                            
+                            // Draw cell text
+                            page.drawText(cellValue, {
+                                x: currentX + cellPadding,
+                                y: currentY - scaledRowHeight + cellPadding,
+                                size: headerFontSize * scaleFactor,
+                                maxWidth: cellWidth - 2 * cellPadding,
+                            });
+                            
+                            currentX += cellWidth;
+                        }
+                        
+                        currentY -= scaledRowHeight;
+                        
+                        // Draw table rows
+                        page.setFontSize(fontSize * scaleFactor);
+                        page.setFont(PDFLib.StandardFonts.Helvetica);
+                        
+                        for (let row = Math.max(1, startRow); row < endRow; row++) {
+                            currentX = margin;
+                            
+                            for (let col = 0; col < columnCount; col++) {
+                                const cellWidth = columnWidths[col] * scaleFactor;
+                                const cellValue = data[row] && data[row][col] !== undefined ? String(data[row][col]) : '';
+                                
+                                // Draw cell border
+                                page.drawRectangle({
+                                    x: currentX,
+                                    y: currentY - scaledRowHeight,
+                                    width: cellWidth,
+                                    height: scaledRowHeight,
+                                    borderColor: PDFLib.rgb(0.7, 0.7, 0.7),
+                                    borderWidth: 0.5,
+                                });
+                                
+                                // Draw cell text
+                                page.drawText(cellValue, {
+                                    x: currentX + cellPadding,
+                                    y: currentY - scaledRowHeight + cellPadding,
+                                    size: fontSize * scaleFactor,
+                                    maxWidth: cellWidth - 2 * cellPadding,
+                                });
+                                
+                                currentX += cellWidth;
+                            }
+                            
+                            currentY -= scaledRowHeight;
+                        }
+                        
+                        startRow = endRow;
+                        pageNumber++;
+                    }
+                }
+                
+                // Update progress
+                progressFill.style.width = '95%';
+                progressText.textContent = 'Finalizing PDF...';
+                
+                // Save PDF
+                const pdfBytes = await pdfDoc.save();
+                const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+                
+                // Create download URL
+                const url = URL.createObjectURL(blob);
+                downloadBtn.onclick = () => {
+                    const originalName = state.excelFile.name.replace(/\.[^/.]+$/, "");
+                    saveAs(blob, `${originalName}-converted.pdf`);
+                };
+                
+                // Update result section
+                originalFormat.textContent = state.fileType;
+                sheetsConverted.textContent = sheetsToConvert.length;
+                pdfPages.textContent = totalPages;
+                
+                // Update UI
+                convertBtn.innerHTML = '<i class="fas fa-exchange-alt"></i> Convert to PDF';
+                convertBtn.classList.remove('loading');
+                convertBtn.disabled = false;
+                progressFill.style.width = '100%';
+                progressText.textContent = 'Conversion complete!';
+                
+                // Save to history
+                saveToHistory(sheetsToConvert.length, totalPages);
+                
+                // Show result section after a brief delay
+                setTimeout(() => {
+                    resultSection.classList.add('active');
+                    resultSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }, 500);
+                
+            } catch (error) {
+                console.error('Error converting Excel to PDF:', error);
+                alert('An error occurred while converting the Excel file. Please try again with a different file or settings.');
+                
+                convertBtn.innerHTML = '<i class="fas fa-exchange-alt"></i> Convert to PDF';
+                convertBtn.classList.remove('loading');
+                convertBtn.disabled = false;
+                progressContainer.classList.remove('active');
+            }
+        }
+
+        function handleDownload(e) {
+            if (!state.excelFile) {
+                e.preventDefault();
+                return;
+            }
+            
+            // Update download count in history
+            const history = state.history;
+            if (history.length > 0) {
+                history[0].downloads = (history[0].downloads || 0) + 1;
+                localStorage.setItem('excelToPdfHistory', JSON.stringify(history));
+            }
+        }
+
+        function resetTool() {
+            // Reset state
+            state.excelFile = null;
+            state.workbook = null;
+            state.fileType = '';
+            state.sheetNames = [];
+            state.selectedSheets = [];
+            
+            // Reset UI
+            fileInput.value = '';
+            optionsSection.classList.remove('active');
+            fileInfo.classList.remove('active');
+            resultSection.classList.remove('active');
+            progressContainer.classList.remove('active');
+            sheetSelector.classList.remove('active');
+            convertBtn.disabled = true;
+            
+            // Reset file info
+            fileName.textContent = '-';
+            fileType.textContent = '-';
+            sheetCount.textContent = '0';
+            
+            // Reset sheet selector
+            sheetSelect.innerHTML = '<option value="">Select a sheet</option>';
+            
+            // Scroll to top
+            uploadArea.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // History functions
+        function saveToHistory(sheetsConvertedCount, pageCount) {
+            const convertRecord = {
+                id: Date.now(),
+                name: state.excelFile.name,
+                fileType: state.fileType,
+                sheetsConverted: sheetsConvertedCount,
+                totalSheets: state.sheetNames.length,
+                pageCount: pageCount,
+                conversionMode: state.conversionMode,
+                date: new Date().toISOString(),
+                downloads: 0
+            };
+            
+            state.history.unshift(convertRecord);
+            
+            // Keep only last 10 records
+            if (state.history.length > 10) {
+                state.history = state.history.slice(0, 10);
+            }
+            
+            localStorage.setItem('excelToPdfHistory', JSON.stringify(state.history));
+            renderHistory();
+        }
+
+        function renderHistory() {
+            historyList.innerHTML = '';
+            
+            if (state.history.length === 0) {
+                historyList.innerHTML = '<div class="empty-history">No conversion history yet. Convert your first Excel file to see it here.</div>';
+                return;
+            }
+            
+            state.history.forEach(record => {
+                const historyItem = document.createElement('div');
+                historyItem.className = 'history-item';
+                
+                const date = new Date(record.date);
+                const formattedDate = date.toLocaleDateString('en-US', {
+                    month: 'short',
+                    day: 'numeric',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+                
+                historyItem.innerHTML = `
+                    <div class="history-info">
+                        <div class="history-name">${record.name}</div>
+                        <div class="history-details">
+                            <span>${record.sheetsConverted} of ${record.totalSheets} sheets</span>
+                            <span class="format-badge">PDF</span>
+                            <span>${record.pageCount} pages</span>
+                        </div>
+                    </div>
+                    <div class="history-date">${formattedDate}</div>
+                `;
+                
+                historyList.appendChild(historyItem);
+            });
+        }
+    </script>
+</body>
+</html>
