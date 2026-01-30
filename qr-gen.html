@@ -5,10 +5,619 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Free QR Code Generator - Create custom QR codes for URLs, text, email, phone, and WiFi instantly in your browser.">
     <title>Free QR Code Generator - ToolTari</title>
-    <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+    --primary: #4f46e5;
+    --primary-dark: #4338ca;
+    --secondary: #818cf8;
+    --accent: #c7d2fe;
+    --background: #f5f7ff;
+    --surface: #ffffff;
+    --text: #1f2937;
+    --text-light: #6b7280;
+    --border: #e5e7eb;
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    --radius: 12px;
+    --radius-sm: 6px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: var(--background);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Header */
+.header {
+    background: var(--surface);
+    box-shadow: var(--shadow);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+    height: 70px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    color: var(--text);
+    font-weight: 700;
+    font-size: 1.5rem;
+}
+
+.logo-icon {
+    font-size: 1.75rem;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--text-light);
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.nav-links a:hover {
+    color: var(--primary);
+}
+
+/* Ad Slots */
+.ad-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 1rem 0;
+}
+
+.ad-slot {
+    width: 100%;
+    max-width: 728px;
+    height: 90px;
+    background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+    border: 2px dashed #d1d5db;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #9ca3af;
+    font-size: 0.875rem;
+    font-weight: 500;
+    border-radius: var(--radius-sm);
+}
+
+.content-ad .ad-slot {
+    max-width: 100%;
+    height: 250px;
+    margin: 1.5rem 0;
+}
+
+.footer-ad {
+    margin-top: auto;
+    padding: 2rem 0;
+}
+
+/* Main Container */
+.main-container {
+    flex: 1;
+    max-width: 800px;
+    width: 100%;
+    margin: 2rem auto;
+    padding: 0 20px;
+}
+
+/* Tool Card */
+.tool-card {
+    background: var(--surface);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-lg);
+    padding: 2.5rem;
+    margin-bottom: 3rem;
+}
+
+.tool-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.tool-header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+}
+
+.subtitle {
+    color: var(--text-light);
+    font-size: 1rem;
+}
+
+/* Type Selector */
+.type-selector {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.type-btn {
+    padding: 0.75rem 1.5rem;
+    border: 2px solid var(--border);
+    background: var(--surface);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-weight: 600;
+    color: var(--text-light);
+    transition: all 0.2s;
+}
+
+.type-btn:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.type-btn.active {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: white;
+}
+
+/* Input Section */
+.input-section {
+    margin-bottom: 1.5rem;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    animation: fadeIn 0.3s ease;
+}
+
+.input-group.hidden {
+    display: none;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+label {
+    font-weight: 600;
+    color: var(--text);
+    font-size: 0.875rem;
+}
+
+.sub-label {
+    margin-top: 0.75rem;
+    font-weight: 500;
+    color: var(--text-light);
+}
+
+input[type="text"],
+input[type="url"],
+input[type="email"],
+input[type="tel"],
+input[type="file"],
+textarea,
+select {
+    padding: 0.75rem 1rem;
+    border: 2px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-family: inherit;
+    font-size: 1rem;
+    transition: border-color 0.2s;
+    width: 100%;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+    border-color: var(--primary);
+}
+
+textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.hint {
+    color: var(--text-light);
+    font-size: 0.75rem;
+}
+
+/* Customization Panel */
+.customization-panel {
+    background: #f9fafb;
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--border);
+}
+
+.customization-panel h3 {
+    margin-bottom: 1rem;
+    font-size: 1.125rem;
+    color: var(--text);
+}
+
+.options-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+}
+
+.option-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.option-group.full-width {
+    grid-column: 1 / -1;
+}
+
+.size-options {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.size-btn {
+    flex: 1;
+    padding: 0.5rem;
+    border: 2px solid var(--border);
+    background: white;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.size-btn:hover {
+    border-color: var(--secondary);
+}
+
+.size-btn.active {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: white;
+}
+
+input[type="color"] {
+    height: 40px;
+    cursor: pointer;
+    padding: 0.25rem;
+}
+
+/* Generate Button */
+.generate-btn {
+    width: 100%;
+    padding: 1rem 2rem;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: 1.125rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+}
+
+.generate-btn:hover:not(:disabled) {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px -5px rgba(79, 70, 229, 0.3);
+}
+
+.generate-btn:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.generate-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.btn-loader {
+    display: inline-block;
+}
+
+.btn-loader::after {
+    content: '';
+    display: inline-block;
+    width: 1rem;
+    height: 1rem;
+    border: 2px solid white;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin-left: 0.5rem;
+    vertical-align: middle;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Result Section */
+.result-section {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 2px solid var(--border);
+    text-align: center;
+    animation: fadeIn 0.5s ease;
+}
+
+.qr-display {
+    position: relative;
+    display: inline-block;
+    margin-bottom: 1.5rem;
+    background: white;
+    padding: 2rem;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+#qr-canvas {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+.logo-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 20%;
+    max-height: 20%;
+    object-fit: contain;
+    background: white;
+    padding: 5px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.download-options {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.download-btn {
+    padding: 0.75rem 1.5rem;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.download-btn:hover {
+    background: var(--primary-dark);
+}
+
+.download-btn.secondary {
+    background: var(--text-light);
+}
+
+.download-btn.secondary:hover {
+    background: var(--text);
+}
+
+/* History Section */
+.history-section {
+    margin-top: 3rem;
+}
+
+.history-section h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    font-size: 1.5rem;
+    color: var(--text);
+}
+
+.history-list {
+    display: grid;
+    gap: 1rem;
+}
+
+.history-item {
+    background: var(--surface);
+    padding: 1rem 1.5rem;
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    transition: transform 0.2s;
+}
+
+.history-item:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+.history-info {
+    flex: 1;
+}
+
+.history-type {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    background: var(--accent);
+    color: var(--primary);
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 0.25rem;
+}
+
+.history-value {
+    font-weight: 600;
+    color: var(--text);
+    word-break: break-all;
+}
+
+.history-date {
+    font-size: 0.75rem;
+    color: var(--text-light);
+    margin-top: 0.25rem;
+}
+
+.history-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.history-btn {
+    padding: 0.5rem;
+    border: none;
+    background: var(--background);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    color: var(--primary);
+    transition: all 0.2s;
+}
+
+.history-btn:hover {
+    background: var(--primary);
+    color: white;
+}
+
+.empty-history {
+    text-align: center;
+    color: var(--text-light);
+    padding: 2rem;
+    font-style: italic;
+}
+
+/* Footer */
+.footer {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding: 2rem 0;
+    margin-top: 3rem;
+    text-align: center;
+}
+
+.privacy-msg {
+    color: var(--primary);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.copyright {
+    color: var(--text-light);
+    font-size: 0.875rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .nav-links {
+        display: none;
+    }
+    
+    .tool-card {
+        padding: 1.5rem;
+    }
+    
+    .tool-header h1 {
+        font-size: 1.5rem;
+    }
+    
+    .type-selector {
+        gap: 0.25rem;
+    }
+    
+    .type-btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+    }
+    
+    .options-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .download-options {
+        flex-direction: column;
+    }
+    
+    .download-btn {
+        width: 100%;
+    }
+    
+    .history-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-container {
+        margin: 1rem auto;
+    }
+    
+    .tool-card {
+        padding: 1rem;
+        border-radius: var(--radius-sm);
+    }
+    
+    .qr-display {
+        padding: 1rem;
+    }
+}
+    </style>
 </head> <body> <header> <div class="container"> <div class="header-content"> <a href="#" class="logo"> <i class="fas fa-tools"></i> <span>ToolTari</span> </a></div> </div> </header>
     <div class="container">
     <div class="ad-slot">
@@ -164,7 +773,413 @@
     </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    <script src="script.js"></script>
+    <script>
+        const QRCodeGenerator = (() => {
+    'use strict';
+
+    const state = {
+        currentType: 'url',
+        currentSize: 300,
+        currentColor: '#000000',
+        currentBg: '#ffffff',
+        currentErrorLevel: 0,
+        logoImage: null,
+        qrData: null
+    };
+
+    const elements = {
+        typeButtons: document.querySelectorAll('.type-btn'),
+        inputGroups: document.querySelectorAll('.input-group'),
+        generateBtn: document.getElementById('generate-btn'),
+        resultSection: document.getElementById('result-section'),
+        canvas: document.getElementById('qr-canvas'),
+        logoPreview: document.getElementById('qr-logo-preview'),
+        newQrBtn: document.getElementById('new-qr-btn'),
+        downloadBtns: document.querySelectorAll('.download-btn[data-format]'),
+        sizeButtons: document.querySelectorAll('.size-btn'),
+        historyList: document.getElementById('history-list'),
+        logoInput: document.getElementById('qr-logo')
+    };
+
+    const inputs = {
+        url: document.getElementById('qr-url'),
+        text: document.getElementById('qr-text'),
+        email: document.getElementById('qr-email'),
+        subject: document.getElementById('qr-subject'),
+        body: document.getElementById('qr-body'),
+        phone: document.getElementById('qr-phone'),
+        ssid: document.getElementById('qr-ssid'),
+        password: document.getElementById('qr-password'),
+        encryption: document.getElementById('qr-encryption'),
+        color: document.getElementById('qr-color'),
+        bg: document.getElementById('qr-bg'),
+        error: document.getElementById('qr-error')
+    };
+
+    const errorLevels = { '1': 'L', '0': 'M', '3': 'Q', '2': 'H' };
+
+    function init() {
+        loadHistory();
+        bindEvents();
+        checkInputValidity();
+    }
+
+    function bindEvents() {
+        elements.typeButtons.forEach(btn => {
+            btn.addEventListener('click', () => switchType(btn.dataset.type));
+        });
+
+        elements.sizeButtons.forEach(btn => {
+            btn.addEventListener('click', () => setSize(btn));
+        });
+
+        elements.generateBtn.addEventListener('click', generateQR);
+        elements.newQrBtn.addEventListener('click', resetForm);
+        
+        elements.downloadBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => downloadQR(e.target.dataset.format));
+        });
+
+        elements.logoInput.addEventListener('change', handleLogoUpload);
+
+        Object.values(inputs).forEach(input => {
+            if(input) {
+                input.addEventListener('input', checkInputValidity);
+                input.addEventListener('change', checkInputValidity);
+            }
+        });
+    }
+
+    function switchType(type) {
+        state.currentType = type;
+        
+        elements.typeButtons.forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.type === type);
+        });
+
+        elements.inputGroups.forEach(group => {
+            group.classList.add('hidden');
+        });
+
+        const activeGroup = document.getElementById(`${type}-input`);
+        if(activeGroup) activeGroup.classList.remove('hidden');
+
+        checkInputValidity();
+    }
+
+    function setSize(btn) {
+        state.currentSize = parseInt(btn.dataset.size);
+        elements.sizeButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+    }
+
+    function handleLogoUpload(e) {
+        const file = e.target.files[0];
+        if(!file) return;
+
+        if(file.size > 2 * 1024 * 1024) {
+            alert('Logo file too large. Max 2MB.');
+            e.target.value = '';
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            const img = new Image();
+            img.onload = () => {
+                state.logoImage = img;
+            };
+            img.src = event.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+
+    function getQRData() {
+        switch(state.currentType) {
+            case 'url':
+                const url = inputs.url.value.trim();
+                if(!url) return null;
+                if(!isValidUrl(url)) {
+                    alert('Please enter a valid URL (include https:// or http://)');
+                    return null;
+                }
+                return url;
+
+            case 'text':
+                return inputs.text.value.trim() || null;
+
+            case 'email':
+                const email = inputs.email.value.trim();
+                if(!email) return null;
+                if(!isValidEmail(email)) {
+                    alert('Please enter a valid email address');
+                    return null;
+                }
+                const subject = inputs.subject.value.trim();
+                const body = inputs.body.value.trim();
+                let mailto = `mailto:${email}`;
+                if(subject || body) {
+                    mailto += '?';
+                    if(subject) mailto += `subject=${encodeURIComponent(subject)}`;
+                    if(subject && body) mailto += '&';
+                    if(body) mailto += `body=${encodeURIComponent(body)}`;
+                }
+                return mailto;
+
+            case 'phone':
+                const phone = inputs.phone.value.trim();
+                if(!phone) return null;
+                return `tel:${phone}`;
+
+            case 'wifi':
+                const ssid = inputs.ssid.value.trim();
+                if(!ssid) {
+                    alert('Please enter WiFi network name');
+                    return null;
+                }
+                const pass = inputs.password.value.trim();
+                const enc = inputs.encryption.value;
+                return `WIFI:S:${ssid};T:${enc};P:${pass};;`;
+
+            default:
+                return null;
+        }
+    }
+
+    function isValidUrl(string) {
+        try {
+            const url = new URL(string);
+            return url.protocol === 'http:' || url.protocol === 'https:';
+        } catch (_) {
+            return false;
+        }
+    }
+
+    function isValidEmail(email) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+
+    function checkInputValidity() {
+        const data = getQRData();
+        elements.generateBtn.disabled = !data;
+    }
+
+    function generateQR() {
+        const data = getQRData();
+        if(!data) return;
+
+        elements.generateBtn.disabled = true;
+        elements.generateBtn.querySelector('.btn-text').classList.add('hidden');
+        elements.generateBtn.querySelector('.btn-loader').classList.remove('hidden');
+
+        setTimeout(() => {
+            try {
+                createQRCode(data);
+                state.qrData = data;
+                saveToHistory(data);
+                elements.resultSection.classList.remove('hidden');
+                elements.resultSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            } catch(err) {
+                console.error('QR Generation error:', err);
+                alert('Error generating QR code. Please try again.');
+            } finally {
+                elements.generateBtn.disabled = false;
+                elements.generateBtn.querySelector('.btn-text').classList.remove('hidden');
+                elements.generateBtn.querySelector('.btn-loader').classList.add('hidden');
+            }
+        }, 100);
+    }
+
+    function createQRCode(data) {
+        elements.canvas.innerHTML = '';
+        
+        const qr = new QRCode(elements.canvas, {
+            text: data,
+            width: state.currentSize,
+            height: state.currentSize,
+            colorDark: inputs.color.value,
+            colorLight: inputs.bg.value,
+            correctLevel: QRCode.CorrectLevel[errorLevels[inputs.error.value]]
+        });
+
+        if(state.logoImage) {
+            setTimeout(() => overlayLogo(), 50);
+        } else {
+            elements.logoPreview.classList.add('hidden');
+        }
+    }
+
+    function overlayLogo() {
+        const canvas = elements.canvas.querySelector('canvas');
+        if(!canvas || !state.logoImage) return;
+
+        const ctx = canvas.getContext('2d');
+        const size = Math.min(canvas.width * 0.2, 100);
+        const x = (canvas.width - size) / 2;
+        const y = (canvas.height - size) / 2;
+
+        ctx.fillStyle = inputs.bg.value || '#ffffff';
+        ctx.fillRect(x - 5, y - 5, size + 10, size + 10);
+        ctx.drawImage(state.logoImage, x, y, size, size);
+
+        elements.logoPreview.src = canvas.toDataURL();
+        elements.logoPreview.classList.remove('hidden');
+    }
+
+    function downloadQR(format) {
+        const canvas = elements.canvas.querySelector('canvas');
+        if(!canvas) return;
+
+        let dataUrl, filename, mimeType;
+
+        switch(format) {
+            case 'png':
+                dataUrl = canvas.toDataURL('image/png');
+                filename = `qrcode-${Date.now()}.png`;
+                mimeType = 'image/png';
+                break;
+            case 'jpg':
+            case 'jpeg':
+                dataUrl = canvas.toDataURL('image/jpeg', 0.9);
+                filename = `qrcode-${Date.now()}.jpg`;
+                mimeType = 'image/jpeg';
+                break;
+            default:
+                return;
+        }
+
+        const link = document.createElement('a');
+        link.download = filename;
+        link.href = dataUrl;
+        link.click();
+    }
+
+    function saveToHistory(data) {
+        const history = JSON.parse(localStorage.getItem('qr_history') || '[]');
+        const item = {
+            type: state.currentType,
+            value: data.substring(0, 100),
+            fullValue: data,
+            timestamp: new Date().toISOString(),
+            size: state.currentSize
+        };
+
+        history.unshift(item);
+        if(history.length > 10) history.pop();
+        
+        localStorage.setItem('qr_history', JSON.stringify(history));
+        loadHistory();
+    }
+
+    function loadHistory() {
+        const history = JSON.parse(localStorage.getItem('qr_history') || '[]');
+        
+        if(history.length === 0) {
+            elements.historyList.innerHTML = '<p class="empty-history">No history yet. Generate your first QR code!</p>';
+            return;
+        }
+
+        elements.historyList.innerHTML = history.map((item, index) => `
+            <div class="history-item">
+                <div class="history-info">
+                    <span class="history-type">${item.type}</span>
+                    <div class="history-value">${escapeHtml(item.value)}</div>
+                    <div class="history-date">${formatDate(item.timestamp)}</div>
+                </div>
+                <div class="history-actions">
+                    <button class="history-btn" onclick="QRCodeGenerator.regenerate('${escapeHtml(item.fullValue)}', '${item.type}')" title="Regenerate">
+                        🔄
+                    </button>
+                    <button class="history-btn" onclick="QRCodeGenerator.deleteItem(${index})" title="Delete">
+                        🗑️
+                    </button>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function regenerate(data, type) {
+        switchType(type);
+        
+        switch(type) {
+            case 'url':
+                inputs.url.value = data;
+                break;
+            case 'text':
+                inputs.text.value = data;
+                break;
+            case 'email':
+                if(data.startsWith('mailto:')) {
+                    const clean = data.substring(7);
+                    const parts = clean.split('?');
+                    inputs.email.value = parts[0];
+                    if(parts[1]) {
+                        const params = new URLSearchParams(parts[1]);
+                        inputs.subject.value = params.get('subject') || '';
+                        inputs.body.value = params.get('body') || '';
+                    }
+                }
+                break;
+            case 'phone':
+                inputs.phone.value = data.replace('tel:', '');
+                break;
+            case 'wifi':
+                const match = data.match(/WIFI:S:(.*?);T:(.*?);P:(.*?);;/);
+                if(match) {
+                    inputs.ssid.value = match[1];
+                    inputs.encryption.value = match[2];
+                    inputs.password.value = match[3];
+                }
+                break;
+        }
+        
+        checkInputValidity();
+        generateQR();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function deleteItem(index) {
+        const history = JSON.parse(localStorage.getItem('qr_history') || '[]');
+        history.splice(index, 1);
+        localStorage.setItem('qr_history', JSON.stringify(history));
+        loadHistory();
+    }
+
+    function resetForm() {
+        elements.resultSection.classList.add('hidden');
+        Object.values(inputs).forEach(input => {
+            if(input && input.type !== 'color' && input.tagName !== 'SELECT') {
+                input.value = '';
+            }
+        });
+        state.logoImage = null;
+        elements.logoInput.value = '';
+        elements.logoPreview.classList.add('hidden');
+        checkInputValidity();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    function formatDate(isoString) {
+        const date = new Date(isoString);
+        return date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
+    }
+
+    return {
+        init,
+        regenerate,
+        deleteItem
+    };
+})();
+
+document.addEventListener('DOMContentLoaded', QRCodeGenerator.init);
+    </script>
 <script src="https://huggingface.co/deepsite/deepsite-badge.js"></script>
 </body>
 </html>
+
