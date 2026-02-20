@@ -1,0 +1,1362 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="google-site-verification" content="d1uLLcwbDH99lepVNG6a_KEpVP24yjo1DqHN4aKhWk8" />
+    <meta name="google-site-verification" content="DQqyX9WMxJ5WGu-RztD_YNTQouf8FJe_XGpT24Vol2k" />
+    <meta name="google-adsense-account" content="ca-pub-3097658772821429">
+    <meta name="generator" content="OmDev NETLIFY"/>
+
+    <meta name="description" content="Watch & stream the best anime series, movies, and web series in HD for free on OmDev NETLIFY. Enjoy popular anime like One Piece, Demon Slayer, Jujutsu Kaisen, and more!"/>
+    <meta name="keywords" content="Anime Streaming, Watch Anime Free, Best Anime Online, HD Anime, Dubbed Anime, Subbed Anime, Jujutsu Kaisen, One Piece, Demon Slayer, Attack on Titan, Naruto, My Hero Academia, Bleach, Blue Lock, Black Clover, Solo Leveling, Tokyo Revengers, Chainsaw Man, Re:Zero, Mushoku Tensei, Oshi no Ko, Hell’s Paradise, Upcoming Anime 2025, Anime Movies, Web Series, Top Anime Series"/>
+    <meta name="author" content="OmDev NETLIFY"/>
+    <meta name="contact" content="rdsteam18@gmail.com"/>
+    <meta name="robots" content="index, follow"/>
+    <meta name="language" content="English"/>
+    <meta name="distribution" content="global"/>
+    <meta name="rating" content="general"/>
+
+    <meta property="og:type" content="website"/>
+    <meta property="og:title" content="OmDev NETLIFY - Watch HD Anime, Movies & Web Series Online for Free"/>
+    <meta property="og:site_name" content="OmDev NETLIFY"/>
+    <meta property="og:url" content="https://omdev.netlify.app/"/>
+    <meta property="og:image" content="https://omdev.netlify.app/fa282e9ffcafd1725a90be01d101fc65.webp"/>
+    <meta property="og:description" content="Stream the best anime series, movies, and web series in HD quality for free on OmDev NETLIFY. Explore your favorite content anytime, anywhere!"/>
+    <meta property="og:locale" content="en_US"/>
+
+    <meta name="twitter:card" content="summary_large_image"/>
+    <meta name="twitter:title" content="OmDev NETLIFY - Watch HD Anime, Movies & Web Series Online for Free"/>
+    <meta name="twitter:image" content="https://omdev.netlify.app/fa282e9ffcafd1725a90be01d101fc65.webp"/>
+    <meta name="twitter:description" content="Stream popular anime, movies, and web series in HD for free on OmDev NETLIFY. Find your favorite content and start watching now!"/>
+    <meta name="twitter:site" content="@OmDevNETLIFY"/>
+    <meta name="twitter:url" content="https://omdev.netlify.app" />
+
+    <title>NETLIFY</title>
+    <link rel="icon" type="image/png" href="https://blogger.googleusercontent.com/img/a/AVvXsEgGhd-CvK9t1DntiBFXedIpokqWdKqwRCgOdI9KOEqlkLOgRpUCzkxDhiKbPAUhWgMa_3iCZy-eg1k1udxqEbMP8kMxLP9ktvBAqrgJV5S-nV1iStBeZjxgH7ECwxAJwmI_XUGnVzNO7Ff-Lbg2iHjsq7HPkuEKi3bXiEMaoJKPbgRyUikodONA5h4f=rw">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap');
+        
+        body {
+            background-color: #0f0f13;
+            color: white;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .hero-gradient {
+            background: linear-gradient(135deg, rgba(15,15,19,0.8) 0%, rgba(157,80,255,0.3) 100%);
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box shadow: 0 10px 20px rgba(157, 80, 255, 0.3);
+        }
+        
+        .neon-border {
+            position: relative;
+        }
+        
+        .neon-border::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 0.5rem;
+            padding: 2px;
+            background: linear-gradient(45deg, #ff2d75, #00f0ff, #9d50ff);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .neon-border:hover::before {
+            opacity: 1;
+        }
+        
+        .search-glow:focus {
+            box-shadow: 0 0 15px rgba(157, 80, 255, 0.5);
+        }
+        
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #ff2d75, #00f0ff);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .play-button {
+            transition: all 0.3s ease;
+            opacity: 0;
+        }
+        
+        .anime-card:hover .play-button {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .swiper-slide {
+            height: auto;
+        }
+        
+        .anime-detail-page {
+            display: none;
+        }
+        
+        .ad-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 2rem auto;
+            max-width: 100%;
+            overflow: hidden;
+        }
+        
+        .ad-fallback {
+            display: none;
+            text-align: center;
+            color: #9d50ff;
+            font-family: 'Inter', sans-serif;
+            padding: 1rem;
+            background: #0a0a0e;
+            border-radius: 0.5rem;
+        }
+        
+        .ad-container ins {
+            width: 100%;
+            max-width: 100%;
+        }
+        
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #0a0a0e;
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 0 10px rgba(157, 80, 255, 0.5);
+            z-index: 1000;
+            display: none;
+            font-family: 'Inter', sans-serif;
+            border: 1px solid #9d50ff;
+        }
+        
+        .toast.show {
+            display: block;
+            animation: slideIn 0.3s ease forwards;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        @media (max-width: 768px) {
+            .hero-content {
+                padding-top: 2rem;
+                padding-bottom: 2rem;
+            }
+            
+            .anime-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+            
+            .ad-container {
+                margin: 1rem auto;
+            }
+            
+            .toast {
+                bottom: 10px;
+                right: 10px;
+                left: 10px;
+                margin: 0 auto;
+                max-width: 90%;
+            }
+        }
+        
+        @media (min-width: 1024px) {
+            .anime-grid {
+                grid-template-columns: repeat(5, minmax(0, 1fr));
+            }
+            
+            .ad-container.skyscraper {
+                max-width: 160px;
+            }
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#ff2d75', // neon pink
+                        secondary: '#00f0ff', // neon blue
+                        accent: '#9d50ff', // neon purple
+                        dark: '#0f0f13',
+                        darker: '#0a0a0e',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        anime: ['"Exo 2"', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'neon-pink': '0 0 8px 2px rgba(255, 45, 117, 0.6)',
+                        'neon-blue': '0 0 8px 2px rgba(0, 240, 255, 0.6)',
+                        'neon-purple': '0 0 8px 2px rgba(157, 80, 255, 0.6)',
+                        'glow': '0 0 15px 5px rgba(157, 80, 255, 0.3)',
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-dark text-gray-200">
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-darker bg-opacity-90 backdrop-blur-md border-b border-gray-800">
+        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-4">
+                <button id="mobile-menu-button" class="md:hidden text-primary focus:outline-none">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+                <a href="#" class="flex items-center" onclick="showHomePage()">
+                    <span class="text-2xl font-bold font-anime bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">NETLIFY</span>
+                </a>
+            </div>
+            
+            <div class="hidden md:flex flex-1 mx-8">
+                <div class="relative w-full max-w-xl">
+                    <input type="text" id="desktop-search" placeholder="Search anime..." class="w-full bg-gray-900 rounded-full py-2 px-4 pl-10 text-white focus:outline-none focus:ring-2 focus:ring-accent search-glow transition-all">
+                    <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                </div>
+            </div>
+            
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="#" class="nav-link text-white hover:text-primary font-medium" onclick="showHomePage()">Home</a>
+                <a href="#" class="nav-link text-gray-400 hover:text-primary font-medium" onclick="showTrendingAnime()">Trending</a>
+                <a href="#" class="nav-link text-gray-400 hover:text-primary font-medium" onclick="showGenres()">Genres</a>
+                <a href="#" class="nav-link text-gray-400 hover:text-primary font-medium" onclick="showMyList()">My List</a>
+                <button onclick="window.location.href='https://omdev-netlify.kesug.com/'" class="bg-primary hover:bg-opacity-90 text-white px-4 py-1 rounded-full font-medium transition-all shadow-neon-pink hover:shadow-neon-purple">
+                    Visit OmDev
+                </button>
+                <button class="bg-primary hover:bg-opacity-90 text-white px-4 py-1 rounded-full font-medium transition-all shadow-neon-pink hover:shadow-neon-purple">
+                    Sign In
+                </button>
+            </div>
+            
+            <div class="md:hidden">
+                <button id="mobile-search-button" class="text-gray-400 hover:text-primary focus:outline-none">
+                    <i class="fas fa-search text-xl"></i>
+                </button>
+            </div>
+        </div>
+        
+        <div id="mobile-menu" class="hidden md:hidden bg-darker border-t border-gray-800">
+            <div class="container mx-auto px-4 py-3 flex flex-col space-y-3">
+                <div class="relative mb-3">
+                    <input type="text" id="mobile-search" placeholder="Search anime..." class="w-full bg-gray-900 rounded-full py-2 px-4 pl-10 text-white focus:outline-none focus:ring-2 focus:ring-accent">
+                    <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                </div>
+                <a href="#" class="text-white hover:text-primary font-medium py-1" onclick="showHomePage()">Home</a>
+                <a href="#" class="text-gray-400 hover:text-primary font-medium py-1" onclick="showTrendingAnime()">Trending</a>
+                <a href="#" class="text-gray-400 hover:text-primary font-medium py-1" onclick="showGenres()">Genres</a>
+                <a href="#" class="text-gray-400 hover:text-primary font-medium py-1" onclick="showMyList()">My List</a>
+                <button onclick="window.location.href='https://omdev-netlify.kesug.com/'" class="bg-primary hover:bg-opacity-90 text-white px-4 py-2 rounded-full font-medium mt-2">
+                    Visit OmDev
+                </button>
+                <button class="bg-primary hover:bg-opacity-90 text-white px-4 py-2 rounded-full font-medium mt-2">
+                    Sign In
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Ad Below Navigation -->
+    <div class="ad-container">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-3097658772821429"
+             data-ad-slot="YOUR_AD_SLOT_ID"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <div class="ad-fallback">Advertisement not loaded</div>
+        <script>
+            try {
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            } catch (e) {
+                console.error('Ad loading error:', e);
+                document.querySelector('.ad-container .ad-fallback').style.display = 'block';
+            }
+        </script>
+    </div>
+
+    <!-- Home Page -->
+    <div id="home-page">
+        <main class="container mx-auto px-4 py-8 relative z-10 pt-20">
+            <section class="mb-12">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-2xl font-bold font-anime text-white">Trending Now</h2>
+                    <a href="#" class="text-primary hover:underline" onclick="showTrendingAnime()">View All</a>
+                </div>
+                <div class="swiper trending-swiper">
+                    <div class="swiper-wrapper"></div>
+                    <div class="swiper-button-next text-primary"></div>
+                    <div class="swiper-button-prev text-primary"></div>
+                </div>
+            </section>
+
+            <div class="ad-container">
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-3097658772821429"
+                     data-ad-slot="YOUR_AD_SLOT_ID"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <div class="ad-fallback">Advertisement not loaded</div>
+                <script>
+                    try {
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    } catch (e) {
+                        console.error('Ad loading error:', e);
+                        document.querySelector('.ad-container .ad-fallback').style.display = 'block';
+                    }
+                </script>
+            </div>
+
+            <section class="mb-12">
+                <div class="flex flex-col md:flex-row justify-between items-center mb-8">
+                    <h2 class="text-2xl font-bold font-anime text-white">Popular This Season</h2>
+                    <div class="flex space-x-2 overflow-x-auto w-full md:w-auto pb-2">
+                        <select id="genre-filter" class="bg-gray-900 text-white rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-accent">
+                            <option value="">All Genres</option>
+                        </select>
+                        <select id="type-filter" class="bg-gray-900 text-white rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-accent">
+                            <option value="">All Types</option>
+                            <option value="tv">TV</option>
+                            <option value="movie">Movie</option>
+                            <option value="ova">OVA</option>
+                        </select>
+                        <select id="season-filter" class="bg-gray-900 text-white rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-accent">
+                            <option value="">All Seasons</option>
+                            <option value="winter">Winter 2025</option>
+                            <option value="spring">Spring 2025</option>
+                            <option value="summer">Summer 2025</option>
+                            <option value="fall">Fall 2025</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div id="anime-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6"></div>
+                
+                <div id="loading-spinner" class="flex justify-center py-12">
+                    <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+                </div>
+                
+                <div class="flex justify-center mt-10">
+                    <button id="load-more" class="bg-transparent border border-accent text-accent hover:bg-accent hover:bg-opacity-10 px-8 py-3 rounded-full font-medium transition-all">
+                        Load More Anime
+                    </button>
+                </div>
+            </section>
+
+            <div class="ad-container">
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-3097658772821429"
+                     data-ad-slot="YOUR_AD_SLOT_ID"
+                     data-ad-format="auto"
+                     data-full-width-responsive="true"></ins>
+                <div class="ad-fallback">Advertisement not loaded</div>
+                <script>
+                    try {
+                        (adsbygoogle = window.adsbygoogle || []).push({});
+                    } catch (e) {
+                        console.error('Ad loading error:', e);
+                        document.querySelector('.ad-container .ad-fallback').style.display = 'block';
+                    }
+                </script>
+            </div>
+
+            <section class="mb-12">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-2xl font-bold font-anime text-white">Top Rated Anime</h2>
+                    <a href="#" class="text-primary hover:underline">View All</a>
+                </div>
+                <div class="swiper top-rated-swiper">
+                    <div class="swiper-wrapper"></div>
+                    <div class="swiper-button-next text-primary"></div>
+                    <div class="swiper-button-prev text-primary"></div>
+                </div>
+            </section>
+        </main>
+    </div>
+    
+    <!-- Anime Detail Page -->
+    <div id="anime-detail-page" class="anime-detail-page">
+        <section class="relative pt-16 pb-12 md:pt-20 md:pb-16 overflow-hidden">
+            <div id="detail-background" class="absolute inset-0 bg-cover bg-center z-0"></div>
+            <div class="hero-gradient absolute inset-0 z-1"></div>
+            
+            <div class="container mx-auto px-4 relative z-10">
+                <button onclick="showHomePage()" class="mb-6 text-gray-300 hover:text-primary transition-colors">
+                    <i class="fas fa-arrow-left mr-2"></i> Back to Home
+                </button>
+                
+                <div class="flex flex-col md:flex-row gap-8">
+                    <div class="w-full md:w-1/3 lg:w-1/4">
+                        <img id="detail-poster" src="" alt="" class="w-full rounded-lg shadow-lg">
+                    </div>
+                    
+                    <div class="w-full md:w-2/3 lg:w-3/4">
+                        <h1 id="detail-title" class="text-3xl md:text-5xl font-bold font-anime mb-2 text-white">Loading...</h1>
+                        
+                        <div class="flex flex-wrap items-center gap-3 mb-4">
+                            <span id="detail-score" class="bg-accent text-white px-3 py-1 rounded-full text-sm font-medium flex items-center">
+                                <i class="fas fa-star mr-1"></i> <span>9.2</span>
+                            </span>
+                            <span id="detail-type" class="bg-primary text-white px-3 py-1 rounded-full text-sm font-medium">TV</span>
+                            <span id="detail-episodes" class="bg-secondary text-white px-3 py-1 rounded-full text-sm font-medium">24 Episodes</span>
+                            <span id="detail-status" class="bg-gray-700 text-white px-3 py-1 rounded-full text-sm font-medium">Airing</span>
+                            <span id="detail-year" class="text-gray-300 text-sm">2025</span>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <h3 class="text-lg font-semibold text-white mb-2">Synopsis</h3>
+                            <p id="detail-synopsis" class="text-gray-300">Loading description...</p>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
+                            <div>
+                                <h4 class="text-sm text-gray-400">Studio</h4>
+                                <p id="detail-studios" class="text-white">Loading...</p>
+                            </div>
+                            <div>
+                                <h4 class="text-sm text-gray-400">Source</h4>
+                                <p id="detail-source" class="text-white">Loading...</p>
+                            </div>
+                            <div>
+                                <h4 class="text-sm text-gray-400">Duration</h4>
+                                <p id="detail-duration" class="text-white">Loading...</p>
+                            </div>
+                            <div>
+                                <h4 class="text-sm text-gray-400">Rating</h4>
+                                <p id="detail-rating" class="text-white">Loading...</p>
+                            </div>
+                            <div>
+                                <h4 class="text-sm text-gray-400">Genres</h4>
+                                <p id="detail-genres" class="text-white">Loading...</p>
+                            </div>
+                            <div>
+                                <h4 class="text-sm text-gray-400">Themes</h4>
+                                <p id="detail-themes" class="text-white">Loading...</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex space-x-4">
+                            <button class="bg-primary hover:bg-opacity-90 text-white px-6 py-2 rounded-full font-medium flex items-center transition-all shadow-neon-pink hover:shadow-neon-purple">
+                                <i class="fas fa-play mr-2"></i> Watch Now
+                            </button>
+                            <button id="detail-my-list" class="bg-transparent border border-gray-600 hover:border-primary text-white px-6 py-2 rounded-full font-medium flex items-center transition-all hover:text-primary">
+                                <i id="detail-my-list-icon" class="far fa-plus mr-2"></i> <span id="detail-my-list-text">My List</span>
+                            </button>
+                            <button id="detail-share" class="bg-transparent border border-gray-600 hover:border-secondary text-white px-6 py-2 rounded-full font-medium flex items-center transition-all hover:text-secondary">
+                                <i class="fas fa-share-alt mr-2"></i> Share
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="hidden lg:block w-full lg:w-1/5">
+                        <div class="ad-container skyscraper">
+                            <ins class="adsbygoogle"
+                                 style="display:block"
+                                 data-ad-client="ca-pub-3097658772821429"
+                                 data-ad-slot="YOUR_AD_SLOT_ID"
+                                 data-ad-format="auto"
+                                 data-full-width-responsive="true"></ins>
+                            <div class="ad-fallback">Advertisement not loaded</div>
+                            <script>
+                                try {
+                                    (adsbygoogle = window.adsbygoogle || []).push({});
+                                } catch (e) {
+                                    console.error('Ad loading error:', e);
+                                    document.querySelector('.ad-container.skyscraper .ad-fallback').style.display = 'block';
+                                }
+                            </script>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="container mx-auto px-4 py-8">
+            <h2 class="text-2xl font-bold font-anime mb-6 text-white">Characters</h2>
+            <div class="swiper characters-swiper">
+                <div class="swiper-wrapper"></div>
+                <div class="swiper-button-next text-primary"></div>
+                <div class="swiper-button-prev text-primary"></div>
+            </div>
+        </section>
+        
+        <section class="container mx-auto px-4 py-8">
+            <h2 class="text-2xl font-bold font-anime mb-6 text-white">Recommendations</h2>
+            <div class="swiper recommendations-swiper">
+                <div class="swiper-wrapper"></div>
+                <div class="swiper-button-next text-primary"></div>
+                <div class="swiper-button-prev text-primary"></div>
+            </div>
+        </section>
+    </div>
+    
+    <!-- Trending Anime Page -->
+    <div id="trending-page" class="anime-detail-page">
+        <div class="container mx-auto px-4 pt-20 pb-8">
+            <button onclick="showHomePage()" class="mb-6 text-gray-300 hover:text-primary transition-colors">
+                <i class="fas fa-arrow-left mr-2"></i> Back to Home
+            </button>
+            
+            <h1 class="text-3xl font-bold font-anime mb-8 text-white">Trending Anime</h1>
+            
+            <div id="trending-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6"></div>
+        </div>
+    </div>
+    
+    <!-- Genres Page -->
+    <div id="genres-page" class="anime-detail-page">
+        <div class="container mx-auto px-4 pt-20 pb-8">
+            <button onclick="showHomePage()" class="mb-6 text-gray-300 hover:text-primary transition-colors">
+                <i class="fas fa-arrow-left mr-2"></i> Back to Home
+            </button>
+            
+            <h1 class="text-3xl font-bold font-anime mb-8 text-white">Browse by Genre</h1>
+            
+            <div id="genres-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4"></div>
+        </div>
+    </div>
+    
+    <!-- My List Page -->
+    <div id="my-list-page" class="anime-detail-page">
+        <div class="container mx-auto px-4 pt-20 pb-8">
+            <button onclick="showHomePage()" class="mb-6 text-gray-300 hover:text-primary transition-colors">
+                <i class="fas fa-arrow-left mr-2"></i> Back to Home
+            </button>
+            
+            <h1 class="text-3xl font-bold font-anime mb-8 text-white">My Anime List</h1>
+            
+            <div id="my-list-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6"></div>
+            
+            <div id="empty-list-message" class="text-center py-12">
+                <i class="fas fa-bookmark text-5xl text-gray-500 mb-4"></i>
+                <h3 class="text-xl font-medium text-gray-400">Your list is empty</h3>
+                <p class="text-gray-500 mt-2">Add anime to your list to watch them later</p>
+                <button onclick="showHomePage()" class="mt-4 bg-primary hover:bg-opacity-90 text-white px-6 py-2 rounded-full font-medium">
+                    Browse Anime
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search Results Page -->
+    <div id="search-results-page" class="anime-detail-page">
+        <div class="container mx-auto px-4 pt-20 pb-8">
+            <button onclick="showHomePage()" class="mb-6 text-gray-300 hover:text-primary transition-colors">
+                <i class="fas fa-arrow-left mr-2"></i> Back to Home
+            </button>
+            
+            <h1 id="search-results-title" class="text-3xl font-bold font-anime mb-8 text-white">Search Results</h1>
+            
+            <div id="search-results-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6"></div>
+            
+            <div id="no-results-message" class="text-center py-12 hidden">
+                <i class="fas fa-search text-5xl text-gray-500 mb-4"></i>
+                <h3 class="text-xl font-medium text-gray-400">No results found</h3>
+                <p class="text-gray-500 mt-2">Try a different search term</p>
+            </div>
+            
+            <div id="search-loading-spinner" class="flex justify-center py-12 hidden">
+                <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ad Below Footer -->
+    <div class="ad-container">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-3097658772821429"
+             data-ad-slot="YOUR_AD_SLOT_ID"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <div class="ad-fallback">Advertisement not loaded</div>
+        <script>
+            try {
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            } catch (e) {
+                console.error('Ad loading error:', e);
+                document.querySelector('.ad-container .ad-fallback').style.display = 'block';
+            }
+        </script>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-darker border-t border-gray-800 py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold font-anime bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent mb-4">NETLIFY</h3>
+                    <p class="text-gray-400">The ultimate destination for premium anime streaming. Watch the latest and greatest anime series and movies.</p>
+                </div>
+                <div>
+                    <h4 class="text-white font-medium mb-4">Navigation</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors" onclick="showHomePage()">Home</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors" onclick="showTrendingAnime()">Trending</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors" onclick="showGenres()">Genres</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors" onclick="showMyList()">My List</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-medium mb-4">Legal</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Terms of Service</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Privacy Policy</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">Cookie Policy</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">DMCA</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-medium mb-4">Connect With Us</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-primary text-xl transition-colors"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-primary text-xl transition-colors"><i class="fab fa-discord"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-primary text-xl transition-colors"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-primary text-xl transition-colors"><i class="fab fa-facebook"></i></a>
+                    </div>
+                    <div class="mt-4">
+                        <p class="text-gray-400">Subscribe to our newsletter</p>
+                        <div class="flex mt-2">
+                            <input type="email" placeholder="Your email" class="bg-gray-900 text-white px-4 py-2 rounded-l focus:outline-none w-full">
+                            <button class="bg-primary text-white px-4 py-2 rounded-r"><i class="fas fa-paper-plane"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-500">
+                <p>© 2025 NETLIFY. All rights reserved. All anime titles and associated content are property of their respective owners.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3097658772821429" crossorigin="anonymous"></script>
+    <script>
+        // Global variables
+        let currentPage = 1;
+        let currentAnimeId = null;
+        let myList = JSON.parse(localStorage.getItem('myList')) || [];
+        let currentSearchQuery = '';
+        let currentAnime = null;
+        
+        // Initialize Swiper sliders (removed heroSwiper)
+        const trendingSwiper = new Swiper('.trending-swiper', {
+            slidesPerView: 2,
+            spaceBetween: 15,
+            navigation: {
+                nextEl: '.trending-swiper .swiper-button-next',
+                prevEl: '.trending-swiper .swiper-button-prev',
+            },
+            breakpoints: {
+                640: { slidesPerView: 3, spaceBetween: 20 },
+                768: { slidesPerView: 4, spaceBetween: 25 },
+                1024: { slidesPerView: 5, spaceBetween: 30 },
+            }
+        });
+        
+        const topRatedSwiper = new Swiper('.top-rated-swiper', {
+            slidesPerView: 2,
+            spaceBetween: 15,
+            navigation: {
+                nextEl: '.top-rated-swiper .swiper-button-next',
+                prevEl: '.top-rated-swiper .swiper-button-prev',
+            },
+            breakpoints: {
+                640: { slidesPerView: 3, spaceBetween: 20 },
+                768: { slidesPerView: 4, spaceBetween: 25 },
+                1024: { slidesPerView: 5, spaceBetween: 30 },
+            }
+        });
+        
+        const charactersSwiper = new Swiper('.characters-swiper', {
+            slidesPerView: 2,
+            spaceBetween: 15,
+            navigation: {
+                nextEl: '.characters-swiper .swiper-button-next',
+                prevEl: '.characters-swiper .swiper-button-prev',
+            },
+            breakpoints: {
+                640: { slidesPerView: 3, spaceBetween: 20 },
+                768: { slidesPerView: 4, spaceBetween: 25 },
+                1024: { slidesPerView: 6, spaceBetween: 30 },
+            }
+        });
+        
+        const recommendationsSwiper = new Swiper('.recommendations-swiper', {
+            slidesPerView: 2,
+            spaceBetween: 15,
+            navigation: {
+                nextEl: '.recommendations-swiper .swiper-button-next',
+                prevEl: '.recommendations-swiper .swiper-button-prev',
+            },
+            breakpoints: {
+                640: { slidesPerView: 3, spaceBetween: 20 },
+                768: { slidesPerView: 4, spaceBetween: 25 },
+                1024: { slidesPerView: 5, spaceBetween: 30 },
+            }
+        });
+        
+        // Mobile menu toggle
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+        
+        // Mobile search toggle
+        document.getElementById('mobile-search-button').addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            const searchInput = document.getElementById('mobile-search');
+            
+            menu.classList.toggle('hidden');
+            if (!menu.classList.contains('hidden')) {
+                setTimeout(() => searchInput.focus(), 100);
+            }
+        });
+        
+        // Search functionality
+        function setupSearchInput(inputId) {
+            const input = document.getElementById(inputId);
+            input.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    currentSearchQuery = this.value.trim();
+                    if (currentSearchQuery) {
+                        showSearchResults(currentSearchQuery);
+                    }
+                }
+            });
+        }
+        
+        setupSearchInput('desktop-search');
+        setupSearchInput('mobile-search');
+        
+        // Toast notification
+        function showToast(message, duration = 3000) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), duration);
+        }
+        
+        // Share functionality
+        async function shareAnime(anime) {
+            const shareData = {
+                title: anime.title,
+                text: `Check out ${anime.title} on NETLIFY!`,
+                url: `${window.location.origin}/#anime/${anime.mal_id}`
+            };
+            
+            try {
+                if (navigator.share && navigator.canShare(shareData)) {
+                    await navigator.share(shareData);
+                    showToast('Shared successfully!');
+                } else {
+                    await navigator.clipboard.writeText(shareData.url);
+                    showToast('Link copied to clipboard!');
+                }
+            } catch (error) {
+                console.error('Error sharing anime:', error);
+                showToast('Failed to share. Please try again.');
+            }
+        }
+        
+        // Update My List button state
+        function updateMyListButton(animeId, buttonId, iconId, textId) {
+            const button = document.getElementById(buttonId);
+            const icon = document.getElementById(iconId);
+            const text = document.getElementById(textId);
+            const isInList = myList.some(a => a.mal_id === animeId);
+            
+            if (isInList) {
+                icon.className = 'fas fa-check mr-2';
+                text.textContent = 'Remove from My List';
+                button.classList.add('border-primary', 'text-primary');
+                button.classList.remove('border-gray-600', 'text-white');
+            } else {
+                icon.className = 'far fa-plus mr-2';
+                text.textContent = 'Add to My List';
+                button.classList.add('border-gray-600', 'text-white');
+                button.classList.remove('border-primary', 'text-primary');
+            }
+            
+            return isInList;
+        }
+        
+        // Page navigation functions
+        function showHomePage() {
+            document.getElementById('home-page').style.display = 'block';
+            document.getElementById('anime-detail-page').style.display = 'none';
+            document.getElementById('trending-page').style.display = 'none';
+            document.getElementById('genres-page').style.display = 'none';
+            document.getElementById('my-list-page').style.display = 'none';
+            document.getElementById('search-results-page').style.display = 'none';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            document.getElementById('mobile-menu').classList.add('hidden');
+        }
+        
+        function showAnimeDetail(animeId) {
+            currentAnimeId = animeId;
+            document.getElementById('home-page').style.display = 'none';
+            document.getElementById('anime-detail-page').style.display = 'block';
+            document.getElementById('trending-page').style.display = 'none';
+            document.getElementById('genres-page').style.display = 'none';
+            document.getElementById('my-list-page').style.display = 'none';
+            document.getElementById('search-results-page').style.display = 'none';
+            loadAnimeDetails(animeId);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            document.getElementById('mobile-menu').classList.add('hidden');
+        }
+        
+        function showTrendingAnime() {
+            document.getElementById('home-page').style.display = 'none';
+            document.getElementById('anime-detail-page').style.display = 'none';
+            document.getElementById('trending-page').style.display = 'block';
+            document.getElementById('genres-page').style.display = 'none';
+            document.getElementById('my-list-page').style.display = 'none';
+            document.getElementById('search-results-page').style.display = 'none';
+            loadTrendingAnime();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            document.getElementById('mobile-menu').classList.add('hidden');
+        }
+        
+        function showGenres() {
+            document.getElementById('home-page').style.display = 'none';
+            document.getElementById('anime-detail-page').style.display = 'none';
+            document.getElementById('trending-page').style.display = 'none';
+            document.getElementById('genres-page').style.display = 'block';
+            document.getElementById('my-list-page').style.display = 'none';
+            document.getElementById('search-results-page').style.display = 'none';
+            if (document.getElementById('genres-grid').children.length === 0) {
+                loadGenres();
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            document.getElementById('mobile-menu').classList.add('hidden');
+        }
+        
+        function showMyList() {
+            document.getElementById('home-page').style.display = 'none';
+            document.getElementById('anime-detail-page').style.display = 'none';
+            document.getElementById('trending-page').style.display = 'none';
+            document.getElementById('genres-page').style.display = 'none';
+            document.getElementById('my-list-page').style.display = 'block';
+            document.getElementById('search-results-page').style.display = 'none';
+            loadMyList();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            document.getElementById('mobile-menu').classList.add('hidden');
+        }
+        
+        function showSearchResults(query) {
+            if (!query) return;
+            
+            document.getElementById('home-page').style.display = 'none';
+            document.getElementById('anime-detail-page').style.display = 'none';
+            document.getElementById('trending-page').style.display = 'none';
+            document.getElementById('genres-page').style.display = 'none';
+            document.getElementById('my-list-page').style.display = 'none';
+            document.getElementById('search-results-page').style.display = 'block';
+            
+            document.getElementById('search-results-title').textContent = `Search Results for "${query}"`;
+            document.getElementById('search-loading-spinner').classList.remove('hidden');
+            document.getElementById('no-results-message').classList.add('hidden');
+            document.getElementById('search-results-grid').innerHTML = '';
+            document.getElementById('mobile-menu').classList.add('hidden');
+            
+            searchAnime(query).then(results => {
+                document.getElementById('search-loading-spinner').classList.add('hidden');
+                if (results.length === 0) {
+                    document.getElementById('no-results-message').classList.remove('hidden');
+                } else {
+                    displayAnime(results, 'search-results-grid');
+                }
+            });
+        }
+        
+        // API call with rate limiting
+        async function apiCall(url, retries = 3, delay = 1000) {
+            for (let i = 0; i < retries; i++) {
+                try {
+                    const response = await axios.get(url);
+                    return response.data.data;
+                } catch (error) {
+                    if (error.response && error.response.status === 429 && i < retries - 1) {
+                        await new Promise(resolve => setTimeout(resolve, delay));
+                        continue;
+                    }
+                    console.error(`Error fetching ${url}:`, error);
+                    return [];
+                }
+            }
+        }
+        
+        // Fetch anime for grid
+        async function fetchAnime(page = 1, filters = {}) {
+            let url = `https://api.jikan.moe/v4/top/anime?page=${page}&limit=10`;
+            if (filters.genre) url += `&genres=${filters.genre}`;
+            if (filters.type) url += `&type=${filters.type}`;
+            if (filters.season) url += `&start_date=${filters.season}`;
+            return await apiCall(url);
+        }
+        
+        // Fetch trending anime
+        async function fetchTrendingAnime() {
+            return await apiCall('https://api.jikan.moe/v4/top/anime?filter=airing&limit=10');
+        }
+        
+        // Fetch top rated anime
+        async function fetchTopRatedAnime() {
+            return await apiCall('https://api.jikan.moe/v4/top/anime?filter=bypopularity&limit=10');
+        }
+        
+        // Fetch anime genres
+        async function fetchGenres() {
+            return await apiCall('https://api.jikan.moe/v4/genres/anime');
+        }
+        
+        // Fetch anime details
+        async function fetchAnimeDetails(animeId) {
+            return await apiCall(`https://api.jikan.moe/v4/anime/${animeId}`);
+        }
+        
+        // Fetch anime characters
+        async function fetchAnimeCharacters(animeId) {
+            return await apiCall(`https://api.jikan.moe/v4/anime/${animeId}/characters`);
+        }
+        
+        // Fetch anime recommendations
+        async function fetchAnimeRecommendations(animeId) {
+            return await apiCall(`https://api.jikan.moe/v4/anime/${animeId}/recommendations`);
+        }
+        
+        // Search anime
+        async function searchAnime(query) {
+            return await apiCall(`https://api.jikan.moe/v4/anime?q=${query}&limit=20`);
+        }
+        
+        // Populate genre filter
+        async function populateGenreFilter() {
+            const genres = await fetchGenres();
+            const genreFilter = document.getElementById('genre-filter');
+            genres.forEach(genre => {
+                const option = document.createElement('option');
+                option.value = genre.mal_id;
+                option.textContent = genre.name;
+                genreFilter.appendChild(option);
+            });
+        }
+        
+        // Display anime in grid
+        function displayAnime(animeList, targetElementId = 'anime-grid') {
+            const grid = document.getElementById(targetElementId);
+            const loadingSpinner = document.getElementById('loading-spinner');
+            
+            animeList.forEach(anime => {
+                const animeCard = document.createElement('div');
+                animeCard.className = 'anime-card neon-border card-hover rounded-lg overflow-hidden relative cursor-pointer';
+                animeCard.onclick = function() {
+                    showAnimeDetail(anime.mal_id);
+                };
+                
+                let scoreColor = 'text-gray-400';
+                if (anime.score >= 8) scoreColor = 'text-green-400';
+                else if (anime.score >= 6) scoreColor = 'text-yellow-400';
+                
+                animeCard.innerHTML = `
+                    <div class="relative overflow-hidden rounded-t-lg" style="padding-top: 141.42%;">
+                        <img src="${anime.images.webp.image_url}" alt="${anime.title}" class="absolute top-0 left-0 w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-70"></div>
+                        <div class="absolute bottom-0 left-0 right-0 p-3">
+                            <div class="flex justify-between items-center">
+                                <span class="bg-primary text-white text-xs font-bold px-2 py-1 rounded">${anime.type}</span>
+                                <span class="${scoreColor} text-sm font-medium"><i class="fas fa-star mr-1"></i>${anime.score || 'N/A'}</span>
+                            </div>
+                            <div class="flex justify-between items-center mt-1">
+                                <span class="text-white text-xs font-bold px-1 py-0.5 rounded">${anime.episodes || '?'} eps</span>
+                                <span class="text-white text-xs font-bold px-1 py-0.5 rounded">${anime.year || '?'}</span>
+                            </div>
+                        </div>
+                        <div class="play-button absolute inset-0 flex items-center justify-center transform translate-y-2">
+                            <button class="bg-primary hover:bg-opacity-90 text-white p-3 rounded-full transition-all shadow-neon-pink">
+                                <i class="fas fa-play text-lg"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="p-3 bg-gray-900 rounded-b-lg">
+                        <h3 class="font-medium text-white truncate">${anime.title}</h3>
+                        <div class="flex flex-wrap gap-1 mt-2 text-xs text-gray-400">
+                            ${anime.genres.slice(0, 2).map(genre => `<span>${genre.name}</span>`).join(' • ')}
+                        </div>
+                    </div>
+                `;
+                
+                grid.appendChild(animeCard);
+            });
+            
+            if (loadingSpinner) loadingSpinner.classList.add('hidden');
+        }
+        
+        // Display anime in swiper
+        function displayAnimeInSwiper(animeList, swiperWrapper) {
+            swiperWrapper.innerHTML = '';
+            
+            animeList.forEach(anime => {
+                const slide = document.createElement('div');
+                slide.className = 'swiper-slide';
+                
+                let scoreColor = 'text-gray-400';
+                if (anime.score >= 8) scoreColor = 'text-green-400';
+                else if (anime.score >= 6) scoreColor = 'text-yellow-400';
+                
+                slide.innerHTML = `
+                    <div class="anime-card neon-border card-hover rounded-lg overflow-hidden relative cursor-pointer h-full">
+                        <div class="relative overflow-hidden rounded-t-lg" style="padding-top: 141.42%;">
+                            <img src="${anime.images.webp.image_url}" alt="${anime.title}" class="absolute top-0 left-0 w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-70"></div>
+                            <div class="absolute bottom-0 left-0 right-0 p-3">
+                                <div class="flex justify-between items-center">
+                                    <span class="bg-primary text-white text-xs font-bold px-2 py-1 rounded">${anime.type}</span>
+                                    <span class="${scoreColor} text-sm font-medium"><i class="fas fa-star mr-1"></i>${anime.score || 'N/A'}</span>
+                                </div>
+                                <div class="flex justify-between items-center mt-1">
+                                    <span class="text-white text-xs font-bold px-1 py-0.5 rounded">${anime.episodes || '?'} eps</span>
+                                    <span class="text-white text-xs font-bold px-1 py-0.5 rounded">${anime.year || '?'}</span>
+                                </div>
+                            </div>
+                            <div class="play-button absolute inset-0 flex items-center justify-center transform translate-y-2">
+                                <button class="bg-primary hover:bg-opacity-90 text-white p-3 rounded-full transition-all shadow-neon-pink">
+                                    <i class="fas fa-play text-lg"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="p-3 bg-gray-900 rounded-b-lg">
+                            <h3 class="font-medium text-white truncate">${anime.title}</h3>
+                            <div class="flex flex-wrap gap-1 mt-2 text-xs text-gray-400">
+                                ${anime.genres.slice(0, 2).map(genre => `<span>${genre.name}</span>`).join(' • ')}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                slide.querySelector('.anime-card').onclick = function() {
+                    showAnimeDetail(anime.mal_id);
+                };
+                
+                swiperWrapper.appendChild(slide);
+            });
+        }
+        
+        // Display characters
+        function displayCharacters(characters, swiperWrapper) {
+            swiperWrapper.innerHTML = '';
+            
+            characters.slice(0, 12).forEach(character => {
+                const slide = document.createElement('div');
+                slide.className = 'swiper-slide';
+                
+                slide.innerHTML = `
+                    <div class="bg-gray-900 rounded-lg overflow-hidden h-full">
+                        <div class="relative" style="padding-top: 141.42%;">
+                            <img src="${character.character.images.webp.image_url}" alt="${character.character.name}" class="absolute top-0 left-0 w-full h-full object-cover">
+                        </div>
+                        <div class="p-3">
+                            <h3 class="font-medium text-white truncate">${character.character.name}</h3>
+                            <p class="text-sm text-gray-400 truncate">${character.role}</p>
+                        </div>
+                    </div>
+                `;
+                
+                swiperWrapper.appendChild(slide);
+            });
+        }
+        
+        // Display recommendations
+        function displayRecommendations(recommendations, swiperWrapper) {
+            swiperWrapper.innerHTML = '';
+            
+            recommendations.slice(0, 10).forEach(rec => {
+                const slide = document.createElement('div');
+                slide.className = 'swiper-slide';
+                
+                slide.innerHTML = `
+                    <div class="anime-card neon-border card-hover rounded-lg overflow-hidden relative cursor-pointer h-full">
+                        <div class="relative overflow-hidden rounded-t-lg" style="padding-top: 141.42%;">
+                            <img src="${rec.entry.images.webp.image_url}" alt="${rec.entry.title}" class="absolute top-0 left-0 w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-70"></div>
+                        </div>
+                        <div class="p-3 bg-gray-900 rounded-b-lg">
+                            <h3 class="font-medium text-white truncate">${rec.entry.title}</h3>
+                            <p class="text-sm text-gray-400 mt-1">${rec.content}</p>
+                        </div>
+                    </div>
+                `;
+                
+                slide.querySelector('.anime-card').onclick = function() {
+                    showAnimeDetail(rec.entry.mal_id);
+                };
+                
+                swiperWrapper.appendChild(slide);
+            });
+        }
+        
+        // Display genres
+        function displayGenres(genres) {
+            const grid = document.getElementById('genres-grid');
+            grid.innerHTML = '';
+            
+            genres.forEach(genre => {
+                const genreCard = document.createElement('div');
+                genreCard.className = 'bg-gray-900 rounded-lg p-4 text-center cursor-pointer hover:bg-gray-800 transition-colors';
+                genreCard.onclick = function() {
+                    browseByGenre(genre.mal_id, genre.name);
+                };
+                
+                genreCard.innerHTML = `
+                    <h3 class="font-medium text-white">${genre.name}</h3>
+                    <p class="text-sm text-gray-400 mt-1">${genre.count || '100+'} titles</p>
+                `;
+                
+                grid.appendChild(genreCard);
+            });
+        }
+        
+        // Browse by genre
+        async function browseByGenre(genreId, genreName) {
+            document.getElementById('home-page').style.display = 'none';
+            document.getElementById('anime-detail-page').style.display = 'none';
+            document.getElementById('trending-page').style.display = 'none';
+            document.getElementById('genres-page').style.display = 'none';
+            document.getElementById('my-list-page').style.display = 'none';
+            document.getElementById('search-results-page').style.display = 'block';
+            
+            document.getElementById('search-results-title').textContent = `Genre: ${genreName}`;
+            document.getElementById('search-loading-spinner').classList.remove('hidden');
+            document.getElementById('no-results-message').classList.add('hidden');
+            document.getElementById('search-results-grid').innerHTML = '';
+            
+            const animeList = await fetchAnime(1, { genre: genreId });
+            document.getElementById('search-loading-spinner').classList.add('hidden');
+            if (animeList.length === 0) {
+                document.getElementById('no-results-message').classList.remove('hidden');
+            } else {
+                displayAnime(animeList, 'search-results-grid');
+            }
+        }
+        
+        // Load anime details
+        async function loadAnimeDetails(animeId) {
+            const anime = await fetchAnimeDetails(animeId);
+            if (!anime) return;
+            
+            currentAnime = anime;
+            
+            document.getElementById('detail-background').style.backgroundImage = `url(${anime.images.webp.large_image_url})`;
+            document.getElementById('detail-poster').src = anime.images.webp.image_url;
+            document.getElementById('detail-poster').alt = anime.title;
+            document.getElementById('detail-title').textContent = anime.title;
+            document.getElementById('detail-score').innerHTML = `<i class="fas fa-star mr-1"></i> ${anime.score || 'N/A'}`;
+            document.getElementById('detail-type').textContent = anime.type;
+            document.getElementById('detail-episodes').textContent = anime.episodes ? `${anime.episodes} Episodes` : 'Unknown episodes';
+            document.getElementById('detail-status').textContent = anime.status;
+            document.getElementById('detail-year').textContent = anime.year || 'Unknown';
+            document.getElementById('detail-synopsis').textContent = anime.synopsis || 'No synopsis available.';
+            document.getElementById('detail-studios').textContent = anime.studios.map(s => s.name).join(', ') || 'Unknown';
+            document.getElementById('detail-source').textContent = anime.source || 'Unknown';
+            document.getElementById('detail-duration').textContent = anime.duration || 'Unknown';
+            document.getElementById('detail-rating').textContent = anime.rating || 'Unknown';
+            document.getElementById('detail-genres').textContent = anime.genres.map(g => g.name).join(', ') || 'None';
+            document.getElementById('detail-themes').textContent = anime.themes.map(t => t.name).join(', ') || 'None';
+            
+            updateMyListButton(anime.mal_id, 'detail-my-list', 'detail-my-list-icon', 'detail-my-list-text');
+            
+            document.getElementById('detail-my-list').onclick = function() {
+                toggleMyList(anime);
+            };
+            
+            document.getElementById('detail-share').onclick = function() {
+                shareAnime(anime);
+            };
+            
+            const characters = await fetchAnimeCharacters(animeId);
+            displayCharacters(characters, document.querySelector('.characters-swiper .swiper-wrapper'));
+            charactersSwiper.update();
+            
+            const recommendations = await fetchAnimeRecommendations(animeId);
+            displayRecommendations(recommendations, document.querySelector('.recommendations-swiper .swiper-wrapper'));
+            recommendationsSwiper.update();
+        }
+        
+        // Load trending anime
+        async function loadTrendingAnime() {
+            const trendingAnime = await fetchTrendingAnime();
+            displayAnime(trendingAnime, 'trending-grid');
+        }
+        
+        // Load genres
+        async function loadGenres() {
+            const genres = await fetchGenres();
+            displayGenres(genres);
+        }
+        
+        // Load my list
+        function loadMyList() {
+            const grid = document.getElementById('my-list-grid');
+            const emptyMessage = document.getElementById('empty-list-message');
+            
+            grid.innerHTML = '';
+            
+            if (myList.length === 0) {
+                emptyMessage.style.display = 'block';
+            } else {
+                emptyMessage.style.display = 'none';
+                displayAnime(myList, 'my-list-grid');
+            }
+        }
+        
+        // Add to my list
+        function addToMyList(anime) {
+            if (!myList.some(a => a.mal_id === anime.mal_id)) {
+                myList.push(anime);
+                localStorage.setItem('myList', JSON.stringify(myList));
+            }
+        }
+        
+        // Remove from my list
+        function removeFromMyList(animeId) {
+            myList = myList.filter(a => a.mal_id !== animeId);
+            localStorage.setItem('myList', JSON.stringify(myList));
+        }
+        
+        // Initial load
+        document.addEventListener('DOMContentLoaded', async function() {
+            await populateGenreFilter();
+            
+            const animeList = await fetchAnime(currentPage);
+            displayAnime(animeList);
+            
+            const trendingAnime = await fetchTrendingAnime();
+            displayAnimeInSwiper(trendingAnime, document.querySelector('.trending-swiper .swiper-wrapper'));
+            trendingSwiper.update();
+            
+            const topRatedAnime = await fetchTopRatedAnime();
+            displayAnimeInSwiper(topRatedAnime, document.querySelector('.top-rated-swiper .swiper-wrapper'));
+            topRatedSwiper.update();
+            
+            document.getElementById('load-more').addEventListener('click', async function() {
+                currentPage++;
+                const loadingSpinner = document.getElementById('loading-spinner');
+                loadingSpinner.classList.remove('hidden');
+                
+                const filters = {
+                    genre: document.getElementById('genre-filter').value,
+                    type: document.getElementById('type-filter').value,
+                    season: document.getElementById('season-filter').value
+                };
+                
+                const moreAnime = await fetchAnime(currentPage, filters);
+                displayAnime(moreAnime);
+                
+                document.getElementById('anime-grid').lastElementChild.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'nearest'
+                });
+            });
+            
+            document.getElementById('genre-filter').addEventListener('change', async function() {
+                currentPage = 1;
+                const filters = {
+                    genre: this.value,
+                    type: document.getElementById('type-filter').value,
+                    season: document.getElementById('season-filter').value
+                };
+                
+                document.getElementById('anime-grid').innerHTML = '';
+                document.getElementById('loading-spinner').classList.remove('hidden');
+                
+                const filteredAnime = await fetchAnime(1, filters);
+                displayAnime(filteredAnime);
+            });
+            
+            document.getElementById('type-filter').addEventListener('change', async function() {
+                currentPage = 1;
+                const filters = {
+                    genre: document.getElementById('genre-filter').value,
+                    type: this.value,
+                    season: document.getElementById('season-filter').value
+                };
+                
+                document.getElementById('anime-grid').innerHTML = '';
+                document.getElementById('loading-spinner').classList.remove('hidden');
+                
+                const filteredAnime = await fetchAnime(1, filters);
+                displayAnime(filteredAnime);
+            });
+            
+            document.getElementById('season-filter').addEventListener('change', async function() {
+                currentPage = 1;
+                const filters = {
+                    genre: document.getElementById('genre-filter').value,
+                    type: document.getElementById('type-filter').value,
+                    season: this.value ? `${this.value}-2025` : ''
+                };
+                
+                document.getElementById('anime-grid').innerHTML = '';
+                document.getElementById('loading-spinner').classList.remove('hidden');
+                
+                const filteredAnime = await fetchAnime(1, filters);
+                displayAnime(filteredAnime);
+            });
+        });
+    </script>
+</body>
+</html>
