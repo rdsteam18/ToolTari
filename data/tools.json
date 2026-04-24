@@ -1,0 +1,112 @@
+{
+  "tools": [
+    {
+      "id": "merge-pdf",
+      "name": "Merge PDF",
+      "description": "Combine multiple PDF files into one document in seconds",
+      "category": "pdf",
+      "slug": "/tools/merge-pdf",
+      "icon": "fa-object-group",
+      "popularity": 5
+    },
+    {
+      "id": "split-pdf",
+      "name": "Split PDF",
+      "description": "Extract specific pages or split PDF into multiple files",
+      "category": "pdf",
+      "slug": "/tools/split-pdf",
+      "icon": "fa-cut",
+      "popularity": 4
+    },
+    {
+      "id": "compress-pdf",
+      "name": "Compress PDF",
+      "description": "Reduce PDF file size while maintaining quality",
+      "category": "pdf",
+      "slug": "/tools/compress-pdf",
+      "icon": "fa-compress",
+      "popularity": 5
+    },
+    {
+      "id": "pdf-to-word",
+      "name": "PDF to Word",
+      "description": "Convert PDF documents to editable Microsoft Word files",
+      "category": "pdf",
+      "slug": "/tools/pdf-to-word",
+      "icon": "fa-file-word",
+      "popularity": 5
+    },
+    {
+      "id": "pdf-to-ppt",
+      "name": "PDF to PowerPoint",
+      "description": "Transform PDF slides into editable presentations",
+      "category": "pdf",
+      "slug": "/tools/pdf-to-ppt",
+      "icon": "fa-chalkboard",
+      "popularity": 3
+    },
+    {
+      "id": "protect-pdf",
+      "name": "Protect PDF",
+      "description": "Add password protection to your PDF files",
+      "category": "pdf",
+      "slug": "/tools/protect-pdf",
+      "icon": "fa-lock",
+      "popularity": 4
+    },
+    {
+      "id": "unlock-pdf",
+      "name": "Unlock PDF",
+      "description": "Remove password protection from PDF files",
+      "category": "pdf",
+      "slug": "/tools/unlock-pdf",
+      "icon": "fa-unlock-alt",
+      "popularity": 4
+    },
+    {
+      "id": "compress-image",
+      "name": "Compress Image",
+      "description": "Reduce image file size without losing quality",
+      "category": "image",
+      "slug": "/tools/compress-image",
+      "icon": "fa-image",
+      "popularity": 5
+    },
+    {
+      "id": "image-converter",
+      "name": "Image Converter",
+      "description": "Convert between JPG, PNG, WebP and other formats",
+      "category": "image",
+      "slug": "/tools/image-converter",
+      "icon": "fa-exchange-alt",
+      "popularity": 5
+    },
+    {
+      "id": "crop-image",
+      "name": "Crop Image",
+      "description": "Crop and resize images to fit your needs",
+      "category": "image",
+      "slug": "/tools/crop-image",
+      "icon": "fa-crop",
+      "popularity": 4
+    },
+    {
+      "id": "qr-generator",
+      "name": "QR Code Generator",
+      "description": "Create QR codes for URLs, text, and contact info",
+      "category": "utility",
+      "slug": "/tools/qr-generator",
+      "icon": "fa-qrcode",
+      "popularity": 4
+    },
+    {
+      "id": "watermark",
+      "name": "Watermark Tool",
+      "description": "Add text or image watermarks to PDFs and images",
+      "category": "pdf",
+      "slug": "/tools/watermark",
+      "icon": "fa-paintbrush",
+      "popularity": 3
+    }
+  ]
+}
