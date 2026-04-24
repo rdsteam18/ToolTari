@@ -1,1079 +1,423 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ToolTari - Your Ultimate Online Toolbox</title>
-    <meta name="google-site-verification" content="d1uLLcwbDH99lepVNG6a_KEpVP24yjo1DqHN4aKhWk8" />
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3097658772821429"
-crossorigin="anonymous"></script>
-<meta name="google-adsense-account" content="ca-pub-3097658772821429">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        /* CSS Variables for Consistent Theme */
-:root {
-    /* Primary Colors */
-    --primary-color: #4361ee;
-    --primary-dark: #3a56d4;
-    --primary-light: #eef2ff;
-    
-    /* Neutral Colors */
-    --text-dark: #2d3748;
-    --text-light: #4a5568;
-    --text-lighter: #718096;
-    
-    /* Background Colors */
-    --bg-white: #ffffff;
-    --bg-light: #f7fafc;
-    --bg-lighter: #f8f9fa;
-    
-    /* Border & Shadow */
-    --border-color: #e2e8f0;
-    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
-    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
-    
-    /* Border Radius */
-    --radius-sm: 6px;
-    --radius-md: 10px;
-    --radius-lg: 16px;
-    
-    /* Spacing */
-    --space-xs: 8px;
-    --space-sm: 16px;
-    --space-md: 24px;
-    --space-lg: 32px;
-    --space-xl: 48px;
-    --space-2xl: 64px;
-}
-
-/* Base Styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-html {
-    scroll-behavior: smooth;
-}
-
-body {
-    font-family: 'Inter', sans-serif;
-    color: var(--text-dark);
-    background-color: var(--bg-light);
-    line-height: 1.6;
-}
-
-.container {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 var(--space-md);
-}
-
-/* Typography */
-h1, h2, h3, h4 {
-    font-family: 'Poppins', sans-serif;
-    font-weight: 600;
-    line-height: 1.3;
-}
-
-h1 {
-    font-size: 2.5rem;
-    margin-bottom: var(--space-sm);
-}
-
-h2 {
-    font-size: 2rem;
-    margin-bottom: var(--space-sm);
-}
-
-h3 {
-    font-size: 1.25rem;
-    margin-bottom: var(--space-xs);
-}
-
-p {
-    margin-bottom: var(--space-md);
-    color: var(--text-light);
-}
-
-/* Buttons & Links */
-a {
-    text-decoration: none;
-    color: inherit;
-    transition: all 0.2s ease;
-}
-
-.btn-login, .btn-signup {
-    padding: 10px 20px;
-    border-radius: var(--radius-md);
-    font-weight: 500;
-    font-size: 0.95rem;
-}
-
-.btn-login {
-    color: var(--text-light);
-    margin-right: var(--space-sm);
-}
-
-.btn-login:hover {
-    color: var(--primary-color);
-}
-
-.btn-signup {
-    background-color: var(--primary-color);
-    color: white;
-}
-
-.btn-signup:hover {
-    background-color: var(--primary-dark);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
-}
-
-.tool-link {
-    display: inline-block;
-    color: var(--primary-color);
-    font-weight: 500;
-    padding: 8px 16px;
-    border-radius: var(--radius-sm);
-    background-color: var(--primary-light);
-}
-
-.tool-link:hover {
-    background-color: var(--primary-color);
-    color: white;
-}
-
-.btn-cta {
-    display: inline-block;
-    background-color: var(--primary-color);
-    color: white;
-    padding: 16px 32px;
-    border-radius: var(--radius-md);
-    font-weight: 600;
-    font-size: 1.1rem;
-    margin-top: var(--space-sm);
-    box-shadow: var(--shadow-md);
-}
-
-.btn-cta:hover {
-    background-color: var(--primary-dark);
-    transform: translateY(-3px);
-    box-shadow: var(--shadow-lg);
-}
-
-/* Navigation */
-.navbar {
-    background-color: var(--bg-white);
-    box-shadow: var(--shadow-sm);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    padding: var(--space-sm) 0;
-}
-
-.nav-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.logo {
-    font-family: 'Poppins', sans-serif;
-    font-size: 1.75rem;
-    font-weight: 700;
-    color: var(--primary-color);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.logo i {
-    font-size: 1.5rem;
-}
-
-.main-nav {
-    display: flex;
-    align-items: center;
-    gap: var(--space-lg);
-}
-
-.nav-link {
-    color: var(--text-light);
-    font-weight: 500;
-    font-size: 0.95rem;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
-
-.nav-link:hover {
-    color: var(--primary-color);
-}
-
-.dropdown {
-    position: relative;
-}
-
-.dropdown-content {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    background-color: var(--bg-white);
-    min-width: 180px;
-    box-shadow: var(--shadow-lg);
-    border-radius: var(--radius-md);
-    padding: var(--space-sm) 0;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(10px);
-    transition: all 0.3s ease;
-    z-index: 10;
-}
-
-.dropdown:hover .dropdown-content {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-}
-
-.dropdown-content a {
-    display: block;
-    padding: 10px var(--space-md);
-    color: var(--text-light);
-}
-
-.dropdown-content a:hover {
-    background-color: var(--bg-light);
-    color: var(--primary-color);
-}
-
-.mobile-menu-btn {
-    display: none;
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    color: var(--text-light);
-    cursor: pointer;
-    padding: 5px;
-}
-
-/* Hero Section */
-.hero {
-    padding: var(--space-2xl) 0;
-    background: linear-gradient(135deg, var(--primary-light) 0%, #f0f4ff 100%);
-}
-
-.hero-content {
-    text-align: center;
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-.hero-title {
-    font-size: 3rem;
-    margin-bottom: var(--space-sm);
-    color: var(--text-dark);
-}
-
-.hero-subtitle {
-    font-size: 1.25rem;
-    color: var(--text-light);
-    margin-bottom: var(--space-xl);
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.main-tools-panel {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-lg);
-    background-color: var(--bg-white);
-    border-radius: var(--radius-lg);
-    padding: var(--space-xl);
-    box-shadow: var(--shadow-lg);
-    margin-top: var(--space-xl);
-}
-
-.tool-category {
-    text-align: left;
-}
-
-.tool-category h3 {
-    color: var(--text-dark);
-    margin-bottom: var(--space-md);
-    font-size: 1.1rem;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.tool-category h3 i {
-    color: var(--primary-color);
-    font-size: 1rem;
-}
-
-.tool-list {
-    list-style: none;
-}
-
-.tool-list li {
-    margin-bottom: 12px;
-}
-
-.tool-list a {
-    color: var(--text-light);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 8px 0;
-    border-radius: var(--radius-sm);
-    transition: all 0.2s ease;
-}
-
-.tool-list a:hover {
-    color: var(--primary-color);
-    background-color: var(--bg-light);
-    padding-left: 10px;
-    padding-right: 10px;
-}
-
-.tool-list i {
-    width: 20px;
-    text-align: center;
-    font-size: 0.9rem;
-}
-
-/* Popular Tools Section */
-.popular-tools, .all-tools, .features {
-    padding: var(--space-2xl) 0;
-}
-
-.section-title {
-    text-align: center;
-    margin-bottom: var(--space-sm);
-}
-
-.section-subtitle {
-    text-align: center;
-    color: var(--text-lighter);
-    margin-bottom: var(--space-xl);
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.tools-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: var(--space-lg);
-}
-
-.tool-card {
-    background-color: var(--bg-white);
-    border-radius: var(--radius-lg);
-    padding: var(--space-lg);
-    box-shadow: var(--shadow-md);
-    transition: all 0.3s ease;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.tool-card:hover {
-    transform: translateY(-8px);
-    box-shadow: var(--shadow-lg);
-}
-
-.tool-icon {
-    width: 64px;
-    height: 64px;
-    background-color: var(--primary-light);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: var(--space-md);
-    color: var(--primary-color);
-    font-size: 1.5rem;
-}
-
-.tool-name {
-    margin-bottom: var(--space-sm);
-}
-
-.tool-desc {
-    font-size: 0.95rem;
-    margin-bottom: var(--space-md);
-    flex-grow: 1;
-}
-
-.comprehensive {
-    grid-template-columns: repeat(4, 1fr);
-}
-
-/* Features Section */
-.features {
-    background-color: var(--bg-white);
-}
-
-.features-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: var(--space-lg);
-}
-
-.feature-card {
-    text-align: center;
-    padding: var(--space-lg);
-}
-
-.feature-icon {
-    width: 70px;
-    height: 70px;
-    background-color: var(--primary-light);
-    border-radius: var(--radius-lg);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto var(--space-md);
-    color: var(--primary-color);
-    font-size: 1.75rem;
-}
-
-.feature-card h3 {
-    margin-bottom: var(--space-sm);
-}
-
-.feature-card p {
-    font-size: 0.95rem;
-}
-
-/* CTA Section */
-.cta {
-    padding: var(--space-2xl) 0;
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
-    color: white;
-    text-align: center;
-}
-
-.cta-title {
-    color: white;
-    margin-bottom: var(--space-sm);
-}
-
-.cta-subtitle {
-    color: rgba(255, 255, 255, 0.9);
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-    font-size: 1.1rem;
-}
-
-.cta-note {
-    color: rgba(255, 255, 255, 0.7);
-    font-size: 0.9rem;
-    margin-top: var(--space-md);
-}
-
-/* Footer */
-.footer {
-    background-color: #1a202c;
-    color: #cbd5e0;
-    padding: var(--space-2xl) 0 var(--space-lg);
-}
-
-.footer-content {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: var(--space-xl);
-    margin-bottom: var(--space-xl);
-}
-
-.footer-logo {
-    font-family: 'Poppins', sans-serif;
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: white;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: var(--space-md);
-}
-
-.footer-about {
-    font-size: 0.95rem;
-    line-height: 1.7;
-    color: #a0aec0;
-}
-
-.footer-section h4 {
-    color: white;
-    margin-bottom: var(--space-md);
-    font-size: 1.1rem;
-}
-
-.footer-links {
-    list-style: none;
-}
-
-.footer-links li {
-    margin-bottom: 12px;
-}
-
-.footer-links a {
-    color: #a0aec0;
-    font-size: 0.95rem;
-}
-
-.footer-links a:hover {
-    color: white;
-}
-
-.footer-bottom {
-    border-top: 1px solid #2d3748;
-    padding-top: var(--space-lg);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.copyright {
-    color: #a0aec0;
-    font-size: 0.9rem;
-    margin: 0;
-}
-
-.footer-social {
-    display: flex;
-    gap: var(--space-sm);
-}
-
-.footer-social a {
-    width: 36px;
-    height: 36px;
-    background-color: #2d3748;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #a0aec0;
-}
-
-.footer-social a:hover {
-    background-color: var(--primary-color);
-    color: white;
-}
-
-/* Responsive Design */
-@media (max-width: 1024px) {
-    .main-tools-panel {
-        grid-template-columns: repeat(2, 1fr);
-    }
-    
-    .tools-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
-    
-    .comprehensive {
-        grid-template-columns: repeat(3, 1fr);
-    }
-    
-    .features-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-    
-    .footer-content {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (max-width: 768px) {
-    h1 {
-        font-size: 2rem;
-    }
-    
-    h2 {
-        font-size: 1.75rem;
-    }
-    
-    .main-nav, .auth-buttons {
-        display: none;
-    }
-    
-    .mobile-menu-btn {
-        display: block;
-    }
-    
-    .hero-title {
-        font-size: 2.25rem;
-    }
-    
-    .hero-subtitle {
-        font-size: 1.1rem;
-    }
-    
-    .main-tools-panel {
-        grid-template-columns: 1fr;
-        padding: var(--space-lg);
-    }
-    
-    .tools-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-    
-    .comprehensive {
-        grid-template-columns: repeat(2, 1fr);
-    }
-    
-    .footer-content {
-        grid-template-columns: 1fr;
-    }
-    
-    .footer-bottom {
-        flex-direction: column;
-        gap: var(--space-md);
-        text-align: center;
-    }
-}
-
-@media (max-width: 480px) {
-    .container {
-        padding: 0 var(--space-sm);
-    }
-    
-    .hero-title {
-        font-size: 1.75rem;
-    }
-    
-    .tools-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .comprehensive {
-        grid-template-columns: 1fr;
-    }
-    
-    .features-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .tool-card, .feature-card {
-        padding: var(--space-md);
-    }
-}
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>ToolTari — Free Online PDF & Image Tools | No Login Required</title>
+  <meta name="description" content="Free online PDF & image tools: Merge, compress, convert, split PDFs. No login, no installation, 100% secure. Join millions using ToolTari.">
+  <meta name="keywords" content="PDF tools, image tools, free PDF converter, compress PDF, merge PDF, image compressor, QR code generator">
+  <meta name="author" content="ToolTari">
+  <meta name="google-adsense-account" content="ca-pub-3097658772821429">
+  <meta name="google-site-verification" content="d1uLLcwbDH99lepVNG6a_KEpVP24yjo1DqHN4aKhWk8">
+  <!-- Canonical + alternate domains (primary: tooltari.in) -->
+  <link rel="canonical" href="https://tooltari.in/">
+  <link rel="alternate" href="https://tooltari.netlify.app/" hreflang="en">
+  <link rel="alternate" href="https://tools.tooltari.in/" hreflang="en">
+  <!-- Preconnect & Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <!-- Font Awesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <!-- ads.txt reference (in root, but meta included) -->
+  <link rel="ads.txt" href="/ads.txt">
 </head>
 <body>
-    <!-- Top Navigation -->
-    <header class="navbar">
-        <div class="container">
-            <div class="nav-content">
-                <a href="#" class="logo">
-                    <i class="fas fa-tools"></i>
-                    ToolTari
-                </a>
-                
-                <nav class="main-nav">
-                    <a href="pdf/merge-pdf.html" class="nav-link">Merge PDF</a>
-                    <a href="pdf/split-pdf.html" class="nav-link">Split PDF</a>
-                    <a href="pdf/pdf-compression.html" class="nav-link">Compress PDF</a>
-                    <a href="#" class="nav-link">Convert PDF</a>
-                    <div class="dropdown">
-                        <a href="#" class="nav-link">
-                            All Tools <i class="fas fa-chevron-down"></i>
-                        </a>
-                        <div class="dropdown-content">
-                            <a href="#">PDF Tools</a>
-                            <a href="#">Image Tools</a>
-                            <a href="#">Converters</a>
-                            <a href="#">Utilities</a>
-                        </div>
-                    </div>
-                </nav>
-                
-                <div class="auth-buttons">
-                    <a href="#" class="btn-login">Log In</a>
-                    <a href="#" class="btn-signup">Sign Up Free</a>
-                </div>
-                
-                <button class="mobile-menu-btn">
-                    <i class="fas fa-bars"></i>
-                </button>
-            </div>
+
+  <!-- STICKY HEADER with glass effect -->
+  <header class="site-header" id="mainHeader">
+    <div class="container header-container">
+      <a href="/" class="logo-wrapper" aria-label="ToolTari Home">
+        <img src="https://blogger.googleusercontent.com/img/a/AVvXsEjY2rjUWolqqXCrlJIvA8jXQqcUBMVsqEQq9CziuNUqzhW3Asha4BTbHljQobuky8iF9DmcKIdydU5HaxXso3sUI5HrxtlHUPTvp_VBFAoxwzOp8ka_H0Uqfdj2Ns_OSSqmww7c8mV_EuvIRxCy0udJTufLUj0phIkLXnrys4NCSPA7YBrZJa_LGH8A" alt="ToolTari Logo" class="logo-img">
+        <span class="logo-text">ToolTari</span>
+      </a>
+      <nav class="main-nav" id="mainNav">
+        <ul class="nav-links">
+          <li><a href="#popular-tools">Popular</a></li>
+          <li><a href="#all-tools">All Tools</a></li>
+          <li><a href="#why-choose">Why Us</a></li>
+        </ul>
+      </nav>
+      <div class="header-actions">
+        <button class="btn btn-outline cta-header" id="ctaHeaderBtn">Start Free</button>
+        <button class="mobile-menu-toggle" id="mobileToggle" aria-label="Menu">
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO SECTION: gradient + load animation -->
+    <section class="hero">
+      <div class="container hero-container">
+        <div class="hero-content">
+          <span class="hero-badge animate-fade-up">✨ 100% Free — No Signup</span>
+          <h1 class="hero-title animate-fade-up">Free Online PDF & Image Tools</h1>
+          <p class="hero-subtitle animate-fade-up delay-1">No login. No installation. Secure, fast & private.</p>
+          <div class="hero-buttons animate-fade-up delay-2">
+            <button class="btn btn-primary" id="heroCtaBtn">Explore All Tools →</button>
+            <button class="btn btn-secondary" id="heroDemoBtn"><i class="fas fa-play"></i> How it works</button>
+          </div>
+          <div class="hero-stats animate-fade-up delay-3">
+            <span><i class="fas fa-users"></i> 1M+ users</span>
+            <span><i class="fas fa-lock"></i> 100% private</span>
+            <span><i class="fas fa-bolt"></i> Instant processing</span>
+          </div>
         </div>
-    </header>
-
-    <!-- Main Content -->
-    <main>
-        <!-- Hero Section -->
-        <section class="hero">
-            <div class="container">
-                <div class="hero-content">
-                    <h1 class="hero-title">Free Online PDF & Image Tools</h1>
-                    <p class="hero-subtitle">Process your files quickly and securely with our browser-based tools. No installation, no registration required.</p>
-                    
-                    <div class="main-tools-panel">
-                        <div class="tool-category">
-                            <h3><i class="fas fa-folder-open"></i> Organize PDF</h3>
-                            <ul class="tool-list">
-                                <li><a href="pdf/merge-pdf.html"><i class="far fa-copy"></i> Merge PDF</a></li>
-                                <li><a href="pdf/split-pdf.html"><i class="fas fa-cut"></i> Split PDF</a></li>
-                                <li><a href="#"><i class="fas fa-exchange-alt"></i> Reorder PDF</a></li>
-                                <li><a href="#"><i class="fas fa-columns"></i> Extract Pages</a></li>
-                            </ul>
-                        </div>
-                        
-                        <div class="tool-category">
-                            <h3><i class="fas fa-compress-alt"></i> Optimize PDF</h3>
-                            <ul class="tool-list">
-                                <li><a href="pdf/pdf-compression.html"><i class="fas fa-file-archive"></i> Compress PDF</a></li>
-                                <li><a href="#"><i class="fas fa-expand-alt"></i> Reduce PDF Size</a></li>
-                                <li><a href="#"><i class="fas fa-sync-alt"></i> Repair PDF</a></li>
-                                <li><a href="#"><i class="fas fa-eye"></i> Preview PDF</a></li>
-                            </ul>
-                        </div>
-                        
-                        <div class="tool-category">
-                            <h3><i class="fas fa-file-pdf"></i> Convert to PDF</h3>
-                            <ul class="tool-list">
-                                <li><a href="pdf/word-to-pdf.html"><i class="far fa-file-word"></i> Word to PDF</a></li>
-                                <li><a href="pdf/ppt-to-pdf.html"><i class="far fa-file-powerpoint"></i> PPT to PDF</a></li>
-                                <li><a href="pdf/excel-to-pdf.html"><i class="far fa-file-excel"></i> Excel to PDF</a></li>
-                                <li><a href="#"><i class="far fa-image"></i> Image to PDF</a></li>
-                            </ul>
-                        </div>
-                        
-                        <div class="tool-category">
-                            <h3><i class="fas fa-exchange-alt"></i> Convert from PDF</h3>
-                            <ul class="tool-list">
-                                <li><a href="pdf/pdf-to-word.html"><i class="far fa-file-word"></i> PDF to Word</a></li>
-                                <li><a href="pdf/pdf-to-powerpoint.html"><i class="far fa-file-powerpoint"></i> PDF to PPT</a></li>
-                                <li><a href="pdf/pdf-to-excel.html"><i class="far fa-file-excel"></i> PDF to Excel</a></li>
-                                <li><a href="pdf/pdf-to-jpg"><i class="far fa-image"></i> PDF to Image</a></li>
-                            </ul>
-                        </div>
-                        
-                        <div class="tool-category">
-                            <h3><i class="fas fa-edit"></i> Edit PDF</h3>
-                            <ul class="tool-list">
-                                <li><a href="#"><i class="fas fa-highlighter"></i> Edit PDF Text</a></li>
-                                <li><a href="#"><i class="fas fa-font"></i> Add Text</a></li>
-                                <li><a href="#"><i class="fas fa-image"></i> Add Image</a></li>
-                                <li><a href="#"><i class="fas fa-signature"></i> Add Signature</a></li>
-                            </ul>
-                        </div>
-                        
-                        <div class="tool-category">
-                            <h3><i class="fas fa-shield-alt"></i> PDF Security</h3>
-                            <ul class="tool-list">
-                                <li><a href="#"><i class="fas fa-lock"></i> Protect PDF</a></li>
-                                <li><a href="#"><i class="fas fa-unlock"></i> Unlock PDF</a></li>
-                                <li><a href="#"><i class="fas fa-eye-slash"></i> Redact PDF</a></li>
-                                <li><a href="#"><i class="fas fa-water"></i> Watermark PDF</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Popular Tools Section -->
-        <section class="popular-tools">
-            <div class="container">
-                <h2 class="section-title">Most Popular Tools</h2>
-                <p class="section-subtitle">Tools used by thousands of users every day</p>
-                
-                <div class="tools-grid">
-                    <div class="tool-card">
-                        <div class="tool-icon">
-                            <i class="fas fa-object-group"></i>
-                        </div>
-                        <h3 class="tool-name">Merge PDF</h3>
-                        <p class="tool-desc">Combine multiple PDF files into a single document in seconds.</p>
-                        <a href="pdf/merge-pdf.html" class="tool-link">Use Tool</a>
-                    </div>
-                    
-                    <div class="tool-card">
-                        <div class="tool-icon">
-                            <i class="fas fa-cut"></i>
-                        </div>
-                        <h3 class="tool-name">Split PDF</h3>
-                        <p class="tool-desc">Split a PDF file into separate documents or extract specific pages.</p>
-                        <a href="pdf/split-pdf.html" class="tool-link">Use Tool</a>
-                    </div>
-                    
-                    <div class="tool-card">
-                        <div class="tool-icon">
-                            <i class="fas fa-compress-alt"></i>
-                        </div>
-                        <h3 class="tool-name">Compress PDF</h3>
-                        <p class="tool-desc">Reduce PDF file size while preserving quality for easy sharing.</p>
-                        <a href="pdf/pdf-compression.html" class="tool-link">Use Tool</a>
-                    </div>
-                    
-                    <div class="tool-card">
-                        <div class="tool-icon">
-                            <i class="far fa-file-word"></i>
-                        </div>
-                        <h3 class="tool-name">PDF to Word</h3>
-                        <p class="tool-desc">Convert PDF documents to editable Word files with high accuracy.</p>
-                        <a href="pdf/pdf-to-word.html" class="tool-link">Use Tool</a>
-                    </div>
-                    
-                    <div class="tool-card">
-                        <div class="tool-icon">
-                            <i class="far fa-file-powerpoint"></i>
-                        </div>
-                        <h3 class="tool-name">PDF to PowerPoint</h3>
-                        <p class="tool-desc">Transform PDF slides into editable PowerPoint presentations.</p>
-                        <a href="pdf/pdf-to-powerpoint.html" class="tool-link">Use Tool</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- All Tools Grid -->
-        <section class="all-tools">
-            <div class="container">
-                <h2 class="section-title">All Available Tools</h2>
-                <p class="section-subtitle">Browse our complete collection of free online tools</p>
-                
-                <div class="tools-grid comprehensive">
-                    <!-- PDF Tools -->
-                    <div class="tool-card">
-                        <div class="tool-icon">
-                            <i class="fas fa-file-pdf"></i>
-                        </div>
-                        <h3 class="tool-name">PDF Converter</h3>
-                        <p class="tool-desc">Convert PDF files to and from various formats.</p>
-                        <a href="#" class="tool-link">Open</a>
-                    </div>
-                    
-                    <div class="tool-card">
-                        <div class="tool-icon">
-                            <i class="fas fa-lock"></i>
-                        </div>
-                        <h3 class="tool-name">Protect PDF</h3>
-                        <p class="tool-desc">Add password protection to your PDF files.</p>
-                        <a href="#" class="tool-link">Open</a>
-                    </div>
-                    
-                    <div class="tool-card">
-                        <div class="tool-icon">
-                            <i class="fas fa-unlock"></i>
-                        </div>
-                        <h3 class="tool-name">Unlock PDF</h3>
-                        <p class="tool-desc">Remove password protection from PDF files.</p>
-                        <a href="#" class="tool-link">Open</a>
-                    </div>
-                    
-                    <!-- Image Tools -->
-                    <div class="tool-card">
-                        <div class="tool-icon">
-                            <i class="far fa-image"></i>
-                        </div>
-                        <h3 class="tool-name">Compress Image</h3>
-                        <p class="tool-desc">Reduce image file size without losing quality.</p>
-                        <a href="#" class="tool-link">Open</a>
-                    </div>
-                    
-                    <div class="tool-card">
-                        <div class="tool-icon">
-                            <i class="fas fa-crop-alt"></i>
-                        </div>
-                        <h3 class="tool-name">Crop Image</h3>
-                        <p class="tool-desc">Crop and resize images to fit your needs.</p>
-                        <a href="#" class="tool-link">Open</a>
-                    </div>
-                    
-                    <div class="tool-card">
-                        <div class="tool-icon">
-                            <i class="fas fa-exchange-alt"></i>
-                        </div>
-                        <h3 class="tool-name">Image Converter</h3>
-                        <p class="tool-desc">Convert between JPG, PNG, WebP, and other formats.</p>
-                        <a href="#" class="tool-link">Open</a>
-                    </div>
-                    
-                    <!-- Converters -->
-                    <div class="tool-card">
-                        <div class="tool-icon">
-                            <i class="fas fa-file-word"></i>
-                        </div>
-                        <h3 class="tool-name">Word Converter</h3>
-                        <p class="tool-desc">Convert Word documents to PDF and other formats.</p>
-                        <a href="pdf/pdf-to-word.html" class="tool-link">Open</a>
-                    </div>
-                    
-                    <div class="tool-card">
-                        <div class="tool-icon">
-                            <i class="fas fa-file-excel"></i>
-                        </div>
-                        <h3 class="tool-name">Excel Converter</h3>
-                        <p class="tool-desc">Convert Excel spreadsheets to PDF and other formats.</p>
-                        <a href="pdf/pdf-to-excel.html" class="tool-link">Open</a>
-                    </div>
-                    
-                    <!-- Utilities -->
-                    <div class="tool-card">
-                        <div class="tool-icon">
-                            <i class="fas fa-qrcode"></i>
-                        </div>
-                        <h3 class="tool-name">QR Code Generator</h3>
-                        <p class="tool-desc">Create QR codes for URLs, text, and contact information.</p>
-                        <a href="#" class="tool-link">Open</a>
-                    </div>
-                    
-                    <div class="tool-card">
-                        <div class="tool-icon">
-                            <i class="fas fa-water"></i>
-                        </div>
-                        <h3 class="tool-name">Watermark Tool</h3>
-                        <p class="tool-desc">Add text or image watermarks to PDFs and images.</p>
-                        <a href="#" class="tool-link">Open</a>
-                    </div>
-                    
-                    <div class="tool-card">
-                        <div class="tool-icon">
-                            <i class="fas fa-file-archive"></i>
-                        </div>
-                        <h3 class="tool-name">File Compressor</h3>
-                        <p class="tool-desc">Compress multiple files into ZIP archives.</p>
-                        <a href="#" class="tool-link">Open</a>
-                    </div>
-                    
-                    <div class="tool-card">
-                        <div class="tool-icon">
-                            <i class="fas fa-signature"></i>
-                        </div>
-                        <h3 class="tool-name">E-Signature</h3>
-                        <p class="tool-desc">Add electronic signatures to documents securely.</p>
-                        <a href="#" class="tool-link">Open</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Features Section -->
-        <section class="features">
-            <div class="container">
-                <h2 class="section-title">Why Choose ToolTari?</h2>
-                
-                <div class="features-grid">
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-shield-alt"></i>
-                        </div>
-                        <h3>Secure & Private</h3>
-                        <p>All processing happens in your browser. We never store your files on our servers.</p>
-                    </div>
-                    
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-bolt"></i>
-                        </div>
-                        <h3>Fast Processing</h3>
-                        <p>Optimized tools that work directly in your browser for instant results.</p>
-                    </div>
-                    
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-dollar-sign"></i>
-                        </div>
-                        <h3>Completely Free</h3>
-                        <p>All our basic tools are free forever with no hidden charges or watermarks.</p>
-                    </div>
-                    
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-laptop"></i>
-                        </div>
-                        <h3>No Installation</h3>
-                        <p>Use directly in your browser. Works on Windows, Mac, Linux, and mobile devices.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- CTA Section -->
-        <section class="cta">
-            <div class="container">
-                <div class="cta-content">
-                    <h2 class="cta-title">Ready to Process Your Files?</h2>
-                    <p class="cta-subtitle">Join millions of users who trust ToolTari for their PDF and image processing needs.</p>
-                    <a href="#" class="btn-cta">Get Started Free</a>
-                    <p class="cta-note">No registration required. Start using tools instantly.</p>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <div class="footer-logo">
-                        <i class="fas fa-tools"></i>
-                        ToolTari
-                    </div>
-                    <p class="footer-about">
-                        ToolTari provides free, fast, and secure online PDF and image tools. All processing happens in your browser for maximum privacy.
-                    </p>
-                </div>
-                
-                <div class="footer-section">
-                    <h4>PDF Tools</h4>
-                    <ul class="footer-links">
-                        <li><a href="pdf/merge-pdf.html">Merge PDF</a></li>
-                        <li><a href="pdf/split-pdf.html">Split PDF</a></li>
-                        <li><a href="pdf/pdf-compression.html">Compress PDF</a></li>
-                        <li><a href="#">Convert PDF</a></li>
-                        <li><a href="#">Edit PDF</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-section">
-                    <h4>Image Tools</h4>
-                    <ul class="footer-links">
-                        <li><a href="#">Compress Image</a></li>
-                        <li><a href="#">Crop Image</a></li>
-                        <li><a href="#">Resize Image</a></li>
-                        <li><a href="#">Convert Image</a></li>
-                        <li><a href="#">Watermark Image</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-section">
-                    <h4>Company</h4>
-                    <ul class="footer-links">
-                        <li><a href="#">About Us</a></li>
-                        <li><a href="#">Contact</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Terms of Use</a></li>
-                        <li><a href="#">Help Center</a></li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="footer-bottom">
-                <p class="copyright">&copy; 2023 ToolTari. All rights reserved. Free online tools for everyone.</p>
-                <div class="footer-social">
-                    <a href="https://www.instagram.com/devdhar_1824/"><i class="fab fa-instagram"></i></a>
-                    <a href="https://www.facebook.com/profile.php?id=61584656605965"><i class="fab fa-facebook-f"></i></a>
-                    <a href="https://in.linkedin.com/in/devdhar18"><i class="fab fa-linkedin-in"></i></a>
-                    <a href="https://github.com/rdsteam18/"><i class="fab fa-github"></i></a>
-                </div>
-            </div>
+        <div class="hero-graphic animate-float">
+          <i class="fas fa-file-pdf"></i>
+          <i class="fas fa-image"></i>
+          <i class="fas fa-magic"></i>
+          <i class="fas fa-qrcode"></i>
         </div>
-    </footer>
+      </div>
+    </section>
+
+    <!-- POPULAR TOOLS SECTION (featured) -->
+    <section class="tools-section" id="popular-tools">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">⭐ Most Popular Tools</h2>
+          <p class="section-desc">Trusted by thousands of users every day</p>
+        </div>
+        <div class="tools-grid popular-grid" id="popularToolsGrid">
+          <!-- dynamic via JS -->
+          <div class="loading-placeholder"><i class="fas fa-spinner fa-pulse"></i> Loading popular tools...</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ALL AVAILABLE TOOLS (complete collection) -->
+    <section class="tools-section alt-bg" id="all-tools">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">📁 All Available Tools</h2>
+          <p class="section-desc">Browse our complete collection of free online utilities</p>
+        </div>
+        <div class="tools-grid all-tools-grid" id="allToolsGrid">
+          <div class="loading-placeholder"><i class="fas fa-spinner fa-pulse"></i> Loading complete toolkit...</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHY CHOOSE TOOLTARI (4 premium cards) -->
+    <section class="why-section" id="why-choose">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Why Choose ToolTari?</h2>
+          <p class="section-desc">Built for privacy, speed, and simplicity</p>
+        </div>
+        <div class="features-grid">
+          <div class="feature-card scroll-reveal">
+            <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
+            <h3>Secure & Private</h3>
+            <p>All processing happens in your browser. We never store your files on our servers.</p>
+          </div>
+          <div class="feature-card scroll-reveal">
+            <div class="feature-icon"><i class="fas fa-bolt"></i></div>
+            <h3>Fast Processing</h3>
+            <p>Optimized tools that work directly in your browser for instant results.</p>
+          </div>
+          <div class="feature-card scroll-reveal">
+            <div class="feature-icon"><i class="fas fa-gem"></i></div>
+            <h3>Completely Free</h3>
+            <p>All basic tools free forever. No hidden charges, no watermarks.</p>
+          </div>
+          <div class="feature-card scroll-reveal">
+            <div class="feature-icon"><i class="fas fa-download"></i></div>
+            <h3>No Installation</h3>
+            <p>Works in browser on Windows, Mac, Linux, and mobile devices.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Banner: ready to process files -->
+    <section class="cta-banner">
+      <div class="container cta-container">
+        <div class="cta-content">
+          <h2>Ready to Process Your Files?</h2>
+          <p>Join millions of users who trust ToolTari for PDF and image processing needs.<br> No registration required. Start using tools instantly.</p>
+          <button class="btn btn-primary btn-large" id="finalCtaBtn">Get Started Free →</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER with social links and verification -->
+  <footer class="site-footer">
+    <div class="container footer-container">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <img src="https://blogger.googleusercontent.com/img/a/AVvXsEjY2rjUWolqqXCrlJIvA8jXQqcUBMVsqEQq9CziuNUqzhW3Asha4BTbHljQobuky8iF9DmcKIdydU5HaxXso3sUI5HrxtlHUPTvp_VBFAoxwzOp8ka_H0Uqfdj2Ns_OSSqmww7c8mV_EuvIRxCy0udJTufLUj0phIkLXnrys4NCSPA7YBrZJa_LGH8A" alt="ToolTari" class="footer-logo-img">
+          <span>ToolTari</span>
+        </div>
+        <p class="footer-tagline">Free tools for everyone, anywhere.</p>
+        <div class="footer-domains">
+          <span>🔗 tooltari.in</span> · <span>tooltari.netlify.app</span> · <span>tools.tooltari.in</span>
+        </div>
+      </div>
+      <div class="footer-social">
+        <a href="https://www.instagram.com/tooltari.in/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="https://www.youtube.com/@rdsteam1824/" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        <a href="https://github.com/rdsteam18/tooltari" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fab fa-github"></i></a>
+        <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+      </div>
+      <div class="footer-copyright">
+        <p>© 2025 ToolTari — Zero friction, maximum utility. <a href="/ads.txt">ads.txt</a></p>
+        <p class="verification-badge">🔒 Google AdSense verified | Secure processing</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Stylesheets + scripts -->
+  <style>
+    /* Additional critical style to ensure consistency and premium look */
+    .hero-badge {
+      background: rgba(79, 70, 229, 0.12);
+      backdrop-filter: blur(4px);
+      padding: 0.4rem 1rem;
+      border-radius: 100px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #4F46E5;
+      display: inline-block;
+      margin-bottom: 1rem;
+      letter-spacing: -0.2px;
+    }
+    .btn-secondary {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.3);
+      color: white;
+    }
+    .btn-secondary:hover {
+      background: rgba(255,255,255,0.2);
+      transform: translateY(-2px);
+    }
+    .hero-stats {
+      display: flex;
+      gap: 1.5rem;
+      margin-top: 2rem;
+      font-size: 0.9rem;
+      color: #e2e8f0;
+      font-weight: 500;
+    }
+    .hero-stats i {
+      margin-right: 0.4rem;
+      color: #06B6D4;
+    }
+    .alt-bg {
+      background: #f9fafc;
+    }
+    .cta-banner {
+      background: linear-gradient(135deg, #4F46E5 0%, #06B6D4 100%);
+      padding: 4rem 0;
+      text-align: center;
+      color: white;
+    }
+    .cta-container h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    .btn-large {
+      padding: 1rem 2rem;
+      font-size: 1.1rem;
+      margin-top: 1.5rem;
+      background: white;
+      color: #4F46E5;
+    }
+    .btn-large:hover {
+      background: #f1f5f9;
+      transform: scale(1.02);
+    }
+    .footer-domains {
+      font-size: 0.75rem;
+      opacity: 0.8;
+      margin-top: 0.5rem;
+    }
+    .verification-badge {
+      font-size: 0.7rem;
+      margin-top: 0.3rem;
+      color: #94a3b8;
+    }
+    .popular-grid .tool-card, .all-tools-grid .tool-card {
+      background: white;
+      border-radius: 1.5rem;
+    }
+    @media (max-width: 768px) {
+      .hero-stats { flex-wrap: wrap; gap: 1rem; justify-content: center; }
+      .cta-container h2 { font-size: 1.6rem; }
+    }
+  </style>
+  <script src="/assets/js/ui.js"></script>
+  <script src="/assets/js/main.js"></script>
+  <script>
+    // TOOLTARI COMPLETE HOMEPAGE DYNAMIC DATA (Rich toolset based on domain content)
+    (function() {
+      // Full featured tools dataset matching the brand's "All Tools" section from the site content
+      const popularToolsList = [
+        { id: "merge", name: "Merge PDF", description: "Combine multiple PDF files into a single document in seconds.", icon: "fa-object-group", color: "#4F46E5", url: "/merge-pdf" },
+        { id: "split", name: "Split PDF", description: "Split a PDF file into separate documents or extract specific pages.", icon: "fa-cut", color: "#06B6D4", url: "/split-pdf" },
+        { id: "compress", name: "Compress PDF", description: "Reduce PDF file size while preserving quality for easy sharing.", icon: "fa-compress", color: "#10b981", url: "/compress-pdf" },
+        { id: "pdf-word", name: "PDF to Word", description: "Convert PDF documents to editable Word files with high accuracy.", icon: "fa-file-word", color: "#ef4444", url: "/pdf-to-word" }
+      ];
+      
+      const allToolsComplete = [
+        { id: "pdf-ppt", name: "PDF to PowerPoint", description: "Transform PDF slides into editable PowerPoint presentations.", icon: "fa-chalkboard", color: "#f59e0b" },
+        { id: "protect-pdf", name: "Protect PDF", description: "Add password protection to your PDF files.", icon: "fa-lock", color: "#8b5cf6" },
+        { id: "unlock-pdf", name: "Unlock PDF", description: "Remove password protection from PDF files.", icon: "fa-unlock-alt", color: "#ec489a" },
+        { id: "compress-image", name: "Compress Image", description: "Reduce image file size without losing quality.", icon: "fa-image", color: "#14b8a6" },
+        { id: "crop-image", name: "Crop Image", description: "Crop and resize images to fit your needs.", icon: "fa-crop", color: "#3b82f6" },
+        { id: "image-converter", name: "Image Converter", description: "Convert between JPG, PNG, WebP, and other formats.", icon: "fa-exchange-alt", color: "#a855f7" },
+        { id: "word-converter", name: "Word Converter", description: "Convert Word documents to PDF and other formats.", icon: "fa-file-alt", color: "#2dd4bf" },
+        { id: "excel-converter", name: "Excel Converter", description: "Convert Excel spreadsheets to PDF and other formats.", icon: "fa-file-excel", color: "#22c55e" },
+        { id: "qr-generator", name: "QR Code Generator", description: "Create QR codes for URLs, text, and contact information.", icon: "fa-qrcode", color: "#6366f1" },
+        { id: "watermark", name: "Watermark Tool", description: "Add text or image watermarks to PDFs and images.", icon: "fa-paintbrush", color: "#f97316" },
+        { id: "file-compressor", name: "File Compressor", description: "Compress multiple files into ZIP archives.", icon: "fa-file-archive", color: "#d946ef" },
+        { id: "esignature", name: "E-Signature", description: "Add electronic signatures to documents securely.", icon: "fa-signature", color: "#0ea5e9" }
+      ];
+      
+      // Merge popular + also add fallback for all tools (include popular tools as well)
+      const extendedAllTools = [...popularToolsList, ...allToolsComplete];
+      
+      function renderToolCards(containerId, toolsArray) {
+        const container = document.getElementById(containerId);
+        if (!container) return;
+        if (!toolsArray || toolsArray.length === 0) {
+          container.innerHTML = '<div class="error-placeholder">⚠️ Unable to load tools. Refresh page.</div>';
+          return;
+        }
+        const cardsHtml = toolsArray.map(tool => `
+          <div class="tool-card scroll-reveal" data-tool-id="${tool.id}">
+            <div class="tool-icon" style="background-color: ${tool.color || '#4F46E5'}20; color: ${tool.color || '#4F46E6'}">
+              <i class="fas ${tool.icon}"></i>
+            </div>
+            <h3 class="tool-name">${escapeHtml(tool.name)}</h3>
+            <p class="tool-description">${escapeHtml(tool.description)}</p>
+            <button class="btn-tool-use" data-toolname="${escapeHtml(tool.name)}">Use Tool →</button>
+          </div>
+        `).join('');
+        container.innerHTML = cardsHtml;
+        
+        // attach event binding for tool buttons
+        container.querySelectorAll('.btn-tool-use').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const toolName = btn.getAttribute('data-toolname');
+            alert(`✨ ToolTari: "${toolName}" is ready! No login required. All processing happens in your browser.`);
+            // future: redirect to tool page if needed
+          });
+        });
+      }
+      
+      function escapeHtml(str) { 
+        if(!str) return '';
+        return str.replace(/[&<>]/g, function(m) {
+          if (m === '&') return '&amp;';
+          if (m === '<') return '&lt;';
+          if (m === '>') return '&gt;';
+          return m;
+        });
+      }
+      
+      // Render both grids
+      renderToolCards('popularToolsGrid', popularToolsList);
+      renderToolCards('allToolsGrid', extendedAllTools);
+      
+      // Additional interactive for CTA buttons
+      const ctaButtons = ['ctaHeaderBtn', 'heroCtaBtn', 'finalCtaBtn'];
+      ctaButtons.forEach(id => {
+        const btn = document.getElementById(id);
+        if (btn) {
+          btn.addEventListener('click', () => {
+            document.getElementById('all-tools')?.scrollIntoView({ behavior: 'smooth' });
+          });
+        }
+      });
+      const heroDemo = document.getElementById('heroDemoBtn');
+      if(heroDemo) {
+        heroDemo.addEventListener('click', () => alert('🎥 ToolTari processes files directly in your browser. No upload to server — secure & instant!'));
+      }
+      
+      // Mobile menu toggle
+      const toggleBtn = document.getElementById('mobileToggle');
+      const nav = document.getElementById('mainNav');
+      if(toggleBtn && nav) {
+        toggleBtn.addEventListener('click', () => {
+          nav.classList.toggle('nav-open');
+          const icon = toggleBtn.querySelector('i');
+          if(icon) {
+            if(nav.classList.contains('nav-open')) icon.classList.replace('fa-bars', 'fa-times');
+            else icon.classList.replace('fa-times', 'fa-bars');
+          }
+        });
+      }
+      
+      // header scroll glass effect
+      const header = document.getElementById('mainHeader');
+      window.addEventListener('scroll', () => {
+        if(window.scrollY > 20) header.classList.add('scrolled');
+        else header.classList.remove('scrolled');
+      });
+      
+      // scroll reveal using intersection observer (lightweight)
+      const revealElements = document.querySelectorAll('.scroll-reveal');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if(entry.isIntersecting) {
+            entry.target.classList.add('revealed');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1, rootMargin: "0px 0px -20px 0px" });
+      revealElements.forEach(el => observer.observe(el));
+      
+      // add fading classes manually for initial visible animations
+      document.querySelectorAll('.animate-fade-up').forEach((el, idx) => {
+        el.style.opacity = '0';
+        el.style.animation = 'fadeUp 0.7s ease forwards';
+        el.style.animationDelay = `${idx * 0.1}s`;
+      });
+    })();
+  </script>
+  <style>
+    /* additional keyframe animations */
+    @keyframes fadeUp {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    .scroll-reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s cubic-bezier(0.2, 0.9, 0.4, 1.1), transform 0.7s ease;
+    }
+    .scroll-reveal.revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .site-header.scrolled {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+      border-bottom: 1px solid rgba(79, 70, 229, 0.15);
+    }
+    .mobile-menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #1e293b;
+    }
+    @media (max-width: 768px) {
+      .mobile-menu-toggle { display: block; }
+      .main-nav { position: fixed; top: 70px; left: -100%; width: 80%; height: calc(100vh - 70px); background: white; box-shadow: 0 20px 35px rgba(0,0,0,0.1); transition: 0.3s ease; z-index: 1000; border-radius: 0 20px 20px 0; padding: 2rem; }
+      .main-nav.nav-open { left: 0; }
+      .nav-links { flex-direction: column; gap: 1.5rem; }
+      .header-container { flex-wrap: wrap; }
+    }
+  </style>
 </body>
 </html>
-
