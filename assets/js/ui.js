@@ -1,255 +1,199 @@
-// /assets/js/ui.js
-// UI Interactions, Scroll Effects, Mobile Menu, Animations
+// ========== UI COMPONENT INJECTOR ==========
+// This file handles dynamic header and footer injection across all pages
 
 (function() {
   'use strict';
   
-  // DOM Elements
-  const header = document.getElementById('mainHeader');
-  const mobileToggle = document.getElementById('mobileToggle');
-  const mainNav = document.getElementById('mainNav');
-  const ctaButtons = document.querySelectorAll('#ctaHeaderBtn, #heroCtaBtn, #finalCtaBtn');
-  const allToolButtons = document.querySelectorAll('.btn-tool-use');
-  
-  // ========== STICKY HEADER GLASS EFFECT ==========
-  function handleHeaderScroll() {
-    if (!header) return;
-    if (window.scrollY > 20) {
-      header.classList.add('scrolled');
-    } else {
-      header.classList.remove('scrolled');
-    }
-  }
-  
-  window.addEventListener('scroll', handleHeaderScroll);
-  handleHeaderScroll(); // initial check
-  
-  // ========== MOBILE MENU TOGGLE ==========
-  if (mobileToggle && mainNav) {
-    mobileToggle.addEventListener('click', function(e) {
-      e.stopPropagation();
-      mainNav.classList.toggle('nav-open');
-      const icon = mobileToggle.querySelector('i');
-      if (icon) {
-        if (mainNav.classList.contains('nav-open')) {
-          icon.classList.remove('fa-bars');
-          icon.classList.add('fa-times');
-        } else {
-          icon.classList.remove('fa-times');
-          icon.classList.add('fa-bars');
-        }
-      }
-    });
-    
-    // Close menu when clicking on a link (mobile)
-    const navLinks = document.querySelectorAll('.nav-links a');
-    navLinks.forEach(link => {
-      link.addEventListener('click', () => {
-        mainNav.classList.remove('nav-open');
-        const icon = mobileToggle.querySelector('i');
-        if (icon) {
-          icon.classList.remove('fa-times');
-          icon.classList.add('fa-bars');
-        }
-      });
-    });
-    
-    // Close menu when clicking outside (optional)
-    document.addEventListener('click', function(event) {
-      if (mainNav.classList.contains('nav-open') && 
-          !mainNav.contains(event.target) && 
-          !mobileToggle.contains(event.target)) {
-        mainNav.classList.remove('nav-open');
-        const icon = mobileToggle.querySelector('i');
-        if (icon) {
-          icon.classList.remove('fa-times');
-          icon.classList.add('fa-bars');
-        }
-      }
-    });
-  }
-  
-  // ========== SMOOTH SCROLL FOR ANCHOR LINKS ==========
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function(e) {
-      const targetId = this.getAttribute('href');
-      if (targetId === '#') return;
-      const targetElement = document.querySelector(targetId);
-      if (targetElement) {
-        e.preventDefault();
-        targetElement.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start'
-        });
-      }
-    });
-  });
-  
-  // ========== CTA BUTTONS SCROLL TO TOOLS ==========
-  if (ctaButtons.length) {
-    ctaButtons.forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.preventDefault();
-        const toolsSection = document.getElementById('all-tools');
-        if (toolsSection) {
-          toolsSection.scrollIntoView({ behavior: 'smooth' });
-        } else {
-          const popularSection = document.getElementById('popular-tools');
-          if (popularSection) popularSection.scrollIntoView({ behavior: 'smooth' });
-        }
-      });
-    });
-  }
-  
-  // ========== SCROLL REVEAL OBSERVER ==========
-  const revealElements = document.querySelectorAll('.scroll-reveal');
-  
-  if (revealElements.length && 'IntersectionObserver' in window) {
-    const revealObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('revealed');
-          revealObserver.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-    
-    revealElements.forEach(el => revealObserver.observe(el));
-  } else {
-    // fallback: reveal all immediately
-    revealElements.forEach(el => el.classList.add('revealed'));
-  }
-  
-  // ========== TOOL BUTTON INTERACTION (GLOBAL DELEGATION) ==========
-  document.body.addEventListener('click', (e) => {
-    const toolBtn = e.target.closest('.btn-tool-use');
-    if (toolBtn) {
-      const toolName = toolBtn.getAttribute('data-toolname') || 
-                       toolBtn.closest('.tool-card')?.querySelector('.tool-name')?.innerText || 
-                       'this tool';
-      showToolNotification(toolName);
-    }
-  });
-  
-  function showToolNotification(toolName) {
-    // Create temporary toast-style notification
-    const toast = document.createElement('div');
-    toast.className = 'tool-toast-notification';
-    toast.innerHTML = `
-      <div class="toast-content">
-        <i class="fas fa-check-circle" style="color: #10b981;"></i>
-        <span>✨ ${toolName} is ready! No login required. All processing happens in your browser.</span>
+  // Header HTML template
+  const headerHTML = `
+    <header class="site-header" id="mainHeader">
+      <div class="container header-container">
+        <a href="/" class="logo">
+          <img src="https://blogger.googleusercontent.com/img/a/AVvXsEjY2rjUWolqqXCrlJIvA8jXQqcUBMVsqEQq9CziuNUqzhW3Asha4BTbHljQobuky8iF9DmcKIdydU5HaxXso3sUI5HrxtlHUPTvp_VBFAoxwzOp8ka_H0Uqfdj2Ns_OSSqmww7c8mV_EuvIRxCy0udJTufLUj0phIkLXnrys4NCSPA7YBrZJa_LGH8A" alt="ToolTari Logo" class="logo-img">
+          <span class="logo-text">ToolTari</span>
+        </a>
+        <nav class="main-nav">
+          <ul class="nav-links" id="navLinks">
+            <li><a href="/" class="nav-link">Home</a></li>
+            <li><a href="/tools.html" class="nav-link">Tools</a></li>
+            <li><a href="/about.html" class="nav-link">About</a></li>
+            <li><a href="/contact.html" class="nav-link">Contact</a></li>
+          </ul>
+        </nav>
+        <div class="header-actions">
+          <a href="/tools.html" class="btn-cta">Use Tools <i class="fas fa-arrow-right"></i></a>
+          <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Menu">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
       </div>
-    `;
-    document.body.appendChild(toast);
-    
-    // trigger animation
-    setTimeout(() => toast.classList.add('show'), 10);
-    
-    // remove after 3 seconds
-    setTimeout(() => {
-      toast.classList.remove('show');
-      setTimeout(() => toast.remove(), 300);
-    }, 3000);
+    </header>
+  `;
+  
+  // Footer HTML template
+  const footerHTML = `
+    <footer class="site-footer">
+      <div class="container footer-container">
+        <div class="footer-brand">
+          <div class="footer-logo">
+            <img src="https://blogger.googleusercontent.com/img/a/AVvXsEjY2rjUWolqqXCrlJIvA8jXQqcUBMVsqEQq9CziuNUqzhW3Asha4BTbHljQobuky8iF9DmcKIdydU5HaxXso3sUI5HrxtlHUPTvp_VBFAoxwzOp8ka_H0Uqfdj2Ns_OSSqmww7c8mV_EuvIRxCy0udJTufLUj0phIkLXnrys4NCSPA7YBrZJa_LGH8A" alt="ToolTari" class="footer-logo-img">
+            <span>ToolTari</span>
+          </div>
+          <p class="footer-tagline">Free tools for everyone, anywhere</p>
+        </div>
+        <div class="footer-links">
+          <a href="/about.html">About</a>
+          <a href="/contact.html">Contact</a>
+          <a href="/privacy-policy.html">Privacy Policy</a>
+          <a href="/terms.html">Terms of Service</a>
+        </div>
+        <div class="footer-social">
+          <a href="https://www.instagram.com/tooltari.in/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a href="https://www.youtube.com/@rdsteam1824/" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+            <i class="fab fa-youtube"></i>
+          </a>
+          <a href="https://github.com/rdsteam18/tooltari" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+            <i class="fab fa-github"></i>
+          </a>
+        </div>
+        <div class="footer-copyright">
+          <p>© 2025 ToolTari. All rights reserved. Free online tools.</p>
+        </div>
+      </div>
+    </footer>
+  `;
+  
+  // Inject header at the beginning of body
+  function injectHeader() {
+    const body = document.body;
+    if (body && !document.querySelector('.site-header')) {
+      body.insertAdjacentHTML('afterbegin', headerHTML);
+      initMobileMenu();
+      initHeaderScroll();
+      setActiveNavLink();
+    }
   }
   
-  // Add toast styles dynamically (if not in CSS)
-  if (!document.querySelector('#ui-js-styles')) {
-    const style = document.createElement('style');
-    style.id = 'ui-js-styles';
-    style.textContent = `
-      .tool-toast-notification {
-        position: fixed;
-        bottom: 30px;
-        left: 50%;
-        transform: translateX(-50%) translateY(100px);
-        background: white;
-        backdrop-filter: blur(12px);
-        background: rgba(255, 255, 255, 0.95);
-        border-radius: 50px;
-        padding: 0.9rem 1.8rem;
-        box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.2);
-        z-index: 10000;
-        transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-        border: 1px solid rgba(79, 70, 229, 0.2);
-        font-weight: 500;
-        pointer-events: none;
-      }
-      .tool-toast-notification.show {
-        transform: translateX(-50%) translateY(0);
-      }
-      .toast-content {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        color: #1e293b;
-      }
-      @media (max-width: 640px) {
-        .tool-toast-notification {
-          width: 90%;
-          border-radius: 1rem;
-          text-align: center;
-        }
-        .toast-content {
-          justify-content: center;
-          flex-wrap: wrap;
-        }
-      }
-    `;
-    document.head.appendChild(style);
+  // Inject footer at the end of body
+  function injectFooter() {
+    const body = document.body;
+    if (body && !document.querySelector('.site-footer')) {
+      body.insertAdjacentHTML('beforeend', footerHTML);
+    }
   }
   
-  // ========== ADD HOVER EFFECT CLASSES FOR TOOL CARDS DYNAMIC ==========
-  // Preload subtle image hover effect - nothing heavy
-  
-  // ========== HEADER ACTIVE LINK HIGHLIGHT ==========
-  function updateActiveNavLink() {
-    const sections = document.querySelectorAll('section[id]');
-    const navLinks = document.querySelectorAll('.nav-links a');
-    let currentSection = '';
+  // Mobile menu toggle functionality
+  function initMobileMenu() {
+    const toggleBtn = document.getElementById('mobileMenuToggle');
+    const navLinks = document.getElementById('navLinks');
     
-    sections.forEach(section => {
-      const sectionTop = section.offsetTop - 100;
-      const sectionBottom = sectionTop + section.offsetHeight;
-      if (window.scrollY >= sectionTop && window.scrollY < sectionBottom) {
-        currentSection = section.getAttribute('id');
-      }
-    });
+    if (toggleBtn && navLinks) {
+      toggleBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        navLinks.classList.toggle('active');
+        const icon = toggleBtn.querySelector('i');
+        if (icon) {
+          if (navLinks.classList.contains('active')) {
+            icon.classList.remove('fa-bars');
+            icon.classList.add('fa-times');
+          } else {
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
+          }
+        }
+      });
+      
+      // Close menu when clicking a link
+      const links = navLinks.querySelectorAll('a');
+      links.forEach(link => {
+        link.addEventListener('click', () => {
+          navLinks.classList.remove('active');
+          const icon = toggleBtn.querySelector('i');
+          if (icon) {
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
+          }
+        });
+      });
+      
+      // Close menu when clicking outside
+      document.addEventListener('click', function(event) {
+        if (navLinks.classList.contains('active') && 
+            !navLinks.contains(event.target) && 
+            !toggleBtn.contains(event.target)) {
+          navLinks.classList.remove('active');
+          const icon = toggleBtn.querySelector('i');
+          if (icon) {
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
+          }
+        }
+      });
+    }
+  }
+  
+  // Header scroll effect (glass morphism)
+  function initHeaderScroll() {
+    const header = document.querySelector('.site-header');
+    if (header) {
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 20) {
+          header.classList.add('scrolled');
+        } else {
+          header.classList.remove('scrolled');
+        }
+      });
+    }
+  }
+  
+  // Set active navigation link based on current page
+  function setActiveNavLink() {
+    const currentPath = window.location.pathname;
+    const navLinks = document.querySelectorAll('.nav-link');
     
     navLinks.forEach(link => {
-      link.classList.remove('active');
-      const href = link.getAttribute('href').substring(1);
-      if (href === currentSection) {
+      const href = link.getAttribute('href');
+      if (href === currentPath || (currentPath === '/' && href === '/')) {
+        link.classList.add('active');
+      } else if (currentPath !== '/' && href !== '/' && currentPath.includes(href.replace('/', ''))) {
         link.classList.add('active');
       }
     });
   }
   
-  window.addEventListener('scroll', updateActiveNavLink);
-  updateActiveNavLink();
-  
-  // Add active style
-  const activeStyle = document.createElement('style');
-  activeStyle.textContent = `
-    .nav-links a.active {
-      color: var(--primary);
-      font-weight: 600;
+  // Scroll reveal observer
+  function initScrollReveal() {
+    const revealElements = document.querySelectorAll('.scroll-reveal');
+    
+    if (revealElements.length && 'IntersectionObserver' in window) {
+      const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('revealed');
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+      
+      revealElements.forEach(el => revealObserver.observe(el));
+    } else {
+      // Fallback
+      revealElements.forEach(el => el.classList.add('revealed'));
     }
-    .nav-links a.active::after {
-      width: 100%;
-    }
-  `;
-  document.head.appendChild(activeStyle);
+  }
   
-  // ========== PREVENT MULTIPLE RAPID SCROLLS ==========
-  let isScrolling = false;
-  window.addEventListener('wheel', () => {
-    isScrolling = true;
-    clearTimeout(window.scrollTimer);
-    window.scrollTimer = setTimeout(() => {
-      isScrolling = false;
-    }, 100);
-  });
-  
-  console.log('UI.js loaded — ToolTari interactive elements ready');
+  // Initialize all UI components when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      injectHeader();
+      injectFooter();
+      initScrollReveal();
+    });
+  } else {
+    injectHeader();
+    injectFooter();
+    initScrollReveal();
+  }
 })();
