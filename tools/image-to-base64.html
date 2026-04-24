@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Image to Base64 Converter - Convert Images to Base64 | ToolTari</title>
+  <meta name="description" content="Convert images to Base64 string online for free. Encode JPG, PNG, WebP images to Base64 format. Perfect for embedding images in HTML/CSS.">
+  <meta name="keywords" content="image to base64, base64 converter, image encoder, base64 image, embed image as base64">
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    .tool-hero { background: linear-gradient(135deg, #667eea, #764ba2); padding: 2rem 0; text-align: center; color: white; }
+    .container { max-width: 1000px; margin: 0 auto; padding: 0 1.5rem; }
+    .upload-card, .controls-card, .result-card { background: white; border-radius: 16px; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    .dropzone { border: 2px dashed #ccc; border-radius: 12px; padding: 2rem; text-align: center; cursor: pointer; background: #f9fafb; transition: all 0.2s; }
+    .dropzone.drag-over { border-color: #4F46E5; background: rgba(79,70,229,0.05); }
+    .preview-area { display: flex; gap: 1rem; margin-top: 1rem; flex-wrap: wrap; align-items: center; }
+    .preview-image { max-width: 150px; max-height: 150px; border-radius: 8px; border: 1px solid #e5e7eb; }
+    .base64-output { width: 100%; height: 200px; font-family: monospace; font-size: 0.8rem; padding: 1rem; border: 1px solid #ccc; border-radius: 8px; resize: vertical; background: #f9fafb; }
+    .btn { padding: 0.6rem 1.2rem; border-radius: 2rem; border: none; cursor: pointer; font-weight: 500; margin: 0.25rem; transition: all 0.2s; }
+    .btn-primary { background: linear-gradient(135deg, #4F46E5, #06B6D4); color: white; }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(79,70,229,0.3); }
+    .copy-btn { background: #10b981; color: white; }
+    .copy-btn:hover { background: #059669; }
+    .trust-message { background: #f0fdf4; padding: 0.75rem; text-align: center; border-radius: 8px; margin-bottom: 1rem; }
+    .format-select { padding: 0.5rem; border-radius: 8px; border: 1px solid #ccc; margin: 0.5rem; }
+  </style>
+</head>
+<body>
+<div class="tool-hero"><div class="container"><h1>Image to Base64 Converter</h1><p>Convert images to Base64 string format - Perfect for embedding in HTML, CSS, or JSON</p></div></div>
+<div class="container">
+  <div class="trust-message"><i class="fas fa-lock"></i> 🔒 All processing happens in your browser. Your images are never uploaded.</div>
+  
+  <div class="upload-card">
+    <div class="dropzone" id="dropzone">
+      <i class="fas fa-cloud-upload-alt"></i>
+      <p>Drag & drop image here or click to browse</p>
+      <p class="small">Supports JPG, PNG, WebP, GIF, BMP, SVG</p>
+      <input type="file" id="fileInput" accept="image/*" style="display:none">
+    </div>
+  </div>
+  
+  <div class="controls-card" id="controls" style="display:none">
+    <div class="preview-area">
+      <img id="previewImg" class="preview-image" alt="Preview">
+      <div><strong>File:</strong> <span id="fileName"></span><br>
+      <strong>Size:</strong> <span id="fileSize"></span><br>
+      <strong>Dimensions:</strong> <span id="dimensions"></span></div>
+    </div>
+    <div style="margin: 1rem 0;">
+      <label>Output Format: 
+        <select id="formatSelect" class="format-select">
+          <option value="dataurl">Data URL (data:image/png;base64,...)</option>
+          <option value="raw">Raw Base64 String</option>
+        </select>
+      </label>
+    </div>
+    <textarea id="base64Output" class="base64-output" readonly placeholder="Base64 output will appear here..."></textarea>
+    <div><button id="copyBtn" class="btn copy-btn"><i class="fas fa-copy"></i> Copy to Clipboard</button>
+    <button id="downloadBtn" class="btn btn-primary"><i class="fas fa-download"></i> Download as .txt</button></div>
+  </div>
+</div>
+
+<script src="/assets/js/ui.js" defer></script>
+<script>
+const dropzone = document.getElementById('dropzone'), fileInput = document.getElementById('fileInput');
+let currentBase64 = '';
+let currentDataUrl = '';
+
+dropzone.onclick = () => fileInput.click();
+dropzone.ondragover = e => { e.preventDefault(); dropzone.classList.add('drag-over'); };
+dropzone.ondragleave = () => dropzone.classList.remove('drag-over');
+dropzone.ondrop = e => { e.preventDefault(); dropzone.classList.remove('drag-over'); if(e.dataTransfer.files[0]) convertImage(e.dataTransfer.files[0]); };
+fileInput.onchange = e => { if(e.target.files[0]) convertImage(e.target.files[0]); };
+
+function convertImage(file) {
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    currentDataUrl = e.target.result;
+    
+    // Get raw base64 (remove data:image/xxx;base64, prefix)
+    currentBase64 = currentDataUrl.split(',')[1];
+    
+    // Preview
+    document.getElementById('previewImg').src = currentDataUrl;
+    document.getElementById('fileName').innerText = file.name;
+    document.getElementById('fileSize').innerText = (file.size / 1024).toFixed(2) + ' KB';
+    
+    // Get dimensions
+    const img = new Image();
+    img.onload = () => {
+      document.getElementById('dimensions').innerText = `${img.width} x ${img.height}px`;
+    };
+    img.src = currentDataUrl;
+    
+    // Update output based on format
+    updateOutput();
+    
+    document.getElementById('controls').style.display = 'block';
+  };
+  reader.readAsDataURL(file);
+}
+
+function updateOutput() {
+  const format = document.getElementById('formatSelect').value;
+  const output = format === 'dataurl' ? currentDataUrl : currentBase64;
+  document.getElementById('base64Output').value = output;
+}
+
+document.getElementById('formatSelect').onchange = updateOutput;
+document.getElementById('copyBtn').onclick = () => {
+  const output = document.getElementById('base64Output');
+  output.select();
+  document.execCommand('copy');
+  alert('Copied to clipboard!');
+};
+document.getElementById('downloadBtn').onclick = () => {
+  const content = document.getElementById('base64Output').value;
+  const blob = new Blob([content], { type: 'text/plain' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `base64_${Date.now()}.txt`;
+  a.click();
+  URL.revokeObjectURL(url);
+};
+</script>
+</body>
+</html>
