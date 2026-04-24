@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Word Counter - Count Words, Characters, Sentences | ToolTari</title>
+  <meta name="description" content="Free online word counter. Count words, characters, sentences, paragraphs. No login required. 100% browser-based.">
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <script src="/assets/js/utility-engine.js"></script>
+  <style>
+    .tool-hero { background: linear-gradient(135deg, #667eea, #764ba2); padding: 2rem 0; text-align: center; color: white; }
+    .container { max-width: 1000px; margin: 0 auto; padding: 0 1.5rem; }
+    .tool-card { background: white; border-radius: 16px; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    textarea { width: 100%; padding: 1rem; border: 1px solid #ccc; border-radius: 12px; font-size: 1rem; font-family: inherit; resize: vertical; min-height: 200px; }
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-top: 1rem; }
+    .stat-card { background: #f9fafb; border-radius: 12px; padding: 1rem; text-align: center; }
+    .stat-value { font-size: 2rem; font-weight: 700; color: #4F46E5; }
+    .stat-label { font-size: 0.85rem; color: #6b7280; margin-top: 0.25rem; }
+    .top-words { background: #f9fafb; border-radius: 12px; padding: 1rem; margin-top: 1rem; }
+    .word-tag { display: inline-block; background: #e5e7eb; padding: 0.25rem 0.75rem; border-radius: 2rem; margin: 0.25rem; font-size: 0.85rem; }
+    .btn { padding: 0.6rem 1.2rem; border-radius: 2rem; border: none; cursor: pointer; margin: 0.25rem; }
+    .btn-primary { background: linear-gradient(135deg, #4F46E5, #06B6D4); color: white; }
+    .trust-message { background: #f0fdf4; padding: 0.75rem; text-align: center; border-radius: 8px; margin-bottom: 1rem; }
+  </style>
+</head>
+<body>
+<div class="tool-hero"><div class="container"><h1>Word Counter</h1><p>Count words, characters, sentences, and paragraphs instantly</p></div></div>
+<div class="container">
+  <div class="trust-message"><i class="fas fa-lock"></i> Your text never leaves your browser</div>
+  <div class="tool-card">
+    <textarea id="textInput" placeholder="Type or paste your text here..."></textarea>
+    <div class="stats-grid" id="statsGrid"></div>
+    <div class="top-words" id="topWords"></div>
+    <div><button class="btn btn-primary" id="clearBtn">Clear</button><button class="btn" id="copyBtn">Copy Text</button></div>
+  </div>
+</div>
+<script src="/assets/js/ui.js" defer></script>
+<script>
+const textarea = document.getElementById('textInput');
+const statsGrid = document.getElementById('statsGrid');
+const topWordsDiv = document.getElementById('topWords');
+
+function updateStats() {
+  const text = textarea.value;
+  const stats = ToolTariUtils.countCharacters(text);
+  const wordStats = ToolTariUtils.getWordStats(text);
+  
+  statsGrid.innerHTML = `
+    <div class="stat-card"><div class="stat-value">${stats.characters.toLocaleString()}</div><div class="stat-label">Characters</div></div>
+    <div class="stat-card"><div class="stat-value">${stats.charactersNoSpaces.toLocaleString()}</div><div class="stat-label">Characters (no spaces)</div></div>
+    <div class="stat-card"><div class="stat-value">${stats.words.toLocaleString()}</div><div class="stat-label">Words</div></div>
+    <div class="stat-card"><div class="stat-value">${stats.sentences.toLocaleString()}</div><div class="stat-label">Sentences</div></div>
+    <div class="stat-card"><div class="stat-value">${stats.paragraphs.toLocaleString()}</div><div class="stat-label">Paragraphs</div></div>
+    <div class="stat-card"><div class="stat-value">${stats.lines.toLocaleString()}</div><div class="stat-label">Lines</div></div>
+  `;
+  
+  if(wordStats.topWords.length > 0) {
+    topWordsDiv.innerHTML = `<strong>📊 Top 10 Most Used Words:</strong><br>${wordStats.topWords.map(w => `<span class="word-tag">${w[0]} (${w[1]})</span>`).join('')}`;
+  } else {
+    topWordsDiv.innerHTML = '';
+  }
+}
+
+textarea.oninput = updateStats;
+document.getElementById('clearBtn').onclick = () => { textarea.value = ''; updateStats(); };
+document.getElementById('copyBtn').onclick = () => { textarea.select(); document.execCommand('copy'); alert('Copied!'); };
+updateStats();
+</script>
+</body>
+</html>
