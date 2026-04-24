@@ -38,3 +38,6 @@ document.getElementById('applyBtn').onclick = async () => {
   const blob = await engine.rebuildPDF();
   const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = `numbered_${Date.now()}.pdf`; a.click(); URL.revokeObjectURL(url);
 };
+</script>
+</body>
+</html>
