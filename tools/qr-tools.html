@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>QR Code Scanner & Generator - Scan & Create QR Codes | ToolTari</title>
+  <meta name="description" content="Scan QR codes with camera or generate custom QR codes for URLs, text, and more. Free online QR tool. No login required.">
+  <meta name="keywords" content="qr code scanner, qr code generator, scan qr code, create qr code, qr reader, qr maker">
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+  <style>
+    * { box-sizing: border-box; }
+    .tool-hero { background: linear-gradient(135deg, #667eea, #764ba2); padding: 2rem 0; text-align: center; color: white; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+    .tab-container { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; justify-content: center; }
+    .tab-btn { padding: 0.8rem 2rem; border-radius: 2rem; border: none; cursor: pointer; font-weight: 600; background: #f3f4f6; transition: all 0.2s; }
+    .tab-btn.active { background: linear-gradient(135deg, #667eea, #764ba2); color: white; }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; animation: fadeIn 0.3s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .tool-card { background: white; border-radius: 16px; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    .input-group { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem; }
+    .input-field { flex: 1; padding: 0.8rem 1rem; border: 2px solid #e5e7eb; border-radius: 12px; font-size: 1rem; }
+    .input-field:focus { outline: none; border-color: #667eea; }
+    .btn { padding: 0.8rem 1.5rem; border-radius: 2rem; border: none; cursor: pointer; font-weight: 600; transition: all 0.2s; }
+    .btn-primary { background: linear-gradient(135deg, #667eea, #764ba2); color: white; }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(102,126,234,0.3); }
+    .qr-preview { display: flex; justify-content: center; margin: 1.5rem 0; }
+    .qr-preview canvas, .qr-preview img { max-width: 200px; height: auto; border: 1px solid #e5e7eb; border-radius: 12px; padding: 0.5rem; background: white; }
+    .camera-container { position: relative; width: 100%; max-width: 500px; margin: 0 auto; }
+    #qr-reader { width: 100%; border-radius: 12px; overflow: hidden; }
+    #qr-reader video { width: 100% !important; height: auto !important; }
+    .scan-result { background: #f0fdf4; padding: 1rem; border-radius: 12px; margin-top: 1rem; word-break: break-all; }
+    .scan-result.error { background: #fee2e2; color: #dc2626; }
+    .success-text { color: #10b981; font-weight: 600; }
+    .flex-buttons { display: flex; gap: 0.5rem; justify-content: center; flex-wrap: wrap; margin-top: 1rem; }
+    .trust-message { background: #f0fdf4; padding: 0.75rem; text-align: center; border-radius: 8px; margin-bottom: 1rem; }
+    @media (max-width: 768px) { .input-group { flex-direction: column; } .tab-btn { padding: 0.5rem 1.2rem; } }
+  </style>
+</head>
+<body>
+<div class="tool-hero">
+  <div class="container">
+    <h1><i class="fas fa-qrcode"></i> QR Code Tools</h1>
+    <p>Scan QR codes with camera or generate custom QR codes</p>
+  </div>
+</div>
+<div class="container">
+  <div class="trust-message"><i class="fas fa-lock"></i> All processing happens in your browser. No data is stored.</div>
+  
+  <div class="tab-container">
+    <button class="tab-btn active" data-tab="generator"><i class="fas fa-qrcode"></i> QR Generator</button>
+    <button class="tab-btn" data-tab="scanner"><i class="fas fa-camera"></i> QR Scanner</button>
+  </div>
+  
+  <!-- QR GENERATOR TAB -->
+  <div id="generator-tab" class="tab-content active">
+    <div class="tool-card">
+      <h3><i class="fas fa-pen-alt"></i> Enter Text or URL</h3>
+      <div class="input-group">
+        <input type="text" id="qrText" class="input-field" placeholder="Enter text, URL, or any data..." value="https://tooltari.in">
+        <button id="generateBtn" class="btn btn-primary"><i class="fas fa-sync-alt"></i> Generate QR</button>
+      </div>
+      <div class="qr-preview" id="qrPreview"></div>
+      <div class="flex-buttons">
+        <button id="downloadBtn" class="btn btn-primary"><i class="fas fa-download"></i> Download QR (PNG)</button>
+      </div>
+      <div class="info-box" style="background: #f9fafb; padding: 0.75rem; border-radius: 8px; margin-top: 1rem; font-size: 0.85rem;">
+        <i class="fas fa-info-circle"></i> QR codes can contain: URLs, plain text, contact info, WiFi credentials, and more.
+      </div>
+    </div>
+  </div>
+  
+  <!-- QR SCANNER TAB -->
+  <div id="scanner-tab" class="tab-content">
+    <div class="tool-card">
+      <h3><i class="fas fa-camera"></i> Scan QR Code</h3>
+      <p>Allow camera access to scan QR codes</p>
+      <div class="camera-container">
+        <div id="qr-reader"></div>
+      </div>
+      <div id="scanResult" class="scan-result" style="display: none;"></div>
+      <div class="flex-buttons">
+        <button id="startScannerBtn" class="btn btn-primary"><i class="fas fa-play"></i> Start Camera</button>
+        <button id="stopScannerBtn" class="btn" style="background: #ef4444; color: white;"><i class="fas fa-stop"></i> Stop Camera</button>
+      </div>
+      <div class="info-box" style="background: #f9fafb; padding: 0.75rem; border-radius: 8px; margin-top: 1rem; font-size: 0.85rem;">
+        <i class="fas fa-info-circle"></i> Position the QR code in front of the camera. Works best in good lighting.
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="/assets/js/ui.js" defer></script>
+<script>
+// ========== TAB SWITCHING ==========
+const tabs = document.querySelectorAll('.tab-btn');
+const contents = {
+  generator: document.getElementById('generator-tab'),
+  scanner: document.getElementById('scanner-tab')
+};
+
+tabs.forEach(tab => {
+  tab.onclick = () => {
+    const tabId = tab.dataset.tab;
+    tabs.forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    Object.values(contents).forEach(c => c.classList.remove('active'));
+    if (contents[tabId]) contents[tabId].classList.add('active');
+    
+    // Stop scanner when leaving scanner tab
+    if (tabId !== 'scanner' && html5QrCode) {
+      stopScanner();
+    }
+  };
+});
+
+// ========== QR GENERATOR ==========
+let currentQrCode = null;
+
+function generateQR() {
+  const text = document.getElementById('qrText').value.trim();
+  if (!text) {
+    alert('Please enter text or URL');
+    return;
+  }
+  
+  const previewDiv = document.getElementById('qrPreview');
+  previewDiv.innerHTML = '';
+  
+  // Use QRCode.js library
+  currentQrCode = new QRCode(previewDiv, {
+    text: text,
+    width: 200,
+    height: 200,
+    colorDark: "#000000",
+    colorLight: "#ffffff",
+    correctLevel: QRCode.CorrectLevel.H
+  });
+}
+
+function downloadQR() {
+  const qrCanvas = document.querySelector('#qrPreview canvas');
+  if (!qrCanvas) {
+    alert('Generate QR code first');
+    return;
+  }
+  
+  const link = document.createElement('a');
+  link.download = `qrcode_${Date.now()}.png`;
+  link.href = qrCanvas.toDataURL('image/png');
+  link.click();
+}
+
+document.getElementById('generateBtn').onclick = generateQR;
+document.getElementById('downloadBtn').onclick = downloadQR;
+document.getElementById('qrText').addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') generateQR();
+});
+
+// Generate initial QR
+generateQR();
+
+// ========== QR SCANNER ==========
+let html5QrCode = null;
+let isScanning = false;
+
+async function startScanner() {
+  const resultDiv = document.getElementById('scanResult');
+  resultDiv.style.display = 'none';
+  
+  if (isScanning) {
+    await stopScanner();
+  }
+  
+  try {
+    html5QrCode = new Html5Qrcode("qr-reader");
+    
+    const qrCodeSuccessCallback = (decodedText, decodedResult) => {
+      console.log(`Scanned: ${decodedText}`);
+      resultDiv.style.display = 'block';
+      resultDiv.innerHTML = `
+        <i class="fas fa-check-circle success-text"></i> 
+        <strong>Scanned Result:</strong><br>
+        <code style="word-break: break-all;">${escapeHtml(decodedText)}</code>
+        <div style="margin-top: 0.5rem;">
+          <button id="copyScannedBtn" class="btn" style="background: #10b981; color: white; padding: 0.3rem 0.8rem;">Copy</button>
+          <button id="useInGeneratorBtn" class="btn" style="background: #667eea; color: white; padding: 0.3rem 0.8rem;">Use in Generator</button>
+        </div>
+      `;
+      
+      document.getElementById('copyScannedBtn')?.addEventListener('click', () => {
+        navigator.clipboard.writeText(decodedText);
+        alert('Copied to clipboard!');
+      });
+      
+      document.getElementById('useInGeneratorBtn')?.addEventListener('click', () => {
+        // Switch to generator tab
+        document.querySelector('.tab-btn[data-tab="generator"]').click();
+        document.getElementById('qrText').value = decodedText;
+        generateQR();
+      });
+      
+      // Auto-stop after successful scan (optional)
+      if (html5QrCode) {
+        await html5QrCode.stop();
+        isScanning = false;
+      }
+    };
+    
+    const config = { fps: 10, qrbox: { width: 250, height: 250 } };
+    
+    await html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
+    isScanning = true;
+    
+    resultDiv.style.display = 'block';
+    resultDiv.innerHTML = `<i class="fas fa-spinner fa-pulse"></i> Camera ready! Position QR code in frame.`;
+    resultDiv.classList.remove('error');
+    
+  } catch (err) {
+    console.error('Camera error:', err);
+    resultDiv.style.display = 'block';
+    resultDiv.innerHTML = `<i class="fas fa-exclamation-triangle" style="color: #dc2626;"></i> Cannot access camera. Please ensure camera permissions are granted and you're using HTTPS.`;
+    resultDiv.classList.add('error');
+  }
+}
+
+async function stopScanner() {
+  if (html5QrCode && isScanning) {
+    try {
+      await html5QrCode.stop();
+      isScanning = false;
+      const resultDiv = document.getElementById('scanResult');
+      if (resultDiv) {
+        resultDiv.style.display = 'block';
+        resultDiv.innerHTML = `<i class="fas fa-info-circle"></i> Camera stopped. Click "Start Camera" to scan again.`;
+      }
+    } catch (err) {
+      console.log('Stop error:', err);
+    }
+  }
+}
+
+document.getElementById('startScannerBtn').onclick = startScanner;
+document.getElementById('stopScannerBtn').onclick = stopScanner;
+
+function escapeHtml(str) {
+  if (!str) return '';
+  return str.replace(/[&<>]/g, function(m) {
+    if (m === '&') return '&amp;';
+    if (m === '<') return '&lt;';
+    if (m === '>') return '&gt;';
+    return m;
+  });
+}
+</script>
+</body>
+</html>
