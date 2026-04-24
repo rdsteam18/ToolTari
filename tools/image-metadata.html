@@ -130,4 +130,20 @@ function displayMetadata(exifData) {
     if(fieldNames[key] && exifData[key]) {
       hasExif = true;
       let value = exifData[key];
-      if(key
+      if(key === 'ExposureTime') value = value + ' sec';
+      if(key === 'FNumber') value = 'f/' + value;
+      if(key === 'Flash') value = value ? 'Fired' : 'Not fired';
+      html += `<tr><td>${fieldNames[key]}</td><td>${value}</td></tr>`;
+    }
+  }
+  
+  if(!hasExif) {
+    html += `<tr><td colspan="2" class="no-metadata">ℹ️ No EXIF metadata found. This image may not contain camera information.</td></tr>`;
+  }
+  
+  html += '</table>';
+  document.getElementById('metadataContent').innerHTML = html;
+}
+</script>
+</body>
+</html>
