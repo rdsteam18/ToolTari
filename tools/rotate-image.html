@@ -39,4 +39,17 @@ fileInput.onchange = e => { if(e.target.files[0]) loadImage(e.target.files[0]); 
 async function loadImage(file) {
   engine = new ToolTariImageEngine.ImageEngine(); await engine.loadImage(file);
   uiManager = new ToolTariImageEngine.ImageUIManager('originalCanvas', 'processedCanvas', engine);
-  uiManager.updateDisplays(); uiManager.fitCanvasesToContainer('
+  uiManager.updateDisplays(); uiManager.fitCanvasesToContainer('preview');
+  document.getElementById('fileInfo').innerHTML = `<i class="fas fa-image"></i> ${file.name} <button onclick="location.reload()">Remove</button>`;
+  document.getElementById('controls').style.display = 'block'; document.getElementById('preview').style.display = 'block';
+}
+document.getElementById('rotate90').onclick = () => { engine.rotate(90); uiManager.updateDisplays(); };
+document.getElementById('rotate180').onclick = () => { engine.rotate(180); uiManager.updateDisplays(); };
+document.getElementById('rotate270').onclick = () => { engine.rotate(270); uiManager.updateDisplays(); };
+document.getElementById('flipH').onclick = () => { engine.flipHorizontal(); uiManager.updateDisplays(); };
+document.getElementById('flipV').onclick = () => { engine.flipVertical(); uiManager.updateDisplays(); };
+document.getElementById('downloadBtn').onclick = () => engine.downloadImage();
+document.getElementById('resetBtn').onclick = () => { engine.reset(); uiManager.updateDisplays(); };
+</script>
+</body>
+</html>
