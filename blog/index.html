@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3097658772821429"
-     crossorigin="anonymous"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>ToolTari Blog - Free Tools Guides & Tutorials</title>
@@ -34,11 +32,75 @@
     .blog-hero p { font-size: 1rem; opacity: 0.95; max-width: 600px; margin: 0 auto; }
     .container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
     
+    /* Filter Buttons */
+    .filter-section {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+    .filter-btn {
+      padding: 0.5rem 1.2rem;
+      border-radius: 2rem;
+      border: 1px solid #e5e7eb;
+      background: white;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-weight: 500;
+    }
+    .filter-btn:hover {
+      border-color: #667eea;
+      background: #f3f4f6;
+    }
+    .filter-btn.active {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      border-color: transparent;
+    }
+    
+    /* Featured Section */
+    .featured-section { margin-bottom: 3rem; }
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid #e5e7eb;
+    }
+    .section-header i { font-size: 1.3rem; color: #f59e0b; }
+    .section-header h2 { font-size: 1.3rem; margin: 0; }
+    .featured-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+    .featured-card {
+      background: linear-gradient(135deg, #f8fafc, #ffffff);
+      border-radius: 16px;
+      padding: 1.5rem;
+      border: 1px solid #e5e7eb;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+    .featured-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+    .featured-badge {
+      position: absolute;
+      top: -10px;
+      right: 20px;
+      background: #f59e0b;
+      color: white;
+      font-size: 0.7rem;
+      padding: 0.2rem 0.8rem;
+      border-radius: 2rem;
+    }
+    
+    /* Blog Grid */
     .blog-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
       gap: 2rem;
-      margin: 2rem 0;
     }
     .blog-card {
       background: white;
@@ -51,15 +113,21 @@
     .blog-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
     .blog-category {
       display: inline-block;
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      color: white;
       font-size: 0.7rem;
       padding: 0.25rem 0.75rem;
       border-radius: 2rem;
       margin-bottom: 1rem;
     }
-    .blog-card h3 { font-size: 1.3rem; margin-bottom: 0.75rem; color: #1e293b; }
-    .blog-card p { color: #6b7280; line-height: 1.5; margin-bottom: 1rem; }
+    .blog-card h3 { font-size: 1.2rem; margin-bottom: 0.75rem; color: #1e293b; line-height: 1.4; }
+    .blog-card p { color: #6b7280; line-height: 1.5; margin-bottom: 1rem; font-size: 0.9rem; }
+    .blog-meta {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      font-size: 0.75rem;
+      color: #9ca3af;
+    }
+    .blog-meta i { margin-right: 0.25rem; }
     .read-more {
       color: #667eea;
       text-decoration: none;
@@ -67,20 +135,65 @@
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
+      font-size: 0.9rem;
     }
     .read-more:hover { gap: 0.75rem; }
+    
+    /* Loading & Error */
+    .loading-indicator {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 4rem;
+    }
+    .spinner {
+      width: 48px;
+      height: 48px;
+      border: 4px solid #e5e7eb;
+      border-top-color: #667eea;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin-bottom: 1rem;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .error-message {
+      text-align: center;
+      padding: 3rem;
+      color: #dc2626;
+    }
+    .no-results {
+      text-align: center;
+      padding: 3rem;
+      color: #6b7280;
+      grid-column: 1 / -1;
+    }
+    .results-count {
+      text-align: center;
+      font-size: 0.85rem;
+      color: #6b7280;
+      margin-bottom: 1.5rem;
+    }
+    
+    /* Ad Sections */
     .tool-ad { margin: 2rem 0; padding: 1rem; background: #f3f4f6; border-radius: 16px; text-align: center; }
     .ad-label { font-size: 0.7rem; color: #6b7280; margin-bottom: 0.5rem; text-transform: uppercase; }
     .ad-content { min-height: 90px; display: flex; align-items: center; justify-content: center; background: white; border-radius: 12px; border: 1px dashed #d1d5db; }
     .trust-message { background: #f0fdf4; padding: 0.75rem; text-align: center; border-radius: 8px; margin-bottom: 1.5rem; }
-    @media (max-width: 768px) { .blog-hero h1 { font-size: 1.6rem; } .blog-grid { grid-template-columns: 1fr; } }
+    
+    @media (max-width: 768px) {
+      .blog-hero h1 { font-size: 1.6rem; }
+      .blog-grid, .featured-grid { grid-template-columns: 1fr; }
+      .filter-section { gap: 0.3rem; }
+      .filter-btn { padding: 0.3rem 0.8rem; font-size: 0.8rem; }
+    }
   </style>
 </head>
 <body>
 
 <div class="blog-hero">
   <div class="container">
-    <h1>Blog & Guides</h1>
+    <h1><i class="fas fa-blog"></i> Blog & Guides</h1>
     <p>Learn how to use free online tools effectively with our expert guides</p>
   </div>
 </div>
@@ -88,32 +201,38 @@
 <div class="container">
   <div class="trust-message"><i class="fas fa-lock"></i> All tools work in your browser. Your files are never uploaded.</div>
   
+  <!-- Top Ad -->
   <div class="tool-ad">
     <div class="ad-label">Advertisement</div>
     <div class="ad-content"><div style="text-align:center;padding:1rem;"><i class="fas fa-ad"></i> Google AdSense Ad</div></div>
   </div>
 
-  <div class="blog-grid">
-    <div class="blog-card">
-      <span class="blog-category"><i class="fas fa-file-pdf"></i> PDF Guides</span>
-      <h3>How to Compress PDF Online (Free & Easy)</h3>
-      <p>Learn how to reduce PDF file size without losing quality. Step-by-step guide with tips and best practices.</p>
-      <a href="/blog/compress-pdf-online.html" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
-    </div>
-    <div class="blog-card">
-      <span class="blog-category"><i class="fas fa-image"></i> Image Guides</span>
-      <h3>How to Reduce Image Size Online for Free</h3>
-      <p>Simple guide to compress JPG, PNG, and WebP images while maintaining quality. Perfect for web and email.</p>
-      <a href="/blog/reduce-image-size.html" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
-    </div>
-    <div class="blog-card">
-      <span class="blog-category"><i class="fas fa-code"></i> General Guides</span>
-      <h3>Complete Guide to Free Online PDF Tools</h3>
-      <p>Discover the best free PDF tools for merging, splitting, compressing, and converting documents online.</p>
-      <a href="/blog/pdf-tools-guide.html" class="read-more">Read More <i class="fas fa-arrow-right"></i></a>
-    </div>
+  <!-- Filter Buttons -->
+  <div class="filter-section">
+    <button class="filter-btn active" data-category="all">📚 All Posts</button>
+    <button class="filter-btn" data-category="pdf">📄 PDF Guides</button>
+    <button class="filter-btn" data-category="image">🖼️ Image Guides</button>
+    <button class="filter-btn" data-category="utility">⚙️ Utility Guides</button>
+    <button class="filter-btn" data-category="security">🔐 Security Guides</button>
+    <button class="filter-btn" data-category="general">📰 General</button>
   </div>
 
+  <!-- Results Count -->
+  <div id="resultsCount" class="results-count" style="display: none;"></div>
+
+  <!-- Loading Indicator -->
+  <div id="loadingIndicator" class="loading-indicator">
+    <div class="spinner"></div>
+    <p>Loading articles...</p>
+  </div>
+
+  <!-- Error Message -->
+  <div id="errorMessage" class="error-message" style="display: none;"></div>
+
+  <!-- Blog Container -->
+  <div id="blogContainer" style="display: none;"></div>
+
+  <!-- Bottom Ad -->
   <div class="tool-ad">
     <div class="ad-label">Advertisement</div>
     <div class="ad-content"><div style="text-align:center;padding:1rem;"><i class="fas fa-ad"></i> Google AdSense Ad</div></div>
@@ -121,6 +240,6 @@
 </div>
 
 <script src="/assets/js/ui.js" defer></script>
-<script>setTimeout(()=>{document.querySelectorAll('.nav-link').forEach(l=>{if(l.getAttribute('href')==='/blog/')l.classList.add('active')})},100);</script>
+<script src="/assets/js/blog.js" defer></script>
 </body>
 </html>
