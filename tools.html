@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>All PDF Tools Online Free - ToolTari | Browse All Tools</title>
+  <meta name="description" content="Browse all free PDF and image tools. Search, filter, and find the perfect tool for your needs. Fast, secure, and no login required.">
+  <meta name="keywords" content="PDF tools, image tools, free tools, merge PDF, compress PDF, PDF converter, image converter, online tools">
+  <meta name="author" content="ToolTari">
+  <meta name="robots" content="index, follow">
+  <meta name="google-adsense-account" content="ca-pub-3097658772821429">
+  <meta name="google-site-verification" content="d1uLLcwbDH99lepVNG6a_KEpVP24yjo1DqHN4aKhWk8">
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="All PDF Tools Online Free - ToolTari">
+  <meta property="og:description" content="Browse all free PDF and image tools. Fast, secure, and no login required.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://tooltari.in/tools.html">
+  
+  <!-- Canonical -->
+  <link rel="canonical" href="https://tooltari.in/tools.html">
+  
+  <!-- Preconnect -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  
+  <!-- Global CSS -->
+  <link rel="stylesheet" href="/assets/css/style.css">
+  
+  <style>
+    /* Additional page-specific styles */
+    .page-header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 4rem 0 3rem;
+      text-align: center;
+      color: white;
+      margin-bottom: 2rem;
+    }
+    
+    .page-header h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+    }
+    
+    .page-header p {
+      font-size: 1.1rem;
+      opacity: 0.95;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    /* Search & Filter Bar */
+    .search-filter-section {
+      background: white;
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border);
+    }
+    
+    .search-wrapper {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    
+    .search-box {
+      flex: 2;
+      min-width: 200px;
+      position: relative;
+    }
+    
+    .search-box i {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-light);
+    }
+    
+    .search-input {
+      width: 100%;
+      padding: 0.9rem 1rem 0.9rem 2.8rem;
+      border: 1px solid var(--border);
+      border-radius: 2rem;
+      font-size: 1rem;
+      font-family: inherit;
+      transition: all 0.2s;
+    }
+    
+    .search-input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+    }
+    
+    .filter-box {
+      flex: 1;
+      min-width: 150px;
+    }
+    
+    .category-select {
+      width: 100%;
+      padding: 0.9rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: 2rem;
+      font-size: 1rem;
+      font-family: inherit;
+      background: white;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .category-select:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+    
+    .results-count {
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border);
+      color: var(--text-light);
+      font-size: 0.9rem;
+    }
+    
+    .results-count span {
+      font-weight: 700;
+      color: var(--primary);
+    }
+    
+    /* Tools Grid */
+    .tools-container {
+      min-height: 400px;
+    }
+    
+    .no-results {
+      text-align: center;
+      padding: 4rem 2rem;
+      background: white;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+    }
+    
+    .no-results i {
+      font-size: 3rem;
+      color: var(--text-light);
+      margin-bottom: 1rem;
+    }
+    
+    .no-results h3 {
+      margin-bottom: 0.5rem;
+      color: var(--text);
+    }
+    
+    .no-results p {
+      color: var(--text-light);
+    }
+    
+    /* Ad Mid-Page */
+    .mid-page-ad {
+      margin: 3rem 0;
+      padding: 1.5rem;
+      background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+      border-radius: var(--radius-lg);
+      text-align: center;
+    }
+    
+    .ad-label-small {
+      font-size: 0.7rem;
+      color: var(--text-light);
+      margin-bottom: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    .ad-content-mid {
+      min-height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: white;
+      border-radius: var(--radius-md);
+      border: 1px dashed var(--border);
+    }
+    
+    /* Internal Linking Section */
+    .internal-links-section {
+      background: linear-gradient(135deg, var(--bg) 0%, white 100%);
+      border-radius: var(--radius-lg);
+      padding: 2.5rem;
+      margin: 3rem 0;
+      border: 1px solid var(--border);
+    }
+    
+    .internal-links-section h3 {
+      font-size: 1.5rem;
+      text-align: center;
+      margin-bottom: 2rem;
+      color: var(--text);
+    }
+    
+    .popular-links-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+    
+    .popular-link {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 1rem;
+      background: white;
+      border-radius: var(--radius-md);
+      text-decoration: none;
+      color: var(--text);
+      transition: all 0.2s;
+      border: 1px solid var(--border);
+    }
+    
+    .popular-link:hover {
+      transform: translateX(5px);
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+    
+    .popular-link i {
+      font-size: 1.2rem;
+      color: var(--primary);
+    }
+    
+    .popular-link span {
+      font-weight: 500;
+    }
+    
+    /* Loading State */
+    .loading-spinner {
+      text-align: center;
+      padding: 4rem;
+    }
+    
+    .loading-spinner i {
+      font-size: 2rem;
+      color: var(--primary);
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .page-header h1 {
+        font-size: 1.8rem;
+      }
+      
+      .search-wrapper {
+        flex-direction: column;
+      }
+      
+      .search-box, .filter-box {
+        width: 100%;
+      }
+      
+      .internal-links-section {
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<main>
+  <!-- Page Header -->
+  <div class="page-header">
+    <div class="container">
+      <h1 class="animate-fade-up">All PDF & Image Tools</h1>
+      <p class="animate-fade-up delay-1">Browse all available tools to edit, convert, and manage your files easily. Fast, secure, and completely free.</p>
+    </div>
+  </div>
+  
+  <div class="container">
+    <!-- Search & Filter Bar -->
+    <div class="search-filter-section scroll-reveal">
+      <div class="search-wrapper">
+        <div class="search-box">
+          <i class="fas fa-search"></i>
+          <input type="text" id="searchInput" class="search-input" placeholder="Search tools by name...">
+        </div>
+        <div class="filter-box">
+          <select id="categoryFilter" class="category-select">
+            <option value="all">📁 All Categories</option>
+            <option value="pdf">📄 PDF Tools</option>
+            <option value="image">🖼️ Image Tools</option>
+            <option value="utility">⚙️ Utility Tools</option>
+          </select>
+        </div>
+      </div>
+      <div class="results-count" id="resultsCount">
+        Showing <span id="visibleCount">0</span> of <span id="totalCount">0</span> tools
+      </div>
+    </div>
+    
+    <!-- Tools Grid Container -->
+    <div class="tools-container" id="toolsContainer">
+      <div class="loading-spinner">
+        <i class="fas fa-spinner"></i>
+        <p>Loading tools...</p>
+      </div>
+    </div>
+    
+    <!-- Ad Section (Middle - after 6-8 tools) -->
+    <div class="mid-page-ad" id="midPageAd" style="display: none;">
+      <div class="ad-label-small">Advertisement</div>
+      <div class="ad-content-mid">
+        <div style="text-align: center; padding: 2rem;">
+          <i class="fas fa-ad" style="color: var(--primary); font-size: 1.5rem;"></i>
+          <p style="margin-top: 0.5rem; color: var(--text-light);">Your Google AdSense Ad Here</p>
+          <p style="font-size: 0.8rem; color: var(--text-light);">Responsive Display Ad</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Internal Linking Section (SEO Booster) -->
+    <div class="internal-links-section scroll-reveal">
+      <h3>🔥 Popular Tools You Might Like</h3>
+      <div class="popular-links-grid" id="popularLinks">
+        <a href="/tools/merge-pdf" class="popular-link">
+          <i class="fas fa-object-group"></i>
+          <span>Merge PDF</span>
+        </a>
+        <a href="/tools/compress-pdf" class="popular-link">
+          <i class="fas fa-compress"></i>
+          <span>Compress PDF</span>
+        </a>
+        <a href="/tools/pdf-to-word" class="popular-link">
+          <i class="fas fa-file-word"></i>
+          <span>PDF to Word</span>
+        </a>
+        <a href="/tools/image-converter" class="popular-link">
+          <i class="fas fa-exchange-alt"></i>
+          <span>Image Converter</span>
+        </a>
+        <a href="/tools/qr-generator" class="popular-link">
+          <i class="fas fa-qrcode"></i>
+          <span>QR Generator</span>
+        </a>
+        <a href="/tools/protect-pdf" class="popular-link">
+          <i class="fas fa-lock"></i>
+          <span>Protect PDF</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- Scripts -->
+<script src="/assets/js/ui.js" defer></script>
+<script src="/assets/js/main.js" defer></script>
+
+<script>
+  // Tools Listing Page Specific JavaScript
+  (function() {
+    'use strict';
+    
+    let allTools = [];
+    let filteredTools = [];
+    
+    const toolsContainer = document.getElementById('toolsContainer');
+    const searchInput = document.getElementById('searchInput');
+    const categoryFilter = document.getElementById('categoryFilter');
+    const visibleCountSpan = document.getElementById('visibleCount');
+    const totalCountSpan = document.getElementById('totalCount');
+    const midPageAd = document.getElementById('midPageAd');
+    
+    const TOOLS_API_URL = '/data/tools.json';
+    
+    // Fallback tools data
+    const FALLBACK_TOOLS = [
+      { id: "merge-pdf", name: "Merge PDF", description: "Combine multiple PDF files into one document instantly", category: "pdf", slug: "/tools/merge-pdf", icon: "fa-object-group", popularity: 5 },
+      { id: "split-pdf", name: "Split PDF", description: "Extract specific pages or split PDF into multiple files", category: "pdf", slug: "/tools/split-pdf", icon: "fa-cut", popularity: 4 },
+      { id: "compress-pdf", name: "Compress PDF", description: "Reduce PDF file size while maintaining quality", category: "pdf", slug: "/tools/compress-pdf", icon: "fa-compress", popularity: 5 },
+      { id: "pdf-to-word", name: "PDF to Word", description: "Convert PDF documents to editable Microsoft Word files", category: "pdf", slug: "/tools/pdf-to-word", icon: "fa-file-word", popularity: 5 },
+      { id: "pdf-to-ppt", name: "PDF to PowerPoint", description: "Transform PDF slides into editable presentations", category: "pdf", slug: "/tools/pdf-to-ppt", icon: "fa-chalkboard", popularity: 3 },
+      { id: "protect-pdf", name: "Protect PDF", description: "Add password protection to your PDF files", category: "pdf", slug: "/tools/protect-pdf", icon: "fa-lock", popularity: 4 },
+      { id: "unlock-pdf", name: "Unlock PDF", description: "Remove password protection from PDF files", category: "pdf", slug: "/tools/unlock-pdf", icon: "fa-unlock-alt", popularity: 4 },
+      { id: "compress-image", name: "Compress Image", description: "Reduce image file size without losing quality", category: "image", slug: "/tools/compress-image", icon: "fa-image", popularity: 5 },
+      { id: "image-converter", name: "Image Converter", description: "Convert between JPG, PNG, WebP and other formats", category: "image", slug: "/tools/image-converter", icon: "fa-exchange-alt", popularity: 5 },
+      { id: "crop-image", name: "Crop Image", description: "Crop and resize images to fit your needs", category: "image", slug: "/tools/crop-image", icon: "fa-crop", popularity: 4 },
+      { id: "qr-generator", name: "QR Code Generator", description: "Create QR codes for URLs, text, and contact info", category: "utility", slug: "/tools/qr-generator", icon: "fa-qrcode", popularity: 4 },
+      { id: "watermark", name: "Watermark Tool", description: "Add text or image watermarks to PDFs and images", category: "pdf", slug: "/tools/watermark", icon: "fa-paintbrush", popularity: 3 }
+    ];
+    
+    // Render tools grid
+    function renderTools(tools) {
+      if (!toolsContainer) return;
+      
+      if (!tools || tools.length === 0) {
+        toolsContainer.innerHTML = `
+          <div class="no-results">
+            <i class="fas fa-search"></i>
+            <h3>No tools found</h3>
+            <p>Try adjusting your search or filter criteria</p>
+          </div>
+        `;
+        midPageAd.style.display = 'none';
+        return;
+      }
+      
+      // Determine where to insert the ad (after 6th tool or at 1/3 point)
+      const adPosition = Math.min(6, Math.floor(tools.length / 3));
+      
+      let toolsHTML = '<div class="tools-grid">';
+      tools.forEach((tool, index) => {
+        toolsHTML += `
+          <div class="tool-card" data-tool-id="${tool.id}" data-category="${tool.category}">
+            <div class="tool-icon">
+              <i class="fas ${tool.icon || 'fa-tool'}"></i>
+            </div>
+            <h3 class="tool-name">${escapeHtml(tool.name)}</h3>
+            <p class="tool-description">${escapeHtml(tool.description)}</p>
+            <button class="tool-btn" data-tool="${tool.id}" data-tool-name="${escapeHtml(tool.name)}">
+              Use Tool <i class="fas fa-arrow-right"></i>
+            </button>
+          </div>
+        `;
+        
+        // Insert ad after adPosition tools (only once)
+        if (index === adPosition && !midPageAdInserted) {
+          toolsHTML += `</div><div class="mid-page-ad" id="inlineAd">`;
+          toolsHTML += `
+            <div class="ad-label-small">Advertisement</div>
+            <div class="ad-content-mid">
+              <div style="text-align: center; padding: 2rem;">
+                <i class="fas fa-ad" style="color: var(--primary); font-size: 1.5rem;"></i>
+                <p style="margin-top: 0.5rem; color: var(--text-light);">Your Google AdSense Ad Here</p>
+                <p style="font-size: 0.8rem; color: var(--text-light);">Responsive Display Ad</p>
+              </div>
+            </div>
+          `;
+          toolsHTML += `<div class="tools-grid">`;
+          window.midPageAdInserted = true;
+        }
+      });
+      toolsHTML += '</div>';
+      
+      toolsContainer.innerHTML = toolsHTML;
+      
+      // Show/hide the separate mid-page ad section if we inserted inline
+      if (midPageAd) {
+        midPageAd.style.display = 'none';
+      }
+      
+      // Attach event listeners to tool buttons
+      attachToolEvents();
+    }
+    
+    let midPageAdInserted = false;
+    
+    // Attach click events to tool buttons
+    function attachToolEvents() {
+      const toolButtons = document.querySelectorAll('.tool-btn');
+      toolButtons.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const toolName = btn.getAttribute('data-tool-name');
+          showToolNotification(toolName);
+        });
+      });
+    }
+    
+    // Show notification for tool (coming soon)
+    function showToolNotification(toolName) {
+      const existingToast = document.querySelector('.tool-toast');
+      if (existingToast) existingToast.remove();
+      
+      const toast = document.createElement('div');
+      toast.className = 'tool-toast';
+      toast.innerHTML = `
+        <div class="toast-content">
+          <i class="fas fa-check-circle"></i>
+          <span>✨ ${toolName} - Coming soon! We're building this tool with care.</span>
+        </div>
+      `;
+      
+      if (!document.querySelector('#toast-styles')) {
+        const style = document.createElement('style');
+        style.id = 'toast-styles';
+        style.textContent = `
+          .tool-toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: white;
+            border-radius: 50px;
+            padding: 1rem 2rem;
+            box-shadow: 0 20px 35px -10px rgba(0,0,0,0.2);
+            z-index: 10000;
+            transition: transform 0.3s cubic-bezier(0.2,0.9,0.4,1.1);
+            border-left: 4px solid var(--primary);
+            pointer-events: none;
+            max-width: 90%;
+          }
+          .tool-toast.show { transform: translateX(-50%) translateY(0); }
+          .toast-content { display: flex; align-items: center; gap: 0.75rem; color: var(--text); }
+          .toast-content i { color: var(--success); font-size: 1.2rem; }
+          @media (max-width: 640px) {
+            .tool-toast { width: 90%; border-radius: 1rem; text-align: center; }
+          }
+        `;
+        document.head.appendChild(style);
+      }
+      
+      document.body.appendChild(toast);
+      setTimeout(() => toast.classList.add('show'), 10);
+      setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
+    }
+    
+    function escapeHtml(str) {
+      if (!str) return '';
+      return str.replace(/[&<>]/g, function(m) {
+        if (m === '&') return '&amp;';
+        if (m === '<') return '&lt;';
+        if (m === '>') return '&gt;';
+        return m;
+      });
+    }
+    
+    // Filter tools based on search and category
+    function filterTools() {
+      const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
+      const category = categoryFilter ? categoryFilter.value : 'all';
+      
+      filteredTools = allTools.filter(tool => {
+        const matchesSearch = tool.name.toLowerCase().includes(searchTerm) || 
+                              tool.description.toLowerCase().includes(searchTerm);
+        const matchesCategory = category === 'all' || tool.category === category;
+        return matchesSearch && matchesCategory;
+      });
+      
+      // Reset ad insertion flag
+      midPageAdInserted = false;
+      
+      renderTools(filteredTools);
+      updateResultsCount();
+    }
+    
+    function updateResultsCount() {
+      if (visibleCountSpan && totalCountSpan) {
+        visibleCountSpan.textContent = filteredTools.length;
+        totalCountSpan.textContent = allTools.length;
+      }
+    }
+    
+    // Fetch tools from JSON
+    async function fetchTools() {
+      try {
+        const response = await fetch(TOOLS_API_URL);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const data = await response.json();
+        
+        if (Array.isArray(data)) return data;
+        if (data && Array.isArray(data.tools)) return data.tools;
+        return FALLBACK_TOOLS;
+      } catch (error) {
+        console.warn('Failed to fetch tools.json, using fallback data:', error);
+        return FALLBACK_TOOLS;
+      }
+    }
+    
+    // Initialize page
+    async function init() {
+      allTools = await fetchTools();
+      filteredTools = [...allTools];
+      renderTools(filteredTools);
+      updateResultsCount();
+      
+      // Add event listeners
+      if (searchInput) searchInput.addEventListener('input', filterTools);
+      if (categoryFilter) categoryFilter.addEventListener('change', filterTools);
+    }
+    
+    // Start initialization
+    init();
+  })();
+</script>
+</body>
+</html>
