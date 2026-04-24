@@ -1,19 +1,49 @@
-// ========== TOOLS.JS - Core PDF Processing Logic ==========
-// This file contains all PDF processing functions that will be used by individual tool pages
+// ========== TOOLS.JS - Core PDF Processing Logic (FIXED) ==========
 
 (function() {
   'use strict';
   
-  // Make pdfLib available globally
-  window.pdfLib = window.pdfLib || (typeof pdfLib !== 'undefined' ? pdfLib : null);
+  // Wait for pdfLib to be available
+  function waitForPdfLib() {
+    return new Promise((resolve) => {
+      if (typeof pdfLib !== 'undefined' && pdfLib && pdfLib.PDFDocument) {
+        resolve(pdfLib);
+        return;
+      }
+      
+      // Check if window.pdfLib exists (different loading method)
+      if (typeof window.pdfLib !== 'undefined' && window.pdfLib && window.pdfLib.PDFDocument) {
+        resolve(window.pdfLib);
+        return;
+      }
+      
+      // Wait for script to load
+      let attempts = 0;
+      const interval = setInterval(() => {
+        attempts++;
+        if ((typeof pdfLib !== 'undefined' && pdfLib && pdfLib.PDFDocument) ||
+            (typeof window.pdfLib !== 'undefined' && window.pdfLib && window.pdfLib.PDFDocument)) {
+          clearInterval(interval);
+          resolve(pdfLib || window.pdfLib);
+        } else if (attempts > 50) {
+          clearInterval(interval);
+          reject(new Error('PDF library failed to load after 5 seconds'));
+        }
+      }, 100);
+    });
+  }
+  
+  // Make sure pdfLib is available globally
+  let PDFLib = null;
   
   // ========== MERGE PDF FUNCTION ==========
   async function mergePDFs(pdfFiles) {
-    if (!window.pdfLib) {
+    const lib = PDFLib || (typeof pdfLib !== 'undefined' ? pdfLib : window.pdfLib);
+    if (!lib || !lib.PDFDocument) {
       throw new Error('PDF library not loaded. Please refresh the page.');
     }
     
-    const { PDFDocument } = window.pdfLib;
+    const { PDFDocument } = lib;
     const mergedPdf = await PDFDocument.create();
     
     for (let i = 0; i < pdfFiles.length; i++) {
@@ -31,26 +61,23 @@
     return { blob, fileName };
   }
   
-  // ========== COMPRESS PDF FUNCTION (Basic version) ==========
+  // ========== COMPRESS PDF FUNCTION ==========
   async function compressPDF(pdfFiles) {
-    if (!window.pdfLib) {
+    const lib = PDFLib || (typeof pdfLib !== 'undefined' ? pdfLib : window.pdfLib);
+    if (!lib || !lib.PDFDocument) {
       throw new Error('PDF library not loaded. Please refresh the page.');
     }
     
-    const { PDFDocument } = window.pdfLib;
+    const { PDFDocument } = lib;
     
-    // For single file compression
     if (pdfFiles.length !== 1) {
       throw new Error('Please select exactly one PDF file to compress.');
     }
     
     const file = pdfFiles[0];
     const arrayBuffer = await file.arrayBuffer();
-    
-    // Load and re-save with compression
     const pdfDoc = await PDFDocument.load(arrayBuffer);
     
-    // Optional: Remove metadata, compress images (simplified)
     const compressedBytes = await pdfDoc.save({
       useObjectStreams: true,
       addDefaultPage: false,
@@ -63,13 +90,14 @@
     return { blob, fileName };
   }
   
-  // ========== SPLIT PDF FUNCTION (Extract first page as demo) ==========
+  // ========== SPLIT PDF FUNCTION ==========
   async function splitPDF(pdfFiles) {
-    if (!window.pdfLib) {
+    const lib = PDFLib || (typeof pdfLib !== 'undefined' ? pdfLib : window.pdfLib);
+    if (!lib || !lib.PDFDocument) {
       throw new Error('PDF library not loaded. Please refresh the page.');
     }
     
-    const { PDFDocument } = window.pdfLib;
+    const { PDFDocument } = lib;
     
     if (pdfFiles.length !== 1) {
       throw new Error('Please select exactly one PDF file to split.');
@@ -80,7 +108,6 @@
     const sourcePdf = await PDFDocument.load(arrayBuffer);
     const pageCount = sourcePdf.getPageCount();
     
-    // Create a new PDF with first page only (for demo)
     const newPdf = await PDFDocument.create();
     const [firstPage] = await newPdf.copyPages(sourcePdf, [0]);
     newPdf.addPage(firstPage);
@@ -92,35 +119,14 @@
     return { blob, fileName };
   }
   
-  // ========== PDF TO IMAGE (Placeholder - requires additional library) ==========
-  async function pdfToImage(pdfFiles) {
-    // Note: Full PDF to Image conversion requires canvas and pdf.js
-    // This is a placeholder that will be implemented with pdf.js
-    throw new Error('PDF to Image tool coming soon!');
-  }
-  
-  // ========== IMAGE TO PDF (Placeholder) ==========
-  async function imageToPDF(imageFiles) {
-    throw new Error('Image to PDF tool coming soon!');
-  }
-  
-  // ========== WORD TO PDF (Placeholder) ==========
-  async function wordToPDF(wordFiles) {
-    throw new Error('Word to PDF tool coming soon!');
-  }
-  
-  // ========== PDF TO WORD (Placeholder) ==========
-  async function pdfToWord(pdfFiles) {
-    throw new Error('PDF to Word tool coming soon!');
-  }
-  
   // ========== ROTATE PDF FUNCTION ==========
   async function rotatePDF(pdfFiles, degrees = 90) {
-    if (!window.pdfLib) {
+    const lib = PDFLib || (typeof pdfLib !== 'undefined' ? pdfLib : window.pdfLib);
+    if (!lib || !lib.PDFDocument) {
       throw new Error('PDF library not loaded. Please refresh the page.');
     }
     
-    const { PDFDocument, degrees: pdfDegrees } = window.pdfLib;
+    const { PDFDocument, degrees: pdfDegrees } = lib;
     
     if (pdfFiles.length !== 1) {
       throw new Error('Please select exactly one PDF file to rotate.');
@@ -142,56 +148,30 @@
     return { blob, fileName };
   }
   
-  // ========== ADD WATERMARK FUNCTION ==========
-  async function addWatermark(pdfFiles, watermarkText = 'ToolTari') {
-    if (!window.pdfLib) {
-      throw new Error('PDF library not loaded. Please refresh the page.');
+  // ========== INITIALIZE PDF LIBRARY ==========
+  async function initPDFLibrary() {
+    try {
+      PDFLib = await waitForPdfLib();
+      console.log('PDF library loaded successfully');
+      return true;
+    } catch (error) {
+      console.error('Failed to load PDF library:', error);
+      return false;
     }
-    
-    const { PDFDocument, rgb, StandardFonts } = window.pdfLib;
-    
-    if (pdfFiles.length !== 1) {
-      throw new Error('Please select exactly one PDF file to watermark.');
-    }
-    
-    const file = pdfFiles[0];
-    const arrayBuffer = await file.arrayBuffer();
-    const pdfDoc = await PDFDocument.load(arrayBuffer);
-    const pages = pdfDoc.getPages();
-    const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
-    
-    pages.forEach(page => {
-      const { width, height } = page.getSize();
-      page.drawText(watermarkText, {
-        x: width / 2 - 50,
-        y: height / 2,
-        size: 30,
-        font: font,
-        color: rgb(0.5, 0.5, 0.5),
-        opacity: 0.3,
-        rotate: pdfLib.degrees(45)
-      });
-    });
-    
-    const watermarkedBytes = await pdfDoc.save();
-    const blob = new Blob([watermarkedBytes], { type: 'application/pdf' });
-    const fileName = `watermarked_${Date.now()}.pdf`;
-    
-    return { blob, fileName };
   }
   
-  // ========== EXPORT FUNCTIONS GLOBALLY ==========
+  // ========== EXPORT FUNCTIONS ==========
   window.ToolTariTools = {
     mergePDFs,
     compressPDF,
     splitPDF,
-    pdfToImage,
-    imageToPDF,
-    wordToPDF,
-    pdfToWord,
     rotatePDF,
-    addWatermark
+    initPDFLibrary,
+    isReady: () => !!PDFLib
   };
   
-  console.log('Tools.js loaded - PDF processing functions ready');
+  // Auto-initialize
+  initPDFLibrary();
+  
+  console.log('Tools.js loaded - waiting for PDF library');
 })();
