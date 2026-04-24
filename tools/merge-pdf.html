@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Merge PDF Online Free - Combine PDF Files Instantly | ToolTari</title>
+  <meta name="description" content="Merge multiple PDF files into one document online for free. No login required. 100% browser-based processing. Your files never leave your device.">
+  <meta name="keywords" content="merge PDF, combine PDF, PDF merger, free PDF tool, join PDF files">
+  
+  <!-- Canonical -->
+  <link rel="canonical" href="https://tooltari.in/tools/merge-pdf.html">
+  
+  <!-- Preconnect -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  
+  <!-- pdf-lib library -->
+  <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+  
+  <!-- Global CSS -->
+  <link rel="stylesheet" href="/assets/css/style.css">
+  
+  <style>
+    /* Same styles as master template (included via master) */
+    .tool-hero {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 3rem 0 2rem;
+      text-align: center;
+      color: white;
+      margin-bottom: 2rem;
+    }
+    .tool-hero h1 { font-size: 2.2rem; font-weight: 800; margin-bottom: 0.75rem; }
+    .trust-badge { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(255,255,255,0.2); backdrop-filter: blur(4px); padding: 0.5rem 1rem; border-radius: 2rem; font-size: 0.8rem; margin-top: 1rem; }
+    .tool-container { max-width: 1000px; margin: 0 auto; padding: 0 1.5rem 3rem; }
+    .upload-area { background: white; border-radius: var(--radius-lg); padding: 2rem; margin-bottom: 2rem; box-shadow: var(--shadow-sm); border: 1px solid var(--border); }
+    .dropzone { border: 2px dashed var(--border); border-radius: var(--radius-md); padding: 3rem 2rem; text-align: center; cursor: pointer; transition: all 0.25s ease; background: var(--bg); }
+    .dropzone.drag-over { border-color: var(--primary); background: rgba(79,70,229,0.05); transform: scale(0.98); }
+    .dropzone i { font-size: 3rem; color: var(--primary); margin-bottom: 1rem; }
+    .file-input-hidden { display: none; }
+    .file-list-section { margin-top: 1.5rem; }
+    .file-list { list-style: none; max-height: 250px; overflow-y: auto; border: 1px solid var(--border); border-radius: var(--radius-md); background: white; }
+    .file-item { display: flex; justify-content: space-between; align-items: center; padding: 0.8rem 1rem; border-bottom: 1px solid var(--border); }
+    .action-btn { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; padding: 1rem 2.5rem; border: none; border-radius: 3rem; font-size: 1rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 0.75rem; }
+    .action-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+    .loading-state { text-align: center; padding: 2rem; background: white; border-radius: var(--radius-lg); }
+    .spinner { width: 48px; height: 48px; border: 4px solid var(--border); border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 1rem; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .result-area { background: white; border-radius: var(--radius-lg); padding: 1.5rem; text-align: center; margin: 1rem 0; }
+    .result-area.success { border-left: 4px solid var(--success); }
+    .download-btn { background: var(--success); color: white; padding: 0.8rem 2rem; border: none; border-radius: 2rem; cursor: pointer; margin-top: 1rem; }
+    .trust-message { background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border-radius: var(--radius-md); padding: 1rem; text-align: center; margin: 1rem 0; }
+    .tool-ad { margin: 2rem 0; padding: 1rem; background: var(--bg-dark); border-radius: var(--radius-lg); text-align: center; }
+    .faq-section { background: white; border-radius: var(--radius-lg); padding: 2rem; margin: 2rem 0; }
+    .faq-item { border-bottom: 1px solid var(--border); padding: 1rem 0; }
+    .faq-question { font-weight: 700; cursor: pointer; display: flex; justify-content: space-between; }
+    .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+    .faq-item.active .faq-answer { max-height: 200px; padding: 0.75rem 0; }
+    @media (max-width: 768px) { .tool-hero h1 { font-size: 1.6rem; } .upload-area { padding: 1rem; } }
+  </style>
+</head>
+<body>
+
+<main>
+  <div class="tool-hero">
+    <div class="container">
+      <h1 class="animate-fade-up">Merge PDF Online Free</h1>
+      <p class="animate-fade-up delay-1">Combine multiple PDF files into one document in seconds</p>
+      <div class="trust-badge animate-fade-up delay-2"><i class="fas fa-shield-alt"></i> 100% Free · No Login · Secure</div>
+    </div>
+  </div>
+  
+  <div class="tool-container">
+    <div class="trust-message scroll-reveal">
+      <i class="fas fa-lock"></i> <strong>🔒 All processing happens in your browser. Your files are never uploaded to any server.</strong>
+    </div>
+    
+    <div class="tool-ad scroll-reveal">
+      <div class="ad-label">Advertisement</div>
+      <div class="ad-content" style="min-height: 90px; display: flex; align-items: center; justify-content: center; background: white; border-radius: var(--radius-md); border: 1px dashed var(--border); padding: 1rem;">
+        <i class="fas fa-ad" style="color: var(--primary);"></i>
+        <p style="font-size: 0.8rem; margin-left: 0.5rem;">Google AdSense Ad</p>
+      </div>
+    </div>
+    
+    <div class="upload-area scroll-reveal">
+      <div class="dropzone" id="dropzone">
+        <i class="fas fa-cloud-upload-alt"></i>
+        <p>Drag & drop PDF files here or click to browse</p>
+        <p class="small">Supports multiple PDF files (Max 50MB each)</p>
+        <input type="file" id="fileInput" class="file-input-hidden" multiple accept=".pdf">
+      </div>
+      <div class="file-list-section" id="fileListSection" style="display: none;">
+        <div class="file-list-header" style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+          <h3><i class="fas fa-list"></i> Selected PDFs</h3>
+          <button class="clear-all-btn" id="clearAllBtn" style="background: none; border: none; color: var(--error); cursor: pointer;">Clear all</button>
+        </div>
+        <ul class="file-list" id="fileList"></ul>
+      </div>
+    </div>
+    
+    <div class="tool-controls scroll-reveal" style="text-align: center; margin: 2rem 0;">
+      <button class="action-btn" id="actionBtn" disabled>
+        <i class="fas fa-object-group"></i> Merge PDFs
+      </button>
+    </div>
+    
+    <div id="loadingContainer" style="display: none;">
+      <div class="loading-state"><div class="spinner"></div><p>Merging PDFs securely in your browser...</p></div>
+    </div>
+    
+    <div id="resultContainer" style="display: none;"></div>
+    
+    <div class="how-to-section scroll-reveal" style="background: white; border-radius: var(--radius-lg); padding: 2rem; margin: 2rem 0;">
+      <h2>📖 How to Merge PDF Files</h2>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
+        <div style="text-align: center;"><div style="width: 40px; height: 40px; background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 0.75rem;">1</div><strong>Upload PDFs</strong><p style="font-size: 0.85rem;">Select multiple PDF files</p></div>
+        <div style="text-align: center;"><div style="width: 40px; height: 40px; background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 0.75rem;">2</div><strong>Merge</strong><p style="font-size: 0.85rem;">Click the Merge button</p></div>
+        <div style="text-align: center;"><div style="width: 40px; height: 40px; background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 0.75rem;">3</div><strong>Download</strong><p style="font-size: 0.85rem;">Save your merged PDF</p></div>
+      </div>
+    </div>
+    
+    <div class="faq-section scroll-reveal">
+      <h2 style="text-align: center;">❓ Frequently Asked Questions</h2>
+      <div class="faq-item"><div class="faq-question">Is Merge PDF really free? <i class="fas fa-chevron-down"></i></div><div class="faq-answer">Yes! Merge PDF is completely free with no hidden fees or watermarks.</div></div>
+      <div class="faq-item"><div class="faq-question">Are my files secure? <i class="fas fa-chevron-down"></i></div><div class="faq-answer">Absolutely! All processing happens locally in your browser. Your files never leave your device.</div></div>
+      <div class="faq-item"><div class="faq-question">Can I merge more than 2 PDFs? <i class="fas fa-chevron-down"></i></div><div class="faq-answer">Yes! You can merge any number of PDF files into one document.</div></div>
+    </div>
+  </div>
+</main>
+
+<script src="/assets/js/ui.js" defer></script>
+<script src="/assets/js/tools.js" defer></script>
+
+<script>
+  (function() {
+    // Configure tool-specific settings
+    window.TOOL_CONFIG = {
+      toolName: 'Merge PDF',
+      actionName: 'merge',
+      actionIcon: 'fa-object-group',
+      actionButtonText: 'Merge PDFs',
+      fileType: 'PDF',
+      acceptTypes: '.pdf',
+      maxSizeMB: 50,
+      multipleAllowed: true,
+      processFunction: async (files) => {
+        return await window.ToolTariTools.mergePDFs(files);
+      }
+    };
+    
+    // Re-run initialization with config
+    const script = document.createElement('script');
+    script.src = '/assets/js/tools-base.js';
+    document.body.appendChild(script);
+  })();
+</script>
+
+<script src="/assets/js/main.js" defer></script>
+</body>
+</html>
