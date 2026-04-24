@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Random Number Generator - Pick Random Numbers | ToolTari</title>
+  <meta name="description" content="Generate random numbers online free. Custom range, multiple numbers, no duplicates. Perfect for giveaways, lotteries, games.">
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <script src="/assets/js/utility-engine.js"></script>
+  <style>
+    .tool-hero { background: linear-gradient(135deg, #667eea, #764ba2); padding: 2rem 0; text-align: center; color: white; }
+    .container { max-width: 800px; margin: 0 auto; padding: 0 1.5rem; }
+    .tool-card { background: white; border-radius: 16px; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    .result-area { font-size: 1.5rem; text-align: center; padding: 1.5rem; background: #f9fafb; border-radius: 12px; word-break: break-all; }
+    .input-group { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; margin: 1rem 0; }
+    .input-group input { padding: 0.5rem; border: 1px solid #ccc; border-radius: 8px; width: 100px; }
+    .btn { padding: 0.6rem 1.2rem; border-radius: 2rem; border: none; cursor: pointer; }
+    .btn-primary { background: linear-gradient(135deg, #4F46E5, #06B6D4); color: white; }
+    .trust-message { background: #f0fdf4; padding: 0.75rem; text-align: center; border-radius: 8px; margin-bottom: 1rem; }
+  </style>
+</head>
+<body>
+<div class="tool-hero"><div class="container"><h1>Random Number Generator</h1><p>Generate random numbers for giveaways, lotteries, or games</p></div></div>
+<div class="container">
+  <div class="trust-message"><i class="fas fa-lock"></i> Generated locally in your browser</div>
+  <div class="tool-card">
+    <div class="result-area" id="result">Click Generate</div>
+    <div class="input-group">
+      <label>Min: <input type="number" id="min" value="1"></label>
+      <label>Max: <input type="number" id="max" value="100"></label>
+      <label>Count: <input type="number" id="count" value="1" min="1" max="50"></label>
+    </div>
+    <div style="text-align: center;"><button class="btn btn-primary" id="generateBtn">Generate Numbers</button><button class="btn" id="copyBtn">Copy Results</button></div>
+  </div>
+</div>
+<script src="/assets/js/ui.js" defer></script>
+<script>
+const minInput = document.getElementById('min');
+const maxInput = document.getElementById('max');
+const countInput = document.getElementById('count');
+const resultDiv = document.getElementById('result');
+function generate() {
+  const min = parseInt(minInput.value);
+  const max = parseInt(maxInput.value);
+  let count = parseInt(countInput.value);
+  if(min >= max) { resultDiv.innerText = 'Min must be less than Max'; return; }
+  if(count > 50) count = 50;
+  const numbers = ToolTariUtils.generateRandom(min, max, count);
+  resultDiv.innerText = numbers.join(', ');
+}
+document.getElementById('generateBtn').onclick = generate;
+document.getElementById('copyBtn').onclick = () => { navigator.clipboard.writeText(resultDiv.innerText); alert('Copied!'); };
+generate();
+</script>
+</body>
+</html>
