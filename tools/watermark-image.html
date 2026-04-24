@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Watermark to Image - Protect Your Photos | ToolTari</title>
+  <meta name="description" content="Add text watermark to images online for free. Protect your photos with custom watermarks. Position control. No login required.">
+  <meta name="keywords" content="watermark image, add watermark, protect image, copyright watermark, text watermark">
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <script src="/assets/js/image-engine.js"></script>
+  <style>
+    .tool-hero { background: linear-gradient(135deg, #667eea, #764ba2); padding: 2rem 0; text-align: center; color: white; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+    .upload-card, .controls-card, .preview-card { background: white; border-radius: 16px; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    .dropzone { border: 2px dashed #ccc; border-radius: 12px; padding: 2rem; text-align: center; cursor: pointer; background: #f9fafb; transition: all 0.2s; }
+    .dropzone.drag-over { border-color: #4F46E5; background: rgba(79,70,229,0.05); }
+    .preview-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+    .preview-box { text-align: center; }
+    .preview-box canvas { max-width: 100%; height: auto; max-height: 300px; border-radius: 8px; border: 1px solid #e5e7eb; background: #f9fafb; }
+    .btn { padding: 0.6rem 1.2rem; border-radius: 2rem; border: none; cursor: pointer; font-weight: 500; margin: 0.25rem; transition: all 0.2s; }
+    .btn-primary { background: linear-gradient(135deg, #4F46E5, #06B6D4); color: white; }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(79,70,229,0.3); }
+    input, select { padding: 0.5rem; border-radius: 8px; border: 1px solid #ccc; margin: 0.5rem; }
+    .trust-message { background: #f0fdf4; padding: 0.75rem; text-align: center; border-radius: 8px; margin-bottom: 1rem; }
+    .watermark-preview { position: relative; display: inline-block; }
+    @media (max-width: 768px) { .preview-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+<div class="tool-hero"><div class="container"><h1>Add Watermark to Image</h1><p>Protect your photos with custom text watermarks</p></div></div>
+<div class="container">
+  <div class="trust-message"><i class="fas fa-lock"></i> 🔒 All processing happens in your browser. Your images are never uploaded.</div>
+  
+  <div class="upload-card">
+    <div class="dropzone" id="dropzone">
+      <i class="fas fa-cloud-upload-alt"></i>
+      <p>Drag & drop image here or click to browse</p>
+      <p class="small">Supports JPG, PNG, WebP (Max 20MB)</p>
+      <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp" style="display:none">
+    </div>
+    <div id="fileInfo" style="display:none; margin-top:1rem"></div>
+  </div>
+  
+  <div class="controls-card" id="controls" style="display:none">
+    <div><label>Watermark Text: <input type="text" id="watermarkText" placeholder="Enter watermark text" value="© ToolTari"></label></div>
+    <div><label>Position: <select id="position">
+      <option value="top-left">Top Left</option>
+      <option value="top-right">Top Right</option>
+      <option value="center">Center</option>
+      <option value="bottom-left">Bottom Left</option>
+      <option value="bottom-right" selected>Bottom Right</option>
+    </select></label>
+    <label>Opacity: <input type="range" id="opacity" min="10" max="100" value="30"> <span id="opacityValue">30</span>%</label></div>
+    <div><button class="btn btn-primary" id="applyBtn">Apply Watermark</button>
+    <button class="btn btn-primary" id="downloadBtn">Download Watermarked Image</button>
+    <button id="resetBtn" class="btn">Reset</button></div>
+  </div>
+  
+  <div class="preview-card" id="preview" style="display:none">
+    <div class="preview-grid">
+      <div class="preview-box"><h3>Original</h3><canvas id="originalCanvas"></canvas></div>
+      <div class="preview-box"><h3>With Watermark</h3><canvas id="processedCanvas"></canvas></div>
+    </div>
+  </div>
+</div>
+
+<script src="/assets/js/ui.js" defer></script>
+<script>
+let engine, uiManager;
+let originalProcessedCanvas = null;
+
+const dropzone = document.getElementById('dropzone'), fileInput = document.getElementById('fileInput');
+dropzone.onclick = () => fileInput.click();
+dropzone.ondragover = e => { e.preventDefault(); dropzone.classList.add('drag-over'); };
+dropzone.ondragleave = () => dropzone.classList.remove('drag-over');
+dropzone.ondrop = async e => { e.preventDefault(); dropzone.classList.remove('drag-over'); if(e.dataTransfer.files[0]) loadImage(e.dataTransfer.files[0]); };
+fileInput.onchange = e => { if(e.target.files[0]) loadImage(e.target.files[0]); };
+
+document.getElementById('opacity').oninput = (e) => document.getElementById('opacityValue').innerText = e.target.value;
+
+async function loadImage(file) {
+  engine = new ToolTariImageEngine.ImageEngine();
+  await engine.loadImage(file);
+  uiManager = new ToolTariImageEngine.ImageUIManager('originalCanvas', 'processedCanvas', engine);
+  uiManager.updateDisplays();
+  uiManager.fitCanvasesToContainer('preview');
+  document.getElementById('fileInfo').innerHTML = `<i class="fas fa-image"></i> ${file.name} (${(file.size/1024).toFixed(1)} KB) <button onclick="location.reload()" style="background:#fee2e2;color:#ef4444;padding:0.3rem 0.8rem;border-radius:2rem;border:none">Remove</button>`;
+  document.getElementById('controls').style.display = 'block';
+  document.getElementById('preview').style.display = 'block';
+  
+  // Store original state
+  originalProcessedCanvas = engine.processedCanvas.cloneNode(true);
+}
+
+function drawWatermark() {
+  const text = document.getElementById('watermarkText').value || 'Watermark';
+  const position = document.getElementById('position').value;
+  const opacity = parseInt(document.getElementById('opacity').value) / 100;
+  
+  // Reset to original
+  engine.processedCanvas.width = originalProcessedCanvas.width;
+  engine.processedCanvas.height = originalProcessedCanvas.height;
+  const ctx = engine.processedCanvas.getContext('2d');
+  ctx.drawImage(originalProcessedCanvas, 0, 0);
+  
+  // Draw watermark
+  ctx.font = 'bold 40px Arial';
+  ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
+  ctx.shadowColor = 'black';
+  ctx.shadowBlur = 4;
+  
+  const textWidth = ctx.measureText(text).width;
+  let x, y;
+  
+  switch(position) {
+    case 'top-left': x = 20; y = 50; break;
+    case 'top-right': x = engine.processedCanvas.width - textWidth - 20; y = 50; break;
+    case 'center': x = (engine.processedCanvas.width - textWidth) / 2; y = engine.processedCanvas.height / 2; break;
+    case 'bottom-left': x = 20; y = engine.processedCanvas.height - 30; break;
+    case 'bottom-right': x = engine.processedCanvas.width - textWidth - 20; y = engine.processedCanvas.height - 30; break;
+    default: x = engine.processedCanvas.width - textWidth - 20; y = engine.processedCanvas.height - 30;
+  }
+  
+  ctx.fillText(text, x, y);
+  ctx.shadowBlur = 0;
+  
+  // Update display
+  uiManager.updateDisplays();
+}
+
+document.getElementById('applyBtn').onclick = () => drawWatermark();
+document.getElementById('downloadBtn').onclick = () => engine.downloadImage();
+document.getElementById('resetBtn').onclick = () => {
+  engine.processedCanvas.width = originalProcessedCanvas.width;
+  engine.processedCanvas.height = originalProcessedCanvas.height;
+  const ctx = engine.processedCanvas.getContext('2d');
+  ctx.drawImage(originalProcessedCanvas, 0, 0);
+  uiManager.updateDisplays();
+};
+</script>
+</body>
+</html>
