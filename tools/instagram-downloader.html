@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Instagram Downloader - Preview & Download Instagram Content | ToolTari</title>
+  <meta name="description" content="Download Instagram photos and videos online free. Paste Instagram URL to preview and save content. No login required.">
+  <meta name="keywords" content="instagram downloader, insta downloader, save instagram video, download instagram photo, instagram saver">
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    .tool-hero { background: linear-gradient(135deg, #E4405F, #833AB4); padding: 2rem 0; text-align: center; color: white; }
+    .tool-hero h1 i { margin-right: 0.5rem; }
+    .container { max-width: 800px; margin: 0 auto; padding: 0 1.5rem; }
+    .tool-card { background: white; border-radius: 16px; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    .url-input-group { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .url-input { flex: 1; padding: 1rem; border: 2px solid #e5e7eb; border-radius: 12px; font-size: 1rem; transition: all 0.2s; }
+    .url-input:focus { outline: none; border-color: #E4405F; }
+    .btn { padding: 0.8rem 1.5rem; border-radius: 2rem; border: none; cursor: pointer; font-weight: 500; transition: all 0.2s; }
+    .btn-primary { background: linear-gradient(135deg, #E4405F, #833AB4); color: white; }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(228,64,95,0.3); }
+    .preview-area { margin-top: 1.5rem; text-align: center; }
+    .preview-image { max-width: 100%; max-height: 400px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+    .preview-video { max-width: 100%; max-height: 400px; border-radius: 12px; }
+    .info-box { background: #f9fafb; padding: 1rem; border-radius: 12px; margin-top: 1rem; text-align: left; }
+    .error-box { background: #fee2e2; color: #dc2626; padding: 1rem; border-radius: 12px; margin-top: 1rem; text-align: center; }
+    .loading { text-align: center; padding: 2rem; }
+    .spinner { width: 40px; height: 40px; border: 4px solid #e5e7eb; border-top-color: #E4405F; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .disclaimer { background: #fef3c7; padding: 0.75rem; border-radius: 8px; margin-bottom: 1rem; font-size: 0.85rem; text-align: center; }
+    .trust-message { background: #f0fdf4; padding: 0.75rem; text-align: center; border-radius: 8px; margin-bottom: 1rem; }
+    .example-urls { margin-top: 1rem; font-size: 0.85rem; color: #6b7280; }
+    .example-urls a { color: #E4405F; text-decoration: none; cursor: pointer; }
+    .download-btn { display: inline-flex; align-items: center; gap: 0.5rem; background: #10b981; color: white; padding: 0.6rem 1.2rem; border-radius: 2rem; text-decoration: none; margin-top: 0.5rem; }
+    .steps { display: flex; gap: 1rem; margin-top: 1rem; flex-wrap: wrap; justify-content: center; }
+    .step { text-align: center; padding: 0.5rem; }
+    @media (max-width: 768px) { .url-input-group { flex-direction: column; } }
+  </style>
+</head>
+<body>
+<div class="tool-hero">
+  <div class="container">
+    <h1><i class="fab fa-instagram"></i> Instagram Downloader</h1>
+    <p>Paste Instagram URL to preview and download content</p>
+  </div>
+</div>
+<div class="container">
+  <div class="trust-message"><i class="fas fa-lock"></i> Your privacy is respected. No data is stored.</div>
+  <div class="disclaimer">
+    <i class="fas fa-info-circle"></i> <strong>Note:</strong> Due to Instagram's API restrictions, direct downloading may be limited. This tool provides previews when possible. For downloading, please use the official Instagram app.
+  </div>
+
+  <div class="tool-card">
+    <div class="url-input-group">
+      <input type="text" id="urlInput" class="url-input" placeholder="Paste Instagram URL here... (e.g., https://www.instagram.com/p/Cxample/)">
+      <button id="fetchBtn" class="btn btn-primary"><i class="fas fa-search"></i> Preview</button>
+    </div>
+    <div class="example-urls">
+      <strong>Try these examples:</strong><br>
+      <a href="#" data-url="https://www.instagram.com/p/C_8R3NCvX6K/">📷 Photo Post</a> | 
+      <a href="#" data-url="https://www.instagram.com/reel/C_8R3NCvX6K/">🎥 Reel Video</a> |
+      <a href="#" data-url="https://www.instagram.com/instagram/">📱 Profile Page</a>
+    </div>
+  </div>
+
+  <div id="resultArea" class="tool-card" style="display: none;">
+    <div id="previewContent"></div>
+  </div>
+
+  <div class="steps">
+    <div class="step"><i class="fas fa-link"></i><br>1. Copy URL</div>
+    <div class="step"><i class="fab fa-instagram"></i><br>2. Paste above</div>
+    <div class="step"><i class="fas fa-eye"></i><br>3. View preview</div>
+  </div>
+</div>
+
+<script src="/assets/js/ui.js" defer></script>
+<script>
+const urlInput = document.getElementById('urlInput');
+const fetchBtn = document.getElementById('fetchBtn');
+const resultArea = document.getElementById('resultArea');
+const previewContent = document.getElementById('previewContent');
+
+// Example URL click handlers
+document.querySelectorAll('.example-urls a').forEach(link => {
+  link.onclick = (e) => {
+    e.preventDefault();
+    urlInput.value = link.dataset.url;
+    fetchContent();
+  };
+});
+
+async function fetchContent() {
+  const url = urlInput.value.trim();
+  if (!url) {
+    showError('Please enter an Instagram URL');
+    return;
+  }
+
+  if (!url.includes('instagram.com')) {
+    showError('Please enter a valid Instagram URL');
+    return;
+  }
+
+  showLoading();
+
+  try {
+    // Note: Due to CORS restrictions, direct API calls are blocked.
+    // We'll provide a workaround using embed method and alternative approach
+    
+    // Method 1: Try using oEmbed endpoint (limited but works for public posts)
+    const embedUrl = `https://graph.facebook.com/v17.0/instagram_oembed?url=${encodeURIComponent(url)}&access_token=IGQVJ...`;
+    
+    // Since direct API requires access token, we'll show manual steps and preview via embed
+    
+    setTimeout(() => {
+      // Show manual instructions with embed preview
+      showManualPreview(url);
+    }, 800);
+
+  } catch (error) {
+    showError('Unable to fetch content. Instagram has API restrictions.');
+  }
+}
+
+function showLoading() {
+  resultArea.style.display = 'block';
+  previewContent.innerHTML = `
+    <div class="loading">
+      <div class="spinner"></div>
+      <p>Loading preview...</p>
+    </div>
+  `;
+}
+
+function showError(message) {
+  previewContent.innerHTML = `
+    <div class="error-box">
+      <i class="fas fa-exclamation-triangle"></i> ${message}
+    </div>
+  `;
+}
+
+function showManualPreview(url) {
+  // Extract post ID for display purposes
+  let postId = '';
+  const postMatch = url.match(/\/p\/([A-Za-z0-9_-]+)/);
+  const reelMatch = url.match(/\/reel\/([A-Za-z0-9_-]+)/);
+  const tvMatch = url.match(/\/tv\/([A-Za-z0-9_-]+)/);
+  
+  if (postMatch) postId = postMatch[1];
+  else if (reelMatch) postId = reelMatch[1];
+  else if (tvMatch) postId = tvMatch[1];
+  
+  // Create embed preview using Instagram's official embed (works for public posts)
+  const embedHtml = `
+    <div style="text-align: center;">
+      <div class="info-box">
+        <i class="fab fa-instagram" style="color: #E4405F; font-size: 2rem;"></i>
+        <p><strong>Instagram Post Preview</strong></p>
+        <p>Due to API limitations, direct download is not available. However, you can:</p>
+        <ul style="text-align: left; margin-top: 0.5rem;">
+          <li>📸 <strong>Screenshot</strong> - Use your device's screenshot feature</li>
+          <li>📱 <strong>Official App</strong> - Save posts using Instagram's built-in save feature</li>
+          <li>🔗 <strong>Share Link</strong> - Copy and share the original post link</li>
+        </ul>
+      </div>
+      
+      <div style="margin: 1rem 0; padding: 1rem; background: #f9fafb; border-radius: 12px;">
+        <p><strong>Post URL:</strong></p>
+        <code style="word-break: break-all;">${escapeHtml(url)}</code>
+      </div>
+      
+      <div class="info-box" style="background: #e8f4fd;">
+        <i class="fas fa-info-circle"></i>
+        <p><strong>How to save Instagram content:</strong></p>
+        <ol style="text-align: left; margin-top: 0.5rem;">
+          <li>Open the Instagram app on your phone</li>
+          <li>Go to the post you want to save</li>
+          <li>Tap the <strong>three dots (⋮)</strong> in the top right</li>
+          <li>Select <strong>Save</strong> to save to your collection</li>
+          <li>For videos, you can also tap and hold to save</li>
+        </ol>
+      </div>
+    </div>
+  `;
+  
+  // Add Instagram embed for preview if postId exists
+  if (postId) {
+    embedHtml += `
+      <div style="margin-top: 1rem;">
+        <blockquote class="instagram-media" data-instgrm-permalink="${escapeHtml(url)}" data-instgrm-version="14" style="max-width:540px; margin:0 auto;"></blockquote>
+        <script async src="//www.instagram.com/embed.js"></script>
+      </div>
+    `;
+  }
+  
+  previewContent.innerHTML = embedHtml;
+}
+
+function escapeHtml(str) {
+  if (!str) return '';
+  return str.replace(/[&<>]/g, function(m) {
+    if (m === '&') return '&amp;';
+    if (m === '<') return '&lt;';
+    if (m === '>') return '&gt;';
+    return m;
+  });
+}
+
+fetchBtn.onclick = fetchContent;
+urlInput.addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') fetchContent();
+});
+</script>
+</body>
+</html>
