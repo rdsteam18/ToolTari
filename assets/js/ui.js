@@ -1,5 +1,4 @@
-// ========== UI COMPONENT INJECTOR ==========
-// This file handles dynamic header and footer injection across all pages
+// ========== UI.JS - Header & Footer Injection ==========
 
 (function() {
   'use strict';
@@ -155,33 +154,18 @@
     
     navLinks.forEach(link => {
       const href = link.getAttribute('href');
-      if (href === currentPath || (currentPath === '/' && href === '/')) {
+      link.classList.remove('active');
+      
+      if (href === currentPath) {
         link.classList.add('active');
-      } else if (currentPath !== '/' && href !== '/' && currentPath.includes(href.replace('/', ''))) {
+      } else if (currentPath === '/' && href === '/') {
+        link.classList.add('active');
+      } else if (currentPath.includes('/tools/') && href === '/tools.html') {
+        link.classList.add('active');
+      } else if (href !== '/' && currentPath.includes(href.replace('/', '')) && href !== '/') {
         link.classList.add('active');
       }
     });
-  }
-  
-  // Scroll reveal observer
-  function initScrollReveal() {
-    const revealElements = document.querySelectorAll('.scroll-reveal');
-    
-    if (revealElements.length && 'IntersectionObserver' in window) {
-      const revealObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('revealed');
-            revealObserver.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-      
-      revealElements.forEach(el => revealObserver.observe(el));
-    } else {
-      // Fallback
-      revealElements.forEach(el => el.classList.add('revealed'));
-    }
   }
   
   // Initialize all UI components when DOM is ready
@@ -189,11 +173,9 @@
     document.addEventListener('DOMContentLoaded', () => {
       injectHeader();
       injectFooter();
-      initScrollReveal();
     });
   } else {
     injectHeader();
     injectFooter();
-    initScrollReveal();
   }
 })();
