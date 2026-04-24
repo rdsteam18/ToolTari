@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>About ToolTari - Free Online PDF & Image Tools Platform</title>
+  <meta name="description" content="Learn about ToolTari, a fast and secure platform for free PDF and image tools. No login required, 100% browser-based processing, complete privacy guaranteed.">
+  <meta name="keywords" content="about ToolTari, free PDF tools, online tools, secure file tools, privacy first tools">
+  <meta name="author" content="ToolTari">
+  <meta name="robots" content="index, follow">
+  <meta name="google-adsense-account" content="ca-pub-3097658772821429">
+  <meta name="google-site-verification" content="d1uLLcwbDH99lepVNG6a_KEpVP24yjo1DqHN4aKhWk8">
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="About ToolTari - Free Online PDF Tools">
+  <meta property="og:description" content="Learn about ToolTari, a fast and secure platform for free PDF and image tools. No login required.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://tooltari.in/about.html">
+  <meta property="og:image" content="https://tooltari.in/assets/img/og-image.jpg">
+  
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="About ToolTari - Free Online PDF Tools">
+  <meta name="twitter:description" content="Learn about ToolTari, a fast and secure platform for free PDF and image tools.">
+  
+  <!-- Canonical -->
+  <link rel="canonical" href="https://tooltari.in/about.html">
+  
+  <!-- Preconnect -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  
+  <!-- Global CSS -->
+  <link rel="stylesheet" href="/assets/css/style.css">
+  
+  <style>
+    /* About page specific styles */
+    .about-hero {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 4rem 0 3rem;
+      text-align: center;
+      color: white;
+      margin-bottom: 2rem;
+    }
+    
+    .about-hero h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+    }
+    
+    .about-hero p {
+      font-size: 1.2rem;
+      opacity: 0.95;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    /* Main content section */
+    .about-content-section {
+      padding: 3rem 0;
+    }
+    
+    .about-text {
+      max-width: 800px;
+      margin: 0 auto;
+      line-height: 1.8;
+      color: var(--text);
+    }
+    
+    .about-text h2 {
+      font-size: 1.8rem;
+      margin: 2rem 0 1rem;
+      color: var(--text);
+    }
+    
+    .about-text h3 {
+      font-size: 1.3rem;
+      margin: 1.5rem 0 0.75rem;
+      color: var(--primary);
+    }
+    
+    .about-text p {
+      margin-bottom: 1.2rem;
+      font-size: 1.05rem;
+    }
+    
+    .about-text ul {
+      margin: 1rem 0 1.5rem 2rem;
+    }
+    
+    .about-text li {
+      margin-bottom: 0.5rem;
+    }
+    
+    /* Why ToolTari Cards */
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin: 3rem 0;
+    }
+    
+    .why-card {
+      background: white;
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.3s ease;
+      border: 1px solid var(--border);
+    }
+    
+    .why-card:hover {
+      transform: translateY(-8px);
+      box-shadow: var(--shadow-xl);
+    }
+    
+    .why-icon {
+      width: 70px;
+      height: 70px;
+      background: linear-gradient(135deg, rgba(79, 70, 229, 0.1), rgba(6, 182, 212, 0.1));
+      border-radius: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.25rem;
+      font-size: 2rem;
+      color: var(--primary);
+    }
+    
+    .why-card h3 {
+      font-size: 1.3rem;
+      margin-bottom: 0.75rem;
+    }
+    
+    .why-card p {
+      color: var(--text-light);
+      line-height: 1.6;
+    }
+    
+    /* How It Works Steps */
+    .steps-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      margin: 3rem 0;
+    }
+    
+    .step-card {
+      text-align: center;
+      padding: 2rem;
+      background: white;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      position: relative;
+    }
+    
+    .step-number {
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin: 0 auto 1rem;
+    }
+    
+    .step-card h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .step-card p {
+      color: var(--text-light);
+      font-size: 0.9rem;
+    }
+    
+    /* Privacy Trust Section */
+    .privacy-section {
+      background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+      border-radius: var(--radius-lg);
+      padding: 3rem;
+      margin: 3rem 0;
+      text-align: center;
+    }
+    
+    .privacy-section h2 {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+      color: var(--text);
+    }
+    
+    .privacy-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: white;
+      padding: 0.75rem 1.5rem;
+      border-radius: 2rem;
+      margin: 1rem 0;
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .privacy-badge i {
+      color: var(--success);
+      font-size: 1.2rem;
+    }
+    
+    .privacy-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    
+    .privacy-item {
+      background: white;
+      padding: 1.5rem;
+      border-radius: var(--radius-md);
+      text-align: left;
+    }
+    
+    .privacy-item i {
+      font-size: 2rem;
+      color: var(--primary);
+      margin-bottom: 1rem;
+    }
+    
+    .privacy-item h3 {
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .privacy-item p {
+      font-size: 0.9rem;
+      color: var(--text-light);
+    }
+    
+    /* Ad Section */
+    .about-ad {
+      margin: 3rem 0;
+      padding: 1.5rem;
+      background: var(--bg-dark);
+      border-radius: var(--radius-lg);
+      text-align: center;
+    }
+    
+    .ad-label {
+      font-size: 0.7rem;
+      color: var(--text-light);
+      margin-bottom: 0.75rem;
+      text-transform: uppercase;
+    }
+    
+    .ad-content {
+      min-height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: white;
+      border-radius: var(--radius-md);
+      border: 1px dashed var(--border);
+    }
+    
+    /* CTA Section */
+    .about-cta {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      padding: 4rem 2rem;
+      text-align: center;
+      color: white;
+      border-radius: var(--radius-lg);
+      margin: 3rem 0;
+    }
+    
+    .about-cta h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    
+    .about-cta p {
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+      opacity: 0.95;
+    }
+    
+    .cta-button {
+      background: white;
+      color: var(--primary);
+      padding: 1rem 2rem;
+      border-radius: 2rem;
+      text-decoration: none;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.3s ease;
+    }
+    
+    .cta-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .about-hero h1 {
+        font-size: 1.8rem;
+      }
+      
+      .about-hero p {
+        font-size: 1rem;
+      }
+      
+      .about-text h2 {
+        font-size: 1.5rem;
+      }
+      
+      .privacy-section {
+        padding: 1.5rem;
+      }
+      
+      .about-cta h2 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<main>
+  <!-- Hero Section -->
+  <div class="about-hero">
+    <div class="container">
+      <h1 class="animate-fade-up">About ToolTari</h1>
+      <p class="animate-fade-up delay-1">Fast, secure, and free tools for everyone.</p>
+    </div>
+  </div>
+  
+  <div class="container">
+    <!-- Main About Content -->
+    <div class="about-content-section scroll-reveal">
+      <div class="about-text">
+        <h2>What is ToolTari?</h2>
+        <p><strong>ToolTari</strong> is a revolutionary free online platform that provides professional-grade PDF and image editing tools directly in your web browser. Founded with a simple mission — to make file processing accessible, secure, and completely free for everyone, everywhere.</p>
+        
+        <p>Unlike traditional software that requires installation or paid subscriptions, ToolTari works instantly. No downloads, no registrations, no hidden fees. Just powerful tools that get the job done in seconds.</p>
+        
+        <h2>Who is ToolTari For?</h2>
+        <p>ToolTari serves millions of users worldwide, including:</p>
+        <ul>
+          <li><strong>Students</strong> - Convert lecture notes, merge research papers, compress submissions</li>
+          <li><strong>Professionals</strong> - Edit contracts, convert reports, protect sensitive documents</li>
+          <li><strong>Small Business Owners</strong> - Create invoices, combine receipts, watermark images</li>
+          <li><strong>Freelancers</strong> - Format portfolios, compress client deliverables, convert file types</li>
+          <li><strong>Casual Users</strong> - Edit personal photos, organize PDFs, create QR codes</li>
+        </ul>
+        
+        <h2>The Problem We Solve</h2>
+        <p>Before ToolTari, users faced frustrating choices: expensive software subscriptions, suspicious online tools that upload your files to unknown servers, or complex desktop applications with steep learning curves. Many "free" tools add watermarks, limit file sizes, or require registration — compromising both privacy and convenience.</p>
+        
+        <p>ToolTari eliminates these problems entirely. We built a platform that processes everything locally in your browser. Your files never leave your device. No uploads, no servers, no privacy concerns. Just instant, professional results.</p>
+        
+        <h2>Our Technology</h2>
+        <p>ToolTari leverages cutting-edge browser technologies including PDF.js, pdf-lib, and Canvas API to deliver desktop-grade processing power entirely client-side. Every tool is optimized for speed and compatibility across all modern browsers — Chrome, Firefox, Safari, and Edge.</p>
+        
+        <p>Our architecture is built on three core principles:</p>
+        <ul>
+          <li><strong>Privacy First</strong> - Zero file uploads, zero data storage, zero tracking</li>
+          <li><strong>Speed Optimized</strong> - Tools load instantly and process in milliseconds</li>
+          <li><strong>Accessibility</strong> - Works on any device with an internet connection</li>
+        </ul>
+      </div>
+    </div>
+    
+    <!-- Why ToolTari Section -->
+    <div class="scroll-reveal">
+      <h2 style="text-align: center; font-size: 2rem; margin-bottom: 1rem;">Why Choose ToolTari?</h2>
+      <div class="why-grid">
+        <div class="why-card">
+          <div class="why-icon">
+            <i class="fas fa-bolt"></i>
+          </div>
+          <h3>Fast Processing</h3>
+          <p>Optimized tools that work instantly in your browser. No waiting queues, no slow servers.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon">
+            <i class="fas fa-shield-alt"></i>
+          </div>
+          <h3>Secure & Private</h3>
+          <p>All processing happens locally. Your files never leave your device. Zero data storage.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon">
+            <i class="fas fa-gem"></i>
+          </div>
+          <h3>Completely Free</h3>
+          <p>No hidden fees, no premium tiers. All tools are 100% free forever with no watermarks.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon">
+            <i class="fas fa-mobile-alt"></i>
+          </div>
+          <h3>Works on All Devices</h3>
+          <p>Desktop, tablet, or smartphone — ToolTari works perfectly on any device with a browser.</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Ad Section (non-intrusive) -->
+    <div class="about-ad scroll-reveal">
+      <div class="ad-label">Advertisement</div>
+      <div class="ad-content">
+        <div style="text-align: center; padding: 1.5rem;">
+          <i class="fas fa-ad" style="color: var(--primary); font-size: 1.5rem;"></i>
+          <p style="margin-top: 0.5rem; color: var(--text-light);">Your Google AdSense Ad Here</p>
+          <p style="font-size: 0.8rem; color: var(--text-light);">Responsive Display Ad</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- How It Works -->
+    <div class="scroll-reveal">
+      <h2 style="text-align: center; font-size: 2rem; margin-bottom: 1rem;">How It Works</h2>
+      <p style="text-align: center; color: var(--text-light); margin-bottom: 2rem;">Three simple steps to process your files</p>
+      <div class="steps-container">
+        <div class="step-card">
+          <div class="step-number">1</div>
+          <h3>Upload File</h3>
+          <p>Select your PDF or image file from your device. Drag and drop or click to browse.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-number">2</div>
+          <h3>Process in Browser</h3>
+          <p>Our tool processes your file locally. No uploads to any server — completely private.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-number">3</div>
+          <h3>Download Result</h3>
+          <p>Get your processed file instantly. Save it to your device with one click.</p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Privacy Trust Section (CRITICAL) -->
+    <div class="privacy-section scroll-reveal">
+      <h2>🔒 Your Privacy is Our Priority</h2>
+      <div class="privacy-badge">
+        <i class="fas fa-check-circle"></i>
+        <span>100% Browser-Based Processing</span>
+      </div>
+      <p style="max-width: 700px; margin: 0 auto 2rem;">Unlike other online tools that upload your files to unknown servers, ToolTari processes everything locally in your browser. This means:</p>
+      
+      <div class="privacy-grid">
+        <div class="privacy-item">
+          <i class="fas fa-server"></i>
+          <h3>No Server Uploads</h3>
+          <p>Your files never leave your device. Everything happens right in your browser.</p>
+        </div>
+        <div class="privacy-item">
+          <i class="fas fa-database"></i>
+          <h3>No Data Storage</h3>
+          <p>We don't store, cache, or backup your files. Once you close the page, everything is gone.</p>
+        </div>
+        <div class="privacy-item">
+          <i class="fas fa-user-secret"></i>
+          <h3>No Tracking</h3>
+          <p>We don't track your files or collect personal information. Complete anonymity.</p>
+        </div>
+        <div class="privacy-item">
+          <i class="fas fa-file-contract"></i>
+          <h3>No Registration</h3>
+          <p>Use all tools instantly without creating an account or providing any personal details.</p>
+        </div>
+      </div>
+      
+      <p style="margin-top: 2rem; font-weight: 500;">Your files are YOUR files. We never see them, store them, or share them.</p>
+    </div>
+    
+    <!-- CTA Section -->
+    <div class="about-cta scroll-reveal">
+      <h2>Ready to Get Started?</h2>
+      <p>Join millions of users who trust ToolTari for their PDF and image needs</p>
+      <a href="/tools.html" class="cta-button">
+        Explore All Tools <i class="fas fa-arrow-right"></i>
+      </a>
+    </div>
+  </div>
+</main>
+
+<!-- Scripts -->
+<script src="/assets/js/ui.js" defer></script>
+<script src="/assets/js/main.js" defer></script>
+
+<script>
+  // Set active navigation state for About page
+  document.addEventListener('DOMContentLoaded', function() {
+    // Small delay to ensure header is loaded
+    setTimeout(() => {
+      const navLinks = document.querySelectorAll('.nav-link');
+      navLinks.forEach(link => {
+        if (link.getAttribute('href') === '/about.html') {
+          link.classList.add('active');
+        }
+      });
+    }, 100);
+  });
+</script>
+
+</body>
+</html>
