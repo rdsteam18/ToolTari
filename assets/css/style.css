@@ -724,3 +724,118 @@ body {
     gap: 0.75rem;
   }
 }
+/* Additional styles for tools page */
+.tool-card {
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+}
+
+.tool-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-xl);
+}
+
+.tool-icon {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, rgba(79, 70, 229, 0.1), rgba(6, 182, 212, 0.1));
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+  font-size: 2rem;
+  transition: transform 0.2s;
+}
+
+.tool-card:hover .tool-icon {
+  transform: scale(1.05);
+}
+
+.tool-name {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.tool-description {
+  color: var(--text-light);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+}
+
+.tool-btn {
+  background: transparent;
+  border: none;
+  color: var(--primary);
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 0.5rem 0;
+  transition: gap 0.2s;
+  font-family: inherit;
+}
+
+.tool-btn:hover {
+  gap: 0.75rem;
+}
+
+/* Error and empty states */
+.error-message {
+  text-align: center;
+  padding: 3rem;
+  background: white;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border);
+}
+
+.error-message i {
+  font-size: 3rem;
+  color: var(--error);
+  margin-bottom: 1rem;
+}
+
+/* Toast notification */
+.tool-toast {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: white;
+  border-radius: 50px;
+  padding: 1rem 2rem;
+  box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.2);
+  z-index: 10000;
+  transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+  border-left: 4px solid var(--primary);
+  pointer-events: none;
+  max-width: 90%;
+}
+
+.tool-toast.show {
+  transform: translateX(-50%) translateY(0);
+}
+
+.toast-content {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--text);
+}
+
+.toast-content i {
+  color: var(--success);
+  font-size: 1.2rem;
+}
+
+@media (max-width: 640px) {
+  .tool-toast {
+    width: 90%;
+    border-radius: 1rem;
+    text-align: center;
+  }
+}
