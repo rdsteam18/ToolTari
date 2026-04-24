@@ -1,63 +1,185 @@
-// /assets/js/main.js
-// Core application logic, tool data fetching, rendering, analytics and global utilities
+// ========== MAIN APPLICATION LOGIC ==========
+// Handles tools data fetching, rendering, and core functionality
 
 (function() {
   'use strict';
   
-  // ========== TOOL DATASETS (fallback & enrichment) ==========
-  const POPULAR_TOOLS = [
-    { id: "merge-pdf", name: "Merge PDF", description: "Combine multiple PDF files into a single document in seconds.", icon: "fa-object-group", color: "#4F46E5", category: "popular" },
-    { id: "split-pdf", name: "Split PDF", description: "Split a PDF file into separate documents or extract specific pages.", icon: "fa-cut", color: "#06B6D4", category: "popular" },
-    { id: "compress-pdf", name: "Compress PDF", description: "Reduce PDF file size while preserving quality for easy sharing.", icon: "fa-compress", color: "#10b981", category: "popular" },
-    { id: "pdf-to-word", name: "PDF to Word", description: "Convert PDF documents to editable Word files with high accuracy.", icon: "fa-file-word", color: "#ef4444", category: "popular" }
+  // DOM Elements
+  const toolsGrid = document.getElementById('tools-grid');
+  
+  // Tools data URL
+  const TOOLS_API_URL = '/data/tools.json';
+  
+  // Fallback tools data in case fetch fails
+  const FALLBACK_TOOLS = [
+    {
+      "id": "merge-pdf",
+      "name": "Merge PDF",
+      "description": "Combine multiple PDF files into one document instantly",
+      "category": "pdf",
+      "slug": "/tools/merge-pdf",
+      "icon": "fa-object-group"
+    },
+    {
+      "id": "compress-pdf",
+      "name": "Compress PDF",
+      "description": "Reduce PDF file size while preserving quality",
+      "category": "pdf",
+      "slug": "/tools/compress-pdf",
+      "icon": "fa-compress"
+    },
+    {
+      "id": "pdf-to-word",
+      "name": "PDF to Word",
+      "description": "Convert PDF documents to editable Word files",
+      "category": "pdf",
+      "slug": "/tools/pdf-to-word",
+      "icon": "fa-file-word"
+    },
+    {
+      "id": "image-converter",
+      "name": "Image Converter",
+      "description": "Convert between JPG, PNG, WebP formats",
+      "category": "image",
+      "slug": "/tools/image-converter",
+      "icon": "fa-image"
+    }
   ];
   
-  const ALL_TOOLS = [
-    { id: "pdf-to-ppt", name: "PDF to PowerPoint", description: "Transform PDF slides into editable PowerPoint presentations.", icon: "fa-chalkboard", color: "#f59e0b" },
-    { id: "protect-pdf", name: "Protect PDF", description: "Add password protection to your PDF files.", icon: "fa-lock", color: "#8b5cf6" },
-    { id: "unlock-pdf", name: "Unlock PDF", description: "Remove password protection from PDF files.", icon: "fa-unlock-alt", color: "#ec489a" },
-    { id: "compress-image", name: "Compress Image", description: "Reduce image file size without losing quality.", icon: "fa-image", color: "#14b8a6" },
-    { id: "crop-image", name: "Crop Image", description: "Crop and resize images to fit your needs.", icon: "fa-crop", color: "#3b82f6" },
-    { id: "image-converter", name: "Image Converter", description: "Convert between JPG, PNG, WebP, and other formats.", icon: "fa-exchange-alt", color: "#a855f7" },
-    { id: "word-converter", name: "Word Converter", description: "Convert Word documents to PDF and other formats.", icon: "fa-file-alt", color: "#2dd4bf" },
-    { id: "excel-converter", name: "Excel Converter", description: "Convert Excel spreadsheets to PDF and other formats.", icon: "fa-file-excel", color: "#22c55e" },
-    { id: "qr-generator", name: "QR Code Generator", description: "Create QR codes for URLs, text, and contact information.", icon: "fa-qrcode", color: "#6366f1" },
-    { id: "watermark", name: "Watermark Tool", description: "Add text or image watermarks to PDFs and images.", icon: "fa-paintbrush", color: "#f97316" },
-    { id: "zip-compressor", name: "File Compressor", description: "Compress multiple files into ZIP archives.", icon: "fa-file-archive", color: "#d946ef" },
-    { id: "esignature", name: "E-Signature", description: "Add electronic signatures to documents securely.", icon: "fa-signature", color: "#0ea5e9" }
-  ];
-  
-  const EXTENDED_ALL_TOOLS = [...POPULAR_TOOLS, ...ALL_TOOLS];
-  
-  // ========== RENDER TOOL CARDS ==========
-  function renderToolCards(containerId, toolsArray, options = {}) {
-    const container = document.getElementById(containerId);
-    if (!container) {
-      console.warn(`Container #${containerId} not found`);
+  // Render tool cards in the grid
+  function renderToolCards(tools) {
+    if (!toolsGrid) return;
+    
+    if (!tools || tools.length === 0) {
+      toolsGrid.innerHTML = `
+        <div class="error-message">
+          <i class="fas fa-exclamation-triangle"></i>
+          <p>Unable to load tools. Please refresh the page.</p>
+        </div>
+      `;
       return;
     }
     
-    if (!toolsArray || toolsArray.length === 0) {
-      container.innerHTML = '<div class="error-placeholder">⚠️ Unable to load tools. Please refresh.</div>';
-      return;
-    }
+    // Take first 6 tools for homepage preview
+    const previewTools = tools.slice(0, 6);
     
-    const cardsHtml = toolsArray.map(tool => `
+    const cardsHTML = previewTools.map(tool => `
       <div class="tool-card scroll-reveal" data-tool-id="${tool.id}">
-        <div class="tool-icon" style="background-color: ${tool.color || '#4F46E5'}20; color: ${tool.color || '#4F46E6'}">
-          <i class="fas ${tool.icon}"></i>
+        <div class="tool-icon">
+          <i class="fas ${tool.icon || 'fa-tool'}"></i>
         </div>
         <h3 class="tool-name">${escapeHtml(tool.name)}</h3>
         <p class="tool-description">${escapeHtml(tool.description)}</p>
-        <button class="btn-tool-use" data-toolname="${escapeHtml(tool.name)}">
+        <button class="tool-btn" data-tool="${tool.id}" data-tool-name="${escapeHtml(tool.name)}">
           Use Tool <i class="fas fa-arrow-right"></i>
         </button>
       </div>
     `).join('');
     
-    container.innerHTML = cardsHtml;
+    toolsGrid.innerHTML = cardsHTML;
+    
+    // Attach event listeners to tool buttons
+    attachToolButtonEvents();
+    
+    // Re-initialize scroll reveal for new cards
+    if (window.initScrollReveal) {
+      setTimeout(() => {
+        const revealElements = document.querySelectorAll('.scroll-reveal');
+        revealElements.forEach(el => {
+          if (el.getBoundingClientRect().top < window.innerHeight) {
+            el.classList.add('revealed');
+          }
+        });
+      }, 100);
+    }
   }
   
+  // Attach click events to tool buttons
+  function attachToolButtonEvents() {
+    const toolButtons = document.querySelectorAll('.tool-btn');
+    toolButtons.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const toolId = btn.getAttribute('data-tool');
+        const toolName = btn.getAttribute('data-tool-name');
+        
+        // Show notification and redirect to tool page (in future)
+        showToolNotification(toolName);
+        
+        // For now, show demo message
+        console.log(`Tool selected: ${toolName} (${toolId})`);
+      });
+    });
+  }
+  
+  // Show temporary toast notification
+  function showToolNotification(toolName) {
+    // Remove existing toast if any
+    const existingToast = document.querySelector('.tool-toast');
+    if (existingToast) existingToast.remove();
+    
+    const toast = document.createElement('div');
+    toast.className = 'tool-toast';
+    toast.innerHTML = `
+      <div class="toast-content">
+        <i class="fas fa-check-circle"></i>
+        <span>✨ ${toolName} - Coming soon! We're building this tool with care.</span>
+      </div>
+    `;
+    
+    // Add toast styles if not present
+    if (!document.querySelector('#toast-styles')) {
+      const style = document.createElement('style');
+      style.id = 'toast-styles';
+      style.textContent = `
+        .tool-toast {
+          position: fixed;
+          bottom: 30px;
+          left: 50%;
+          transform: translateX(-50%) translateY(100px);
+          background: white;
+          border-radius: 50px;
+          padding: 1rem 2rem;
+          box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.2);
+          z-index: 10000;
+          transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+          border-left: 4px solid var(--primary);
+          pointer-events: none;
+          max-width: 90%;
+        }
+        .tool-toast.show {
+          transform: translateX(-50%) translateY(0);
+        }
+        .toast-content {
+          display: flex;
+          align-items: center;
+          gap: 0.75rem;
+          color: var(--text);
+        }
+        .toast-content i {
+          color: var(--success);
+          font-size: 1.2rem;
+        }
+        @media (max-width: 640px) {
+          .tool-toast {
+            width: 90%;
+            border-radius: 1rem;
+            text-align: center;
+          }
+        }
+      `;
+      document.head.appendChild(style);
+    }
+    
+    document.body.appendChild(toast);
+    setTimeout(() => toast.classList.add('show'), 10);
+    setTimeout(() => {
+      toast.classList.remove('show');
+      setTimeout(() => toast.remove(), 300);
+    }, 3000);
+  }
+  
+  // Escape HTML to prevent XSS
   function escapeHtml(str) {
     if (!str) return '';
     return str.replace(/[&<>]/g, function(m) {
@@ -68,99 +190,57 @@
     });
   }
   
-  // ========== FETCH TOOLS FROM JSON ENDPOINT ==========
-  async function fetchToolsFromAPI() {
+  // Fetch tools from JSON file
+  async function fetchTools() {
     try {
-      const response = await fetch('/data/tools.json');
+      const response = await fetch(TOOLS_API_URL);
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       const data = await response.json();
-      // support both { tools: [...] } or direct array
-      if (data && Array.isArray(data.tools)) return data.tools;
+      
+      // Handle both array and { tools: [] } formats
       if (Array.isArray(data)) return data;
-      return null;
+      if (data && Array.isArray(data.tools)) return data.tools;
+      return FALLBACK_TOOLS;
     } catch (error) {
-      console.warn('Fetch from /data/tools.json failed:', error);
-      return null;
+      console.warn('Failed to fetch tools.json, using fallback data:', error);
+      return FALLBACK_TOOLS;
     }
   }
   
-  async function initializeToolGrids() {
-    // Try to fetch from API first
-    let apiTools = await fetchToolsFromAPI();
+  // Initialize the tools section
+  async function initTools() {
+    if (!toolsGrid) return;
     
-    if (apiTools && apiTools.length) {
-      // separate popular and all based on category or first 4 as popular
-      const popular = apiTools.filter(t => t.category === 'popular').slice(0, 4);
-      if (popular.length) {
-        renderToolCards('popularToolsGrid', popular);
-      } else {
-        renderToolCards('popularToolsGrid', apiTools.slice(0, 4));
-      }
-      renderToolCards('allToolsGrid', apiTools);
-    } else {
-      // use fallback datasets
-      renderToolCards('popularToolsGrid', POPULAR_TOOLS);
-      renderToolCards('allToolsGrid', EXTENDED_ALL_TOOLS);
-    }
+    const tools = await fetchTools();
+    renderToolCards(tools);
   }
   
-  // ========== STATS COUNTER ANIMATION ==========
-  function animateStats() {
-    const statsNumbers = document.querySelectorAll('.stat-number');
-    if (!statsNumbers.length) return;
-    
-    const observerOptions = { threshold: 0.5 };
-    const statsObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const el = entry.target;
-          const targetText = el.innerText;
-          const targetNumber = parseInt(targetText.replace(/[^0-9]/g, ''), 10);
-          if (!isNaN(targetNumber) && !el.dataset.animated) {
-            el.dataset.animated = 'true';
-            let current = 0;
-            const increment = targetNumber / 50;
-            const timer = setInterval(() => {
-              current += increment;
-              if (current >= targetNumber) {
-                el.innerText = targetText.replace(/\d+/, targetNumber);
-                clearInterval(timer);
-              } else {
-                el.innerText = targetText.replace(/\d+/, Math.floor(current));
-              }
-            }, 20);
+  // Initialize scroll reveal for existing elements
+  function initExistingScrollReveal() {
+    const revealElements = document.querySelectorAll('.scroll-reveal');
+    if (revealElements.length && 'IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('revealed');
+            observer.unobserve(entry.target);
           }
-          statsObserver.unobserve(el);
-        }
-      });
-    }, observerOptions);
-    
-    statsNumbers.forEach(stat => statsObserver.observe(stat));
-  }
-  
-  // ========== PERFORMANCE & LOAD HANDLING ==========
-  function trackPageLoad() {
-    if ('performance' in window && 'mark' in performance) {
-      performance.mark('tooltari-loaded');
+        });
+      }, { threshold: 0.1 });
+      revealElements.forEach(el => observer.observe(el));
+    } else {
+      revealElements.forEach(el => el.classList.add('revealed'));
     }
-    console.log('ToolTari Main initialized — Fast, secure, free.');
   }
   
-  // ========== INITIALIZE ALL MODULES ==========
-  document.addEventListener('DOMContentLoaded', async () => {
-    await initializeToolGrids();
-    animateStats();
-    trackPageLoad();
-    
-    // Additional dynamic lazy images if any (none needed)
-    // Prefetch tool interactions (delegated to ui.js)
-  });
-  
-  // Export utilities for potential debugging (global)
-  window.ToolTari = {
-    version: '1.0.0',
-    tools: EXTENDED_ALL_TOOLS,
-    rerenderTools: initializeToolGrids
-  };
-  
+  // Initialize all modules when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      initTools();
+      initExistingScrollReveal();
+    });
+  } else {
+    initTools();
+    initExistingScrollReveal();
+  }
 })();
