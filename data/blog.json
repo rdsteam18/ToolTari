@@ -1,0 +1,98 @@
+[
+  {
+    "id": "compress-pdf-online",
+    "title": "How to Compress PDF Online (Free & Easy)",
+    "description": "Learn how to reduce PDF file size without losing quality. Step-by-step guide with tips and best practices for compressing PDF documents online.",
+    "slug": "/blog/compress-pdf-online.html",
+    "category": "pdf",
+    "keywords": ["compress pdf", "reduce pdf size", "pdf compressor", "free pdf compression"],
+    "date": "2025-04-25",
+    "readTime": "5 min read",
+    "featured": true,
+    "image": "/assets/img/blog/compress-pdf.jpg"
+  },
+  {
+    "id": "reduce-image-size",
+    "title": "How to Reduce Image Size Online for Free",
+    "description": "Simple guide to compress JPG, PNG, and WebP images while maintaining quality. Perfect for web optimization and email attachments.",
+    "slug": "/blog/reduce-image-size.html",
+    "category": "image",
+    "keywords": ["reduce image size", "compress image", "jpg compression", "png compression"],
+    "date": "2025-04-24",
+    "readTime": "4 min read",
+    "featured": true,
+    "image": "/assets/img/blog/reduce-image.jpg"
+  },
+  {
+    "id": "pdf-tools-guide",
+    "title": "Complete Guide to Free Online PDF Tools",
+    "description": "Discover the best free PDF tools for merging, splitting, compressing, and converting documents online. Everything you need to know.",
+    "slug": "/blog/pdf-tools-guide.html",
+    "category": "general",
+    "keywords": ["pdf tools", "merge pdf", "split pdf", "pdf to word", "pdf guide"],
+    "date": "2025-04-23",
+    "readTime": "8 min read",
+    "featured": true,
+    "image": "/assets/img/blog/pdf-tools.jpg"
+  },
+  {
+    "id": "merge-pdf-guide",
+    "title": "How to Merge Multiple PDFs into One Document",
+    "description": "Step-by-step guide to combine multiple PDF files into a single document. Learn how to reorder pages before merging.",
+    "slug": "/blog/merge-pdf-guide.html",
+    "category": "pdf",
+    "keywords": ["merge pdf", "combine pdf", "join pdf files", "pdf merger"],
+    "date": "2025-04-22",
+    "readTime": "6 min read",
+    "featured": false,
+    "image": "/assets/img/blog/merge-pdf.jpg"
+  },
+  {
+    "id": "qr-code-guide",
+    "title": "Complete Guide to QR Codes: Create and Scan",
+    "description": "Learn everything about QR codes - how to create custom QR codes, scan them, and use them for business, marketing, and personal use.",
+    "slug": "/blog/qr-code-guide.html",
+    "category": "utility",
+    "keywords": ["qr code", "qr generator", "qr scanner", "create qr code"],
+    "date": "2025-04-21",
+    "readTime": "7 min read",
+    "featured": false,
+    "image": "/assets/img/blog/qr-guide.jpg"
+  },
+  {
+    "id": "image-to-pdf-guide",
+    "title": "How to Convert Images to PDF: Complete Tutorial",
+    "description": "Learn how to convert JPG, PNG, and other images to PDF format. Perfect for creating photo albums, portfolios, and document scanning.",
+    "slug": "/blog/image-to-pdf-guide.html",
+    "category": "image",
+    "keywords": ["image to pdf", "jpg to pdf", "convert images to pdf", "photo to pdf"],
+    "date": "2025-04-20",
+    "readTime": "5 min read",
+    "featured": false,
+    "image": "/assets/img/blog/image-to-pdf.jpg"
+  },
+  {
+    "id": "password-generator-guide",
+    "title": "How to Create Strong Passwords: Complete Security Guide",
+    "description": "Learn how to generate strong, secure passwords that protect your online accounts. Tips for password management and security best practices.",
+    "slug": "/blog/password-generator-guide.html",
+    "category": "security",
+    "keywords": ["strong password", "password generator", "password security", "create password"],
+    "date": "2025-04-19",
+    "readTime": "6 min read",
+    "featured": false,
+    "image": "/assets/img/blog/password-guide.jpg"
+  },
+  {
+    "id": "zip-compressor-guide",
+    "title": "How to Compress Files to ZIP: Complete Guide",
+    "description": "Learn how to compress multiple files into a single ZIP archive. Perfect for sharing multiple files, saving storage space, and organizing documents.",
+    "slug": "/blog/zip-compressor-guide.html",
+    "category": "utility",
+    "keywords": ["zip file", "compress files", "create zip", "file compression"],
+    "date": "2025-04-18",
+    "readTime": "4 min read",
+    "featured": false,
+    "image": "/assets/img/blog/zip-guide.jpg"
+  }
+]
