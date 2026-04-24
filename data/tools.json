@@ -3,45 +3,45 @@
     {
       "id": "merge-pdf",
       "name": "Merge PDF",
-      "description": "Combine multiple PDF files into one document in seconds",
+      "description": "Combine multiple PDF files into one document. Drag and drop to reorder pages.",
       "category": "pdf",
-      "slug": "/tools/merge-pdf",
+      "slug": "/tools/merge-pdf.html",
       "icon": "fa-object-group",
       "popularity": 5
     },
     {
       "id": "split-pdf",
       "name": "Split PDF",
-      "description": "Extract specific pages or split PDF into multiple files",
+      "description": "Split PDF into multiple files. Extract specific pages or split at intervals.",
       "category": "pdf",
-      "slug": "/tools/split-pdf",
+      "slug": "/tools/split-pdf.html",
       "icon": "fa-cut",
-      "popularity": 4
+      "popularity": 5
     },
     {
       "id": "compress-pdf",
       "name": "Compress PDF",
-      "description": "Reduce PDF file size while maintaining quality",
+      "description": "Reduce PDF file size while maintaining quality. Perfect for email attachments.",
       "category": "pdf",
-      "slug": "/tools/compress-pdf",
+      "slug": "/tools/compress-pdf.html",
       "icon": "fa-compress",
       "popularity": 5
     },
     {
       "id": "pdf-to-word",
       "name": "PDF to Word",
-      "description": "Convert PDF documents to editable Microsoft Word files",
+      "description": "Extract text from PDF and convert to editable Word document (RTF).",
       "category": "pdf",
-      "slug": "/tools/pdf-to-word",
+      "slug": "/tools/pdf-to-word.html",
       "icon": "fa-file-word",
-      "popularity": 5
+      "popularity": 4
     },
     {
       "id": "pdf-to-ppt",
       "name": "PDF to PowerPoint",
-      "description": "Transform PDF slides into editable presentations",
+      "description": "Transform PDF slides into editable PowerPoint presentations",
       "category": "pdf",
-      "slug": "/tools/pdf-to-ppt",
+      "slug": "/tools/pdf-to-ppt.html",
       "icon": "fa-chalkboard",
       "popularity": 3
     },
@@ -50,7 +50,7 @@
       "name": "Protect PDF",
       "description": "Add password protection to your PDF files",
       "category": "pdf",
-      "slug": "/tools/protect-pdf",
+      "slug": "/tools/protect-pdf.html",
       "icon": "fa-lock",
       "popularity": 4
     },
@@ -59,7 +59,7 @@
       "name": "Unlock PDF",
       "description": "Remove password protection from PDF files",
       "category": "pdf",
-      "slug": "/tools/unlock-pdf",
+      "slug": "/tools/unlock-pdf.html",
       "icon": "fa-unlock-alt",
       "popularity": 4
     },
@@ -68,7 +68,7 @@
       "name": "Compress Image",
       "description": "Reduce image file size without losing quality",
       "category": "image",
-      "slug": "/tools/compress-image",
+      "slug": "/tools/compress-image.html",
       "icon": "fa-image",
       "popularity": 5
     },
@@ -77,36 +77,18 @@
       "name": "Image Converter",
       "description": "Convert between JPG, PNG, WebP and other formats",
       "category": "image",
-      "slug": "/tools/image-converter",
+      "slug": "/tools/image-converter.html",
       "icon": "fa-exchange-alt",
       "popularity": 5
-    },
-    {
-      "id": "crop-image",
-      "name": "Crop Image",
-      "description": "Crop and resize images to fit your needs",
-      "category": "image",
-      "slug": "/tools/crop-image",
-      "icon": "fa-crop",
-      "popularity": 4
     },
     {
       "id": "qr-generator",
       "name": "QR Code Generator",
       "description": "Create QR codes for URLs, text, and contact info",
       "category": "utility",
-      "slug": "/tools/qr-generator",
+      "slug": "/tools/qr-generator.html",
       "icon": "fa-qrcode",
       "popularity": 4
-    },
-    {
-      "id": "watermark",
-      "name": "Watermark Tool",
-      "description": "Add text or image watermarks to PDFs and images",
-      "category": "pdf",
-      "slug": "/tools/watermark",
-      "icon": "fa-paintbrush",
-      "popularity": 3
     }
   ]
 }
