@@ -11,6 +11,7 @@ import { Breadcrumb } from '../components/ui/Breadcrumb';
 import { FAQ } from '../components/ui/FAQ';
 import ToolSEO from '../components/tool/ToolSEO';
 import { CLUSTERS_DATA } from '../data/clusters';
+import { findToolById } from '../toolRegistry';
 
 interface BlogPostMeta {
   id: string;
@@ -33,19 +34,19 @@ interface BlogPostMeta {
 
 // Global Internal Keyword-to-Link Dictionary
 const KEYWORDS_MAP: Record<string, string> = {
-  "merge pdf": "/tools/merge-pdf.html",
-  "split pdf": "/tools/split-pdf.html",
-  "compress pdf": "/tools/compress-pdf.html",
-  "protect pdf": "/tools/protect-pdf.html",
-  "unlock pdf": "/tools/unlock-pdf.html",
-  "compress image": "/tools/compress-image.html",
-  "resize image": "/tools/resize-image.html",
-  "crop image": "/tools/crop-image.html",
-  "image converter": "/tools/image-converter.html",
-  "base64 converter": "/tools/base64-converter.html",
-  "password generator": "/tools/password-generator.html",
-  "password strength checker": "/tools/password-strength.html",
-  "zip compressor": "/tools/zip-compressor.html",
+  "merge pdf": "/pdf-tools/merge-pdf",
+  "split pdf": "/pdf-tools/split-pdf",
+  "compress pdf": "/pdf-tools/compress-pdf",
+  "protect pdf": "/pdf-tools/protect-pdf",
+  "unlock pdf": "/pdf-tools/unlock-pdf",
+  "compress image": "/image-tools/compress-image",
+  "resize image": "/image-tools/resize-image",
+  "crop image": "/image-tools/crop-image",
+  "image converter": "/image-tools/image-converter",
+  "base64 converter": "/developer-tools/base64-converter",
+  "password generator": "/developer-tools/password-generator",
+  "password strength checker": "/developer-tools/password-strength",
+  "zip compressor": "/archive-tools/zip-compressor",
   "pdf tools": "/pdf-tools",
   "image tools": "/image-tools",
   "developer tools": "/developer-tools",
@@ -117,7 +118,8 @@ function HowToTemplate({ steps, example, relatedToolId, bestPractices, commonMis
   };
 
   const getToolUrl = (id: string) => {
-    return `/tools/${id}.html`;
+    const tool = findToolById(id);
+    return tool ? tool.slug : `/tools/${id}.html`;
   };
 
   return (

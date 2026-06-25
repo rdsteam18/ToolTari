@@ -16,10 +16,10 @@ export interface CategoryCluster {
 export const CLUSTERS_DATA: Record<string, CategoryCluster> = {
   "pdf-tools": {
     tools: [
-      { title: "Merge PDF Tool", url: "/tools/merge-pdf.html" },
-      { title: "Split PDF Tool", url: "/tools/split-pdf.html" },
-      { title: "Compress PDF Tool", url: "/tools/compress-pdf.html" },
-      { title: "Protect PDF Tool", url: "/tools/protect-pdf.html" }
+      { title: "Merge PDF Tool", url: "/pdf-tools/merge-pdf" },
+      { title: "Split PDF Tool", url: "/pdf-tools/split-pdf" },
+      { title: "Compress PDF Tool", url: "/pdf-tools/compress-pdf" },
+      { title: "Protect PDF Tool", url: "/pdf-tools/protect-pdf" }
     ],
     guides: [
       { title: "How to Compress PDF Online", url: "/blog/compress-pdf-online" },
@@ -48,10 +48,10 @@ export const CLUSTERS_DATA: Record<string, CategoryCluster> = {
   },
   "image-tools": {
     tools: [
-      { title: "Compress Image Tool", url: "/tools/compress-image.html" },
-      { title: "Resize Image Tool", url: "/tools/resize-image.html" },
-      { title: "Image Converter Tool", url: "/tools/image-converter.html" },
-      { title: "Crop Image Tool", url: "/tools/crop-image.html" }
+      { title: "Compress Image Tool", url: "/image-tools/compress-image" },
+      { title: "Resize Image Tool", url: "/image-tools/resize-image" },
+      { title: "Image Converter Tool", url: "/image-tools/image-converter" },
+      { title: "Crop Image Tool", url: "/image-tools/crop-image" }
     ],
     guides: [
       { title: "How to Reduce Image Size", url: "/blog/reduce-image-size" },
@@ -78,9 +78,9 @@ export const CLUSTERS_DATA: Record<string, CategoryCluster> = {
   },
   "developer-tools": {
     tools: [
-      { title: "Base64 Converter Tool", url: "/tools/base64-converter.html" },
-      { title: "Password Generator Tool", url: "/tools/password-generator.html" },
-      { title: "Password Strength Checker", url: "/tools/password-strength.html" }
+      { title: "Base64 Converter Tool", url: "/developer-tools/base64-converter" },
+      { title: "Password Generator Tool", url: "/developer-tools/password-generator" },
+      { title: "Password Strength Checker", url: "/developer-tools/password-strength" }
     ],
     guides: [
       { title: "How to Generate Cryptographically Secure Passwords", url: "/blog/password-generator-guide" },
