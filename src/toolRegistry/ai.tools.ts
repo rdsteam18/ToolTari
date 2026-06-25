@@ -56,7 +56,7 @@ export const aiTools: ToolRegistryEntry[] = [
     description: 'Extract text from scanned PDF documents locally using browser OCR engines.',
     icon: 'fa-file-invoice',
     popularity: 5,
-    status: 'coming-soon',
+    status: 'active',
     seo: {
       title: 'Free PDF OCR Online - ToolTari',
       description: 'Run OCR on scanned PDF documents to extract editable text. 100% private in-browser conversions.',
@@ -79,7 +79,7 @@ export const aiTools: ToolRegistryEntry[] = [
     description: 'Convert scanned images (JPG, PNG, WebP) to editable text files.',
     icon: 'fa-font',
     popularity: 5,
-    status: 'coming-soon',
+    status: 'active',
     seo: {
       title: 'Free Image to Text Converter Online - ToolTari',
       description: 'Convert PNG, JPG, or WebP images to editable text locally. Private client-side OCR tool.',

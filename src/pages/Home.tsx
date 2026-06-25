@@ -19,7 +19,10 @@ export default function Home() {
     { slug: "developer-tools", name: "Developer Tools", icon: "fa-code", description: "JSON formatters, base64 converters, password generators, and code compilers." },
     { slug: "text-tools", name: "Text Tools", icon: "fa-underline", description: "Count words, change casing, replace text, and cleanup raw copy." },
     { slug: "qr-tools", name: "QR Tools", icon: "fa-qrcode", description: "Generate custom QR codes and scan codes securely with webcams." },
-    { slug: "archive-tools", name: "Archive Tools", icon: "fa-file-archive", description: "Pack files into ZIP folders or extract ZIP archives locally." }
+    { slug: "archive-tools", name: "Archive Tools", icon: "fa-file-archive", description: "Pack files into ZIP folders or extract ZIP archives locally." },
+    { slug: "video-tools", name: "Video Tools", icon: "fa-video", description: "Compress, trim, mute, convert formats, or extract audio tracks from video streams." },
+    { slug: "audio-tools", name: "Audio Tools", icon: "fa-music", description: "Visual cutting, volume boosting, metadata editing, and format converter utilities." },
+    { slug: "ai-tools", name: "AI Tools", icon: "fa-robot", description: "Chat with PDF, AI copywriter, and browser-native OCR text extractions." }
   ];
 
   // Perform search filter

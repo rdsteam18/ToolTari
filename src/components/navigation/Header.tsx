@@ -39,7 +39,9 @@ export default function Header() {
     'text-tools': { name: 'Text Tools', icon: 'fa-underline' },
     'qr-tools': { name: 'QR Tools', icon: 'fa-qrcode' },
     'archive-tools': { name: 'Archive Tools', icon: 'fa-file-archive' },
-    'video-tools': { name: 'Video Tools', icon: 'fa-video' }
+    'video-tools': { name: 'Video Tools', icon: 'fa-video' },
+    'audio-tools': { name: 'Audio Tools', icon: 'fa-music' },
+    'ai-tools': { name: 'AI Tools', icon: 'fa-robot' }
   };
 
   const activeTools = getAllTools().filter(t => t.status === 'active');

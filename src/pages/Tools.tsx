@@ -23,7 +23,9 @@ export default function Tools() {
     { key: "text-tools", name: "Text Tools", icon: "fa-underline" },
     { key: "qr-tools", name: "QR Tools", icon: "fa-qrcode" },
     { key: "archive-tools", name: "Archive Tools", icon: "fa-file-archive" },
-    { key: "video-tools", name: "Video Tools", icon: "fa-video" }
+    { key: "video-tools", name: "Video Tools", icon: "fa-video" },
+    { key: "audio-tools", name: "Audio Tools", icon: "fa-music" },
+    { key: "ai-tools", name: "AI Tools", icon: "fa-robot" }
   ];
 
   return (
