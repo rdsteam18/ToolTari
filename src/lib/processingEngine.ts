@@ -8,6 +8,7 @@ export interface ProcessContext {
 export interface ProcessResult {
   blob?: Blob;
   outputName?: string;
+  blobs?: Array<{ blob: Blob; name: string }>;
   data?: any; // For tools returning string data (like password gen or converters)
   error?: string;
 }

@@ -2,14 +2,16 @@ import { useState } from 'react';
 import Button from '../ui/Button';
 import { Upload } from '../ui/Upload';
 import Progress from '../ui/Progress';
-import { pdfProcessor } from '../../features/pdf/services/pdfProcessor';
-import { imageProcessor } from '../../features/image/services/imageProcessor';
-import { developerProcessor } from '../../features/developer/services/developerProcessor';
+import { universalDocumentEngine } from '../../services/documentEngine/universalDocumentEngine';
 import { runToolProcessor } from '../../lib/processingEngine';
 import type { ToolProcessor } from '../../lib/processingEngine';
 import { findToolById } from '../../toolRegistry';
 import { Shield, Sparkles, Download, CheckCircle, RefreshCw, AlertCircle } from 'lucide-react';
 import confetti from 'canvas-confetti';
+import ImageComparisonSlider from './ImageComparisonSlider';
+import { videoEngine } from '../../services/videoEngine';
+import { audioEngine } from '../../services/audioEngine';
+import AudioWaveform from './AudioWaveform';
 
 interface ToolEngineProps {
   toolId: string;
@@ -22,7 +24,23 @@ export default function ToolEngine({ toolId }: ToolEngineProps) {
   const [message, setMessage] = useState('');
   const [resultBlob, setResultBlob] = useState<Blob | null>(null);
   const [resultUrl, setResultUrl] = useState<string | null>(null);
+  const [originalFileUrl, setOriginalFileUrl] = useState<string | null>(null);
+  const [videoProfile, setVideoProfile] = useState<any | null>(null);
+  const [audioProfile, setAudioProfile] = useState<any | null>(null);
+  const [estimate, setEstimate] = useState<any | null>(null);
+  const [audioEstimate, setAudioEstimate] = useState<any | null>(null);
+  const [trimStart, setTrimStart] = useState('0');
+  const [trimEnd, setTrimEnd] = useState('10');
+  const [compressLevel, setCompressLevel] = useState('medium');
   const [error, setError] = useState<string | null>(null);
+
+  // Audio specific options
+  const [volumeFactor, setVolumeFactor] = useState('1.5');
+  const [metaTitle, setMetaTitle] = useState('');
+  const [metaArtist, setMetaArtist] = useState('');
+  const [metaAlbum, setMetaAlbum] = useState('');
+  const [metaGenre, setMetaGenre] = useState('');
+  const [metaYear, setMetaYear] = useState('');
 
   // Tool settings inputs
   const [password, setPassword] = useState('');
@@ -43,10 +61,8 @@ export default function ToolEngine({ toolId }: ToolEngineProps) {
 
   const toolEntry = findToolById(toolId);
   
-  const getProcessorForTool = (category: string): ToolProcessor => {
-    if (category === 'pdf') return pdfProcessor;
-    if (category === 'image') return imageProcessor;
-    return developerProcessor;
+  const getProcessorForTool = (_category: string): ToolProcessor => {
+    return universalDocumentEngine;
   };
 
   const resetEngine = () => {
@@ -57,16 +73,76 @@ export default function ToolEngine({ toolId }: ToolEngineProps) {
     setResultBlob(null);
     if (resultUrl) URL.revokeObjectURL(resultUrl);
     setResultUrl(null);
+    if (originalFileUrl) URL.revokeObjectURL(originalFileUrl);
+    setOriginalFileUrl(null);
+    setVideoProfile(null);
+    setAudioProfile(null);
+    setEstimate(null);
+    setAudioEstimate(null);
     setError(null);
     setOutputFilename('');
+    setTrimStart('0');
+    setTrimEnd('10');
+    setVolumeFactor('1.5');
+    setMetaTitle('');
+    setMetaArtist('');
+    setMetaAlbum('');
+    setMetaGenre('');
+    setMetaYear('');
+  };
+
+  const runVideoAnalysis = async (file: File) => {
+    try {
+      const profile = await videoEngine.analyzer.analyze(file);
+      const est = videoEngine.estimator.estimate(profile, toolId);
+      setVideoProfile(profile);
+      setEstimate(est);
+    } catch (e) {
+      console.warn('Failed to analyze video:', e);
+    }
+  };
+
+  const handleAudioProfileLoaded = (profile: any) => {
+    setAudioProfile(profile);
+    const est = audioEngine.estimator.estimate(profile, toolId);
+    setAudioEstimate(est);
+
+    // Prepopulate metadata title if empty
+    if (!metaTitle && profile.name) {
+      const baseName = profile.name.replace(/\.[^/.]+$/, "");
+      setMetaTitle(baseName);
+    }
+    // Update trim markers to boundaries
+    setTrimStart('0');
+    setTrimEnd(profile.duration.toFixed(1));
   };
 
   const handleFilesSelected = (newFiles: File[]) => {
     setFiles(prev => {
       const all = [...prev, ...newFiles];
       // Keep only first file for single-file operations
-      const singleFileTools = ['split-pdf', 'compress-pdf', 'protect-pdf', 'unlock-pdf', 'rotate-pdf', 'watermark-pdf', 'add-page-numbers', 'delete-pages', 'extract-pages', 'compress-image', 'resize-image', 'crop-image', 'image-converter', 'rotate-image', 'image-filter', 'watermark-image', 'image-metadata', 'remove-bg', 'image-editor'];
-      return singleFileTools.includes(toolId) ? [all[0]] : all;
+      const singleFileTools = [
+        'split-pdf', 'compress-pdf', 'protect-pdf', 'unlock-pdf', 'rotate-pdf', 'watermark-pdf', 
+        'add-page-numbers', 'delete-pages', 'extract-pages', 'compress-image', 'resize-image', 
+        'crop-image', 'image-converter', 'rotate-image', 'image-filter', 'watermark-image', 
+        'image-metadata', 'remove-bg', 'image-editor', 'compress-video', 'trim-video', 
+        'mute-video', 'extract-audio', 'video-to-gif',
+        'compress-audio', 'trim-audio', 'volume-audio', 'convert-audio', 'metadata-audio'
+      ];
+      const targetFiles = singleFileTools.includes(toolId) ? [all[0]] : all;
+      
+      // Update original file URL for comparison slider
+      if (targetFiles.length > 0 && targetFiles[0].type.startsWith('image/')) {
+        if (originalFileUrl) URL.revokeObjectURL(originalFileUrl);
+        setOriginalFileUrl(URL.createObjectURL(targetFiles[0]));
+      }
+
+      // Check if it is a video file
+      if (targetFiles.length > 0 && targetFiles[0].type.startsWith('video/')) {
+        runVideoAnalysis(targetFiles[0]);
+      }
+      
+      return targetFiles;
     });
   };
 
@@ -100,7 +176,16 @@ export default function ToolEngine({ toolId }: ToolEngineProps) {
           resizeHeight,
           splitRanges,
           rotateAngle,
-          outputFilename
+          outputFilename,
+          trimStart,
+          trimEnd,
+          compressLevel,
+          volumeFactor,
+          metaTitle,
+          metaArtist,
+          metaAlbum,
+          metaGenre,
+          metaYear
         },
         onProgress: (p: number, msg: string) => {
           setPercent(p);
@@ -246,7 +331,7 @@ export default function ToolEngine({ toolId }: ToolEngineProps) {
       {/* RENDER LOGIC BY TOOL CATEGORY */}
       {resultBlob ? (
         /* Success result screen */
-        <div className="bg-bg-surface border border-border-base rounded-md p-6 md:p-8 flex flex-col items-center justify-center text-center gap-4 animate-fade-in shadow-small">
+        <div className="bg-bg-surface border border-border-base rounded-md p-6 md:p-8 flex flex-col items-center justify-center text-center gap-4 animate-fade-in shadow-small w-full">
           <div className="p-4 bg-success/15 text-success rounded-full">
             <CheckCircle className="h-10 w-10" />
           </div>
@@ -254,6 +339,18 @@ export default function ToolEngine({ toolId }: ToolEngineProps) {
           <p className="text-xs text-text-secondary leading-relaxed">
             Your file was formatted locally in browser RAM. You can save it to your desktop below.
           </p>
+
+          {originalFileUrl && resultUrl && files[0] && files[0].type.startsWith('image/') && !outputFilename.endsWith('.pdf') && (
+            <div className="w-full max-w-lg my-2">
+              <ImageComparisonSlider
+                originalUrl={originalFileUrl}
+                processedUrl={resultUrl}
+                originalName="Before"
+                processedName="After"
+              />
+            </div>
+          )}
+
           <a
             href={resultUrl || '#'}
             download={outputFilename || `tooltari_${toolId}_result`}
@@ -280,8 +377,22 @@ export default function ToolEngine({ toolId }: ToolEngineProps) {
                 selectedFiles={files}
                 onRemoveFile={handleRemoveFile}
                 multiple={['merge-pdf', 'zip-compressor'].includes(toolId)}
-                accept={toolId.includes('pdf') ? '.pdf' : 'image/*'}
+                accept={toolId.includes('pdf') ? '.pdf' : (toolId.includes('video') || ['extract-audio', 'video-to-gif'].includes(toolId)) ? 'video/*' : toolId.includes('audio') ? 'audio/*' : 'image/*'}
               />
+
+              {/* Audio Waveform Editor & Preview */}
+              {files.length > 0 && toolEntry?.category === 'audio' && (
+                <AudioWaveform
+                  file={files[0]}
+                  trimStart={parseFloat(trimStart) || 0}
+                  trimEnd={parseFloat(trimEnd) || 10}
+                  onChangeTrim={(start, end) => {
+                    setTrimStart(start.toFixed(1));
+                    setTrimEnd(end.toFixed(1));
+                  }}
+                  onProfileLoaded={handleAudioProfileLoaded}
+                />
+              )}
 
               {/* PDF Protect option */}
               {toolId === 'protect-pdf' && (
@@ -397,6 +508,235 @@ export default function ToolEngine({ toolId }: ToolEngineProps) {
                    </div>
                  </div>
                )}
+
+                {/* Video Compress options */}
+                {toolId === 'compress-video' && (
+                  <div className="flex flex-col gap-2 bg-bg-surface border border-border-base p-4 rounded-md shadow-small">
+                    <label className="text-xs font-bold text-text-secondary uppercase tracking-wider">Compression Preset</label>
+                    <select
+                      value={compressLevel}
+                      onChange={(e) => setCompressLevel(e.target.value)}
+                      className="px-3 py-2 bg-bg-base border border-border-base focus:border-primary focus:bg-bg-surface text-text-primary rounded-md text-sm outline-none focus-visible:ring-2 focus-visible:ring-primary/20 transition-smooth"
+                    >
+                      <option value="low">Low (Fastest, Larger size)</option>
+                      <option value="medium">Medium (Standard optimization)</option>
+                      <option value="high">High (Reduce to 720p)</option>
+                      <option value="max">Maximum (Reduce to 480p, Smallest size)</option>
+                    </select>
+                  </div>
+                )}
+
+                {/* Video Trim options */}
+                {toolId === 'trim-video' && (
+                  <div className="flex gap-4 bg-bg-surface border border-border-base p-4 rounded-md shadow-small">
+                    <div className="flex-1 flex flex-col gap-1.5">
+                      <label className="text-xs font-bold text-text-secondary uppercase tracking-wider">Start Time (sec)</label>
+                      <input
+                        type="number"
+                        step="0.5"
+                        min="0"
+                        value={trimStart}
+                        onChange={(e) => setTrimStart(e.target.value)}
+                        className="px-3 py-2 bg-bg-base border border-border-base focus:border-primary focus:bg-bg-surface text-text-primary rounded-md text-sm outline-none focus-visible:ring-2 focus-visible:ring-primary/20 transition-smooth w-full"
+                      />
+                    </div>
+                    <div className="flex-1 flex flex-col gap-1.5">
+                      <label className="text-xs font-bold text-text-secondary uppercase tracking-wider">End Time (sec)</label>
+                      <input
+                        type="number"
+                        step="0.5"
+                        min="0.1"
+                        value={trimEnd}
+                        onChange={(e) => setTrimEnd(e.target.value)}
+                        className="px-3 py-2 bg-bg-base border border-border-base focus:border-primary focus:bg-bg-surface text-text-primary rounded-md text-sm outline-none focus-visible:ring-2 focus-visible:ring-primary/20 transition-smooth w-full"
+                      />
+                    </div>
+                  </div>
+                )}
+
+                {/* Video Estimator Panel */}
+                {videoProfile && estimate && (
+                  <div className="flex flex-col gap-3 bg-bg-surface border border-border-base p-4 rounded-md shadow-small animate-fade-in text-xs">
+                    <h4 className="font-bold text-text-primary uppercase tracking-wider text-[10px] text-primary">Resource Estimation Report</h4>
+                    <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-text-secondary">
+                      <div><span className="font-semibold text-text-muted">Duration:</span> {Math.round(videoProfile.duration)}s</div>
+                      <div><span className="font-semibold text-text-muted">Resolution:</span> {videoProfile.resolution}</div>
+                      <div><span className="font-semibold text-text-muted">Bitrate:</span> {videoProfile.bitrate}</div>
+                      <div><span className="font-semibold text-text-muted">Codec:</span> {videoProfile.codec}</div>
+                      <div><span className="font-semibold text-text-muted">Est. RAM Required:</span> {estimate.ramReadable}</div>
+                      <div><span className="font-semibold text-text-muted">Est. Render Time:</span> {estimate.timeReadable}</div>
+                    </div>
+                    
+                    <div className="flex items-center gap-1.5 mt-2 border-t border-border-base/50 pt-2">
+                      <span className="font-bold text-text-muted">Browser Support:</span>
+                      <span className={`px-2 py-0.5 rounded font-extrabold text-[10px] uppercase ${
+                        estimate.compatibilityColor === 'success' ? 'bg-success/15 text-success' :
+                        estimate.compatibilityColor === 'warning' ? 'bg-warning/15 text-warning' :
+                        'bg-danger/15 text-danger'
+                      }`}>
+                        {estimate.compatibility}
+                      </span>
+                    </div>
+
+                    {estimate.recommendCloud && (
+                      <div className="p-2.5 bg-danger/5 border border-danger/20 text-danger text-[11px] rounded mt-1 leading-relaxed">
+                        <strong>⚠️ Recommendation:</strong> This video is large or complex. Client-side processing may lag or crash some mobile browsers. Recommend cloud-queue worker (Phase 2).
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {/* Audio Compress options */}
+                {toolId === 'compress-audio' && (
+                  <div className="flex flex-col gap-2 bg-bg-surface border border-border-base p-4 rounded-md shadow-small animate-fade-in">
+                    <label className="text-xs font-bold text-text-secondary uppercase tracking-wider">Compression Preset</label>
+                    <select
+                      value={compressLevel}
+                      onChange={(e) => setCompressLevel(e.target.value)}
+                      className="px-3 py-2 bg-bg-base border border-border-base focus:border-primary focus:bg-bg-surface text-text-primary rounded-md text-sm outline-none focus-visible:ring-2 focus-visible:ring-primary/20 transition-smooth"
+                    >
+                      <option value="low">Low (192kbps - Best Quality)</option>
+                      <option value="medium">Medium (128kbps - Recommended)</option>
+                      <option value="high">High (96kbps - Compact Size)</option>
+                      <option value="max">Maximum (64kbps - Smallest Size)</option>
+                    </select>
+                  </div>
+                )}
+
+                {/* Audio Convert options */}
+                {toolId === 'convert-audio' && (
+                  <div className="flex flex-col gap-2 bg-bg-surface border border-border-base p-4 rounded-md shadow-small animate-fade-in">
+                    <label className="text-xs font-bold text-text-secondary uppercase tracking-wider">Convert To Format</label>
+                    <select
+                      value={convertFormat}
+                      onChange={(e) => setConvertFormat(e.target.value)}
+                      className="px-3 py-2 bg-bg-base border border-border-base focus:border-primary focus:bg-bg-surface text-text-primary rounded-md text-sm outline-none focus-visible:ring-2 focus-visible:ring-primary/20 transition-smooth"
+                    >
+                      <option value="mp3">MP3 (MPEG Audio Layer 3)</option>
+                      <option value="wav">WAV (Lossless Waveform Audio)</option>
+                      <option value="aac">AAC (Advanced Audio Coding)</option>
+                      <option value="flac">FLAC (Free Lossless Audio Codec)</option>
+                      <option value="ogg">OGG (Ogg Vorbis Audio)</option>
+                      <option value="opus">OPUS (Highly Compressed Voice Codec)</option>
+                    </select>
+                  </div>
+                )}
+
+                {/* Audio Volume options */}
+                {toolId === 'volume-audio' && (
+                  <div className="flex flex-col gap-3 bg-bg-surface border border-border-base p-4 rounded-md shadow-small animate-fade-in">
+                    <div className="flex justify-between items-center text-xs font-bold text-text-secondary uppercase tracking-wider">
+                      <span>Volume Boost Factor</span>
+                      <span className="text-primary font-extrabold">{Math.round(parseFloat(volumeFactor) * 100)}%</span>
+                    </div>
+                    <input
+                      type="range"
+                      min="0.5"
+                      max="3.0"
+                      step="0.1"
+                      value={volumeFactor}
+                      onChange={(e) => setVolumeFactor(e.target.value)}
+                      className="w-full accent-primary"
+                    />
+                    <div className="flex justify-between text-[10px] text-text-muted font-semibold">
+                      <span>0.5x (Quieter)</span>
+                      <span>1.0x (Normal)</span>
+                      <span>2.0x (Double Volume)</span>
+                      <span>3.0x (Max Boost)</span>
+                    </div>
+                  </div>
+                )}
+
+                {/* Audio Metadata tag editor options */}
+                {toolId === 'metadata-audio' && (
+                  <div className="flex flex-col gap-3 bg-bg-surface border border-border-base p-4 rounded-md shadow-small animate-fade-in">
+                    <h4 className="font-bold text-text-primary uppercase tracking-wider text-[10px] text-primary">Audio Metadata Tags</h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                      <div className="flex flex-col gap-1">
+                        <label className="font-bold text-text-secondary uppercase text-[10px] tracking-wide">Title</label>
+                        <input
+                          type="text"
+                          placeholder="e.g. Song Title"
+                          value={metaTitle}
+                          onChange={(e) => setMetaTitle(e.target.value)}
+                          className="px-3 py-2 bg-bg-base border border-border-base focus:border-primary focus:bg-bg-surface text-text-primary rounded-md text-sm outline-none focus-visible:ring-2 focus-visible:ring-primary/20 transition-smooth"
+                        />
+                      </div>
+                      <div className="flex flex-col gap-1">
+                        <label className="font-bold text-text-secondary uppercase text-[10px] tracking-wide">Artist</label>
+                        <input
+                          type="text"
+                          placeholder="e.g. Composer/Singer"
+                          value={metaArtist}
+                          onChange={(e) => setMetaArtist(e.target.value)}
+                          className="px-3 py-2 bg-bg-base border border-border-base focus:border-primary focus:bg-bg-surface text-text-primary rounded-md text-sm outline-none focus-visible:ring-2 focus-visible:ring-primary/20 transition-smooth"
+                        />
+                      </div>
+                      <div className="flex flex-col gap-1">
+                        <label className="font-bold text-text-secondary uppercase text-[10px] tracking-wide">Album</label>
+                        <input
+                          type="text"
+                          placeholder="e.g. Album Name"
+                          value={metaAlbum}
+                          onChange={(e) => setMetaAlbum(e.target.value)}
+                          className="px-3 py-2 bg-bg-base border border-border-base focus:border-primary focus:bg-bg-surface text-text-primary rounded-md text-sm outline-none focus-visible:ring-2 focus-visible:ring-primary/20 transition-smooth"
+                        />
+                      </div>
+                      <div className="flex flex-col gap-1">
+                        <label className="font-bold text-text-secondary uppercase text-[10px] tracking-wide">Genre</label>
+                        <input
+                          type="text"
+                          placeholder="e.g. Pop, Rock, Podcast"
+                          value={metaGenre}
+                          onChange={(e) => setMetaGenre(e.target.value)}
+                          className="px-3 py-2 bg-bg-base border border-border-base focus:border-primary focus:bg-bg-surface text-text-primary rounded-md text-sm outline-none focus-visible:ring-2 focus-visible:ring-primary/20 transition-smooth"
+                        />
+                      </div>
+                      <div className="flex flex-col gap-1">
+                        <label className="font-bold text-text-secondary uppercase text-[10px] tracking-wide">Year</label>
+                        <input
+                          type="text"
+                          placeholder="e.g. 2026"
+                          value={metaYear}
+                          onChange={(e) => setMetaYear(e.target.value)}
+                          className="px-3 py-2 bg-bg-base border border-border-base focus:border-primary focus:bg-bg-surface text-text-primary rounded-md text-sm outline-none focus-visible:ring-2 focus-visible:ring-primary/20 transition-smooth"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Audio Estimator Panel */}
+                {audioProfile && audioEstimate && (
+                  <div className="flex flex-col gap-3 bg-bg-surface border border-border-base p-4 rounded-md shadow-small animate-fade-in text-xs">
+                    <h4 className="font-bold text-text-primary uppercase tracking-wider text-[10px] text-primary">Audio Resource Estimate</h4>
+                    <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-text-secondary">
+                      <div><span className="font-semibold text-text-muted">Duration:</span> {Math.round(audioProfile.duration)}s</div>
+                      <div><span className="font-semibold text-text-muted">Sample Rate:</span> {audioProfile.sampleRate} Hz</div>
+                      <div><span className="font-semibold text-text-muted">Bitrate:</span> {audioProfile.bitrate}</div>
+                      <div><span className="font-semibold text-text-muted">Channels:</span> {audioProfile.channels}</div>
+                      <div><span className="font-semibold text-text-muted">Est. RAM Required:</span> {audioEstimate.ramReadable}</div>
+                      <div><span className="font-semibold text-text-muted">Est. Render Time:</span> {audioEstimate.timeReadable}</div>
+                    </div>
+                    
+                    <div className="flex items-center gap-1.5 mt-2 border-t border-border-base/50 pt-2">
+                      <span className="font-bold text-text-muted">Browser Support:</span>
+                      <span className={`px-2 py-0.5 rounded font-extrabold text-[10px] uppercase ${
+                        audioEstimate.compatibilityColor === 'success' ? 'bg-success/15 text-success' :
+                        audioEstimate.compatibilityColor === 'warning' ? 'bg-warning/15 text-warning' :
+                        'bg-danger/15 text-danger'
+                      }`}>
+                        {audioEstimate.compatibility}
+                      </span>
+                    </div>
+
+                    {audioEstimate.recommendCloud && (
+                      <div className="p-2.5 bg-danger/5 border border-danger/20 text-danger text-[11px] rounded mt-1 leading-relaxed">
+                        <strong>⚠️ Recommendation:</strong> This audio file is large. Client-side decoding may consume significant memory. Recommend cloud-queue worker (Phase 2).
+                      </div>
+                    )}
+                  </div>
+                )}
 
                {/* Run Action triggers */}
               {files.length > 0 && (

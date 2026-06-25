@@ -345,5 +345,120 @@ export const developerTools: ToolRegistryEntry[] = [
       browserRequirements: 'Requires Internet access'
     },
     relatedTools: ['youtube-thumbnail', 'image-converter', 'resize-image']
+  },
+  {
+    id: 'compress-video',
+    name: 'Compress Video',
+    category: 'media',
+    categorySlug: 'video-tools',
+    slug: '/video-tools/compress-video',
+    description: 'Reduce video file size by adjusting bitrate and resolution locally in the browser.',
+    icon: 'fa-file-video',
+    popularity: 4,
+    status: 'active',
+    seo: {
+      title: 'Compress Video Online Free - ToolTari',
+      description: 'Reduce video file size locally in your browser memory. Balanced quality presets ensure small file sizes.',
+      keywords: ['compress video', 'reduce video size', 'shrink video size', 'mp4 compressor']
+    },
+    schema: {
+      type: 'WebApplication',
+      applicationCategory: 'MediaApplication',
+      operatingSystem: 'Windows, macOS, Linux, iOS, Android',
+      browserRequirements: 'Requires JavaScript enabled browser'
+    },
+    relatedTools: ['trim-video', 'mute-video', 'video-to-gif']
+  },
+  {
+    id: 'trim-video',
+    name: 'Trim Video',
+    category: 'media',
+    categorySlug: 'video-tools',
+    slug: '/video-tools/trim-video',
+    description: 'Cut and trim video segments client-side by setting start and end duration markers.',
+    icon: 'fa-cut',
+    popularity: 4,
+    status: 'active',
+    seo: {
+      title: 'Trim Video Online Free - ToolTari',
+      description: 'Cut video lengths online. Set custom start and end times to trim and crop video segments securely.',
+      keywords: ['trim video', 'cut video online', 'video trimmer', 'crop video duration']
+    },
+    schema: {
+      type: 'WebApplication',
+      applicationCategory: 'MediaApplication',
+      operatingSystem: 'Windows, macOS, Linux, iOS, Android',
+      browserRequirements: 'Requires JavaScript enabled browser'
+    },
+    relatedTools: ['compress-video', 'mute-video', 'video-to-gif']
+  },
+  {
+    id: 'mute-video',
+    name: 'Mute Video',
+    category: 'media',
+    categorySlug: 'video-tools',
+    slug: '/video-tools/mute-video',
+    description: 'Remove audio tracks from video files locally and export silent video outputs.',
+    icon: 'fa-volume-mute',
+    popularity: 3,
+    status: 'active',
+    seo: {
+      title: 'Mute Video Online Free - ToolTari',
+      description: 'Mute video audio tracks securely in browser RAM. Strip soundtrack overlays from mp4/webm videos.',
+      keywords: ['mute video', 'remove audio from video', 'silent video converter', 'strip sound from mp4']
+    },
+    schema: {
+      type: 'WebApplication',
+      applicationCategory: 'MediaApplication',
+      operatingSystem: 'Windows, macOS, Linux, iOS, Android',
+      browserRequirements: 'Requires JavaScript enabled browser'
+    },
+    relatedTools: ['extract-audio', 'compress-video', 'trim-video']
+  },
+  {
+    id: 'extract-audio',
+    name: 'Extract Audio',
+    category: 'media',
+    categorySlug: 'video-tools',
+    slug: '/video-tools/extract-audio',
+    description: 'Extract and save audio tracks from video files as MP3 files client-side.',
+    icon: 'fa-file-audio',
+    popularity: 3,
+    status: 'active',
+    seo: {
+      title: 'Extract Audio from Video Online Free - ToolTari',
+      description: 'Extract and convert video sound tracks into standalone MP3 audio files locally in browser.',
+      keywords: ['extract audio', 'video to mp3', 'soundtrack extractor', 'rip audio from mp4']
+    },
+    schema: {
+      type: 'WebApplication',
+      applicationCategory: 'MediaApplication',
+      operatingSystem: 'Windows, macOS, Linux, iOS, Android',
+      browserRequirements: 'Requires JavaScript enabled browser'
+    },
+    relatedTools: ['mute-video', 'compress-video', 'trim-video']
+  },
+  {
+    id: 'video-to-gif',
+    name: 'Video to GIF',
+    category: 'media',
+    categorySlug: 'video-tools',
+    slug: '/video-tools/video-to-gif',
+    description: 'Convert video files to lightweight animated GIF images locally.',
+    icon: 'fa-images',
+    popularity: 4,
+    status: 'active',
+    seo: {
+      title: 'Convert Video to GIF Online Free - ToolTari',
+      description: 'Turn MP4 or WebM videos into animated GIF graphics. Select custom start intervals.',
+      keywords: ['video to gif', 'mp4 to gif', 'make gif from video', 'free online gif maker']
+    },
+    schema: {
+      type: 'WebApplication',
+      applicationCategory: 'MediaApplication',
+      operatingSystem: 'Windows, macOS, Linux, iOS, Android',
+      browserRequirements: 'Requires JavaScript enabled browser'
+    },
+    relatedTools: ['compress-video', 'trim-video', 'image-converter']
   }
 ];

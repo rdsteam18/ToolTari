@@ -3,13 +3,15 @@ import { pdfTools } from './pdf.tools';
 import { imageTools } from './image.tools';
 import { developerTools } from './developer.tools';
 import { aiTools } from './ai.tools';
+import { audioTools } from './audio.tools';
 
 // Combine all tools into a single registry
 export const allTools: ToolRegistryEntry[] = [
   ...pdfTools,
   ...imageTools,
   ...developerTools,
-  ...aiTools
+  ...aiTools,
+  ...audioTools
 ];
 
 /**

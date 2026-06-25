@@ -37,6 +37,10 @@ class AIProviderService {
     this.providers[name] = provider;
   }
 
+  getProvider(name: string): AIServiceProvider | undefined {
+    return this.providers[name];
+  }
+
   setProvider(name: string) {
     if (this.providers[name]) {
       this.activeProvider = name;
