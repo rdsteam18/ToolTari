@@ -1,0 +1,215 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  /* Color mappings */
+  --color-primary: var(--brand-primary);
+  --color-primary-hover: var(--brand-primary-hover);
+  --color-secondary: var(--brand-secondary);
+  --color-accent: var(--brand-accent);
+  --color-success: var(--brand-success);
+  --color-warning: var(--brand-warning);
+  --color-danger: var(--brand-danger);
+  --color-info: var(--brand-info);
+  --color-bg-base: var(--brand-bg);
+  --color-bg-surface: var(--brand-surface);
+  --color-border-base: var(--brand-border);
+  --color-text-primary: var(--brand-text-primary);
+  --color-text-secondary: var(--brand-text-secondary);
+  --color-text-muted: var(--brand-text-muted);
+
+  /* Spacing Scale (4px base) */
+  --spacing-1: 4px;
+  --spacing-2: 8px;
+  --spacing-3: 12px;
+  --spacing-4: 16px;
+  --spacing-5: 20px;
+  --spacing-6: 24px;
+  --spacing-8: 32px;
+  --spacing-10: 40px;
+  --spacing-12: 48px;
+  --spacing-16: 64px;
+  --spacing-20: 80px;
+  --spacing-24: 96px;
+  --spacing-32: 128px;
+
+  /* Border Radii */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+
+  /* Font Size Scale */
+  --font-size-xs: 12px;
+  --font-size-sm: 14px;
+  --font-size-base: 16px;
+  --font-size-lg: 18px;
+  --font-size-xl: 20px;
+  --font-size-2xl: 24px;
+  --font-size-3xl: 30px;
+  --font-size-4xl: 36px;
+  --font-size-5xl: 48px;
+
+  /* Shadow system */
+  --shadow-small: 0 2px 4px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.08);
+  --shadow-medium: 0 6px 10px rgba(0, 0, 0, 0.05), 0 2px 4px rgba(0, 0, 0, 0.04);
+  --shadow-large: 0 12px 20px rgba(0, 0, 0, 0.05), 0 4px 8px rgba(0, 0, 0, 0.04);
+
+  /* Animations */
+  --animate-fade-in: fadeIn var(--motion-fast) var(--ease-standard) forwards;
+  --animate-slide-up: slideUp var(--motion-normal) var(--ease-decelerate) forwards;
+  --animate-accordion-down: accordionDown var(--motion-normal) var(--ease-standard) forwards;
+  --animate-accordion-up: accordionUp var(--motion-normal) var(--ease-standard) forwards;
+}
+
+:root {
+  /* Color Variables - Light Mode */
+  --brand-primary: #4f46e5;       /* indigo-600 */
+  --brand-primary-hover: #4338ca; /* indigo-700 */
+  --brand-secondary: #0f172a;     /* slate-900 */
+  --brand-accent: #6366f1;        /* indigo-500 */
+  --brand-success: #10b981;       /* emerald-500 */
+  --brand-warning: #f59e0b;       /* amber-500 */
+  --brand-danger: #ef4444;        /* red-500 */
+  --brand-info: #3b82f6;          /* blue-500 */
+
+  --brand-bg: #f8fafc;            /* Soft technical white */
+  --brand-surface: #ffffff;
+  --brand-border: #e2e8f0;        /* slate-200 */
+  
+  --brand-text-primary: #0f172a;  /* slate-900 */
+  --brand-text-secondary: #475569;/* slate-600 */
+  --brand-text-muted: #94a3b8;    /* slate-400 */
+
+  /* Motion Variables */
+  --motion-fast: 150ms;
+  --motion-normal: 200ms;
+  --motion-slow: 250ms;
+
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ease-emphasized: cubic-bezier(0.3, 0, 0, 1);
+  --ease-decelerate: cubic-bezier(0, 0, 0.2, 1);
+
+  /* Legacy primary compatibility */
+  --primary: 99 102 241;
+  --success: 16 185 129;
+  --warning: 245 158 11;
+  --danger: 239 68 68;
+}
+
+/* Dark Mode Palette class */
+.dark, :root[class~="dark"] {
+  --brand-primary: #6366f1;       /* indigo-500 */
+  --brand-primary-hover: #4f46e5; /* indigo-600 */
+  --brand-secondary: #f8fafc;     /* slate-50 */
+  --brand-accent: #818cf8;        /* indigo-400 */
+  --brand-success: #34d399;       /* emerald-400 */
+  --brand-warning: #fbbf24;       /* amber-400 */
+  --brand-danger: #f87171;        /* red-400 */
+  --brand-info: #60a5fa;          /* blue-400 */
+
+  --brand-bg: #090d16;            /* Deep dark blue-slate-black */
+  --brand-surface: #0f172a;       /* slate-900 */
+  --brand-border: #1e293b;        /* slate-800 */
+  
+  --brand-text-primary: #f8fafc;  /* slate-50 */
+  --brand-text-secondary: #94a3b8;/* slate-400 */
+  --brand-text-muted: #475569;    /* slate-600 */
+}
+
+/* Keyframes */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes slideUp {
+  from { transform: translateY(8px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+@keyframes accordionDown {
+  from { height: 0; opacity: 0; }
+  to { height: var(--radix-accordion-content-height); opacity: 1; }
+}
+@keyframes accordionUp {
+  from { height: var(--radix-accordion-content-height); opacity: 1; }
+  to { height: 0; opacity: 0; }
+}
+
+::selection {
+  background-color: rgba(99, 102, 241, 0.25);
+  color: inherit;
+}
+
+/* Focus outline styling for keyboard users (WCAG AA accessibility) */
+*:focus-visible {
+  outline: 2px solid var(--brand-primary);
+  outline-offset: 2px;
+}
+
+/* Custom premium transitions & animations */
+.transition-smooth {
+  transition: all var(--motion-fast) var(--ease-standard);
+}
+
+/* Accordion open/close classes */
+.accordion-content {
+  transition: all var(--motion-normal) var(--ease-standard);
+  overflow: hidden;
+}
+
+/* Vercel-like hover card highlights */
+.hover-card-highlight {
+  position: relative;
+  overflow: hidden;
+  transition: all var(--motion-fast) var(--ease-standard);
+  border: 1px solid var(--brand-border);
+  background-color: var(--brand-surface);
+}
+
+.hover-card-highlight:hover {
+  border-color: var(--brand-primary);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-medium);
+}
+
+/* Drag and drop zone animations */
+.upload-drag-active {
+  border-color: var(--brand-primary);
+  background-color: rgba(99, 102, 241, 0.05);
+  transform: scale(0.99);
+  border-style: dashed;
+}
+
+/* Pulse / skeleton loaders */
+.skeleton {
+  background: linear-gradient(90deg, var(--brand-border) 25%, var(--brand-bg) 50%, var(--brand-border) 75%);
+  background-size: 200% 100%;
+  animation: loading-pulse 1.5s infinite;
+}
+
+@keyframes loading-pulse {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Z-Index Scale — Tailwind CSS v4 requires @utility for custom z-index classes */
+@utility z-dropdown {
+  z-index: 100;
+}
+@utility z-header {
+  z-index: 200;
+}
+@utility z-drawer {
+  z-index: 300;
+}
+@utility z-modal {
+  z-index: 400;
+}
+@utility z-toast {
+  z-index: 500;
+}
+@utility z-overlay {
+  z-index: 600;
+}

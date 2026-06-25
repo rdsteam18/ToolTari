@@ -1,0 +1,361 @@
+{
+  "compress-pdf-online": {
+    "type": "how-to",
+    "definition": "PDF Compression reduces the byte count of a Portable Document Format file by optimizing in-memory image streams, flattening form dictionaries, and stripping redundant structural metadata. This guide outlines how to execute local browser-native PDF compression.",
+    "mainContent": "<p>Large PDF files can be difficult to share via email or upload to web portals (like government or educational portals which typically enforce size limits under 2MB). Since ToolTari executes all processing client-side in browser RAM, compression is secure, fast, and private.</p>",
+    "steps": [
+      {
+        "step": 1,
+        "title": "Select the Compress PDF Tool",
+        "desc": "Go to the ToolTari Category list page and choose 'Compress PDF' from the PDF category cluster."
+      },
+      {
+        "step": 2,
+        "title": "Drag & Drop Your Document",
+        "desc": "Select the PDF file (up to 50MB) and drop it into the sandboxed upload zone. The file is read locally as an ArrayBuffer."
+      },
+      {
+        "step": 3,
+        "title": "Choose Compression Parameters",
+        "desc": "Move the slider to configure the image quality target. 80% is recommended for balancing legibility and size."
+      },
+      {
+        "step": 4,
+        "title": "Save the Output Document",
+        "desc": "Click 'Run Processing Engine'. The library rewrites xref objects and compresses binary streams. Click 'Download' to save the output locally."
+      }
+    ],
+    "example": "If you have a 12.5MB scan of a contract containing color charts, running the ToolTari compressor at 80% quality can compress the document size to 1.8MB instantly, making it eligible for standard email attachments.",
+    "relatedToolId": "compress-pdf",
+    "bestPractices": [
+      "Use 80% quality for standard scans containing text and graphics.",
+      "If the PDF contains only text, remove background colors to maximize size reduction.",
+      "Flatten form fields before compressing to clean up object structures."
+    ],
+    "commonMistakes": [
+      "Compressing an already optimized PDF (this will not yield additional size savings and may degrade images).",
+      "Setting quality under 30% for text-based agreements, which may make small characters illegible."
+    ],
+    "summary": "Local PDF compression is a highly secure alternative to cloud uploaders, optimizing byte structures directly inside the browser sandbox.",
+    "faqs": [
+      {
+        "q": "Will PDF compression alter my text content?",
+        "a": "No. The characters, fonts, and vector paths are preserved. Only embedded raster images (like JPGs inside the PDF) and metadata streams are optimized."
+      },
+      {
+        "q": "What libraries drive the ToolTari PDF Compressor?",
+        "a": "We use pdf-lib to analyze and modify the PDF document catalog entries programmatically at the byte level."
+      }
+    ]
+  },
+  "reduce-image-size": {
+    "type": "how-to",
+    "definition": "Image Compression optimizes graphic dimensions and color depth to reduce byte sizes of JPG, PNG, or WebP files without affecting visual fidelity.",
+    "mainContent": "<p>High-resolution photos from phones or cameras can easily exceed 5MB, which is too heavy for responsive website page loads or form submittals. ToolTari uses HTML5 offscreen canvases and mathematical quantization matrices to compress images locally in your browser.</p>",
+    "steps": [
+      {
+        "step": 1,
+        "title": "Open the Compress Image Tool",
+        "desc": "Select the 'Compress Image' tool from the Image Tools section on the ToolTari home directory."
+      },
+      {
+        "step": 2,
+        "title": "Load the Graphic File",
+        "desc": "Upload your JPG, PNG, or WebP file. It is drawn into a local browser memory canvas."
+      },
+      {
+        "step": 3,
+        "title": "Adjust Quality Levels",
+        "desc": "Move the quality slider. Lower quality reduces size further but can add visual noise (compression artifacts)."
+      },
+      {
+        "step": 4,
+        "title": "Download the Optimized Graphic",
+        "desc": "Trigger processing and download the compressed copy instantly from your browser cache."
+      }
+    ],
+    "example": "Compressing a 4.2MB PNG photo to a WebP format at 75% quality will typically reduce the file size to 320KB (over 90% savings) with no visible blurriness on mobile screens.",
+    "relatedToolId": "compress-image",
+    "bestPractices": [
+      "Use JPG format for photographs and WebP for web graphics with mixed transparent headers.",
+      "Don't exceed 1200px width for standard web articles to keep load speeds high.",
+      "Remove EXIF metadata tags to save extra bytes and protect location privacy."
+    ],
+    "commonMistakes": [
+      "Compressing vector files like SVG (SVG is code-based and should be minified, not raster-compressed).",
+      "Using lossy compression recursively on the same file, which causes visual degradation."
+    ],
+    "summary": "Client-side image optimization yields instant speeds and keeps private pictures safe from third-party server exposure.",
+    "faqs": [
+      {
+        "q": "Does PNG support lossy compression?",
+        "a": "Standard PNG uses lossless compression. To achieve high size reductions, we convert color channels or re-encode them to lossy WebP formats."
+      }
+    ]
+  },
+  "pdf-tools-guide": {
+    "type": "general",
+    "definition": "ToolTari PDF Tools category hub provides secure browser-native utilities to modify, merge, split, and convert PDF documents in volatile RAM without external server uploads.",
+    "mainContent": "<p>PDF documents are essential for professional, financial, and legal sharing. This comprehensive guide reviews how to use the local ToolTari tools suite to manage your document workflows safely.</p>\n    <h2>When to Use PDF Utilities</h2>\n    <ul>\n      <li><strong>Merge PDF:</strong> Assemble separate contract addendums or monthly receipts into one consolidated record.</li>\n      <li><strong>Split PDF:</strong> Separate a large manual or multi-page invoice pack into individual pages.</li>\n      <li><strong>Protect PDF:</strong> Lock sensitive records with owner passwords before sharing via email.</li>\n      <li><strong>Unlock PDF:</strong> Clear password protections for internal archives.</li>\n    </ul>",
+    "bestPractices": [
+      "Verify page orders before triggering PDF merges to avoid re-running tasks.",
+      "Keep original files backed up when splitting or deleting pages.",
+      "Choose strong passwords when applying PDF protection."
+    ],
+    "commonMistakes": [
+      "Uploading corrupt or encrypted files to tools that do not support decryption directly without a password input."
+    ],
+    "summary": "Browser-based PDF processing handles document tasks at Wasm-accelerated speeds while maintaining 100% data confidentiality.",
+    "faqs": [
+      {
+        "q": "Can I merge PDF documents offline?",
+        "a": "Yes! Once you load the ToolTari page, all libraries reside in your browser cache, allowing offline merging."
+      }
+    ]
+  },
+  "merge-pdf-guide": {
+    "type": "how-to",
+    "definition": "PDF Merging combines multiple document objects and xref dictionaries into a single target PDF stream, preserving catalog indices and layout alignments.",
+    "mainContent": "<p>Combining separate documents usually requires cloud uploads. ToolTari combines PDF document catalogs in client memory using WebAssembly. This is highly suitable for banks, law firms, and corporate workers handling sensitive documents.</p>",
+    "steps": [
+      {
+        "step": 1,
+        "title": "Launch the Merge PDF Tool",
+        "desc": "Select the 'Merge PDF' tool from the tool directory."
+      },
+      {
+        "step": 2,
+        "title": "Select Multiple PDF Files",
+        "desc": "Upload two or more PDF files. You can drag and drop them to rearrange their merging order."
+      },
+      {
+        "step": 3,
+        "title": "Trigger the Merging Engine",
+        "desc": "Click 'Run Processing Engine' to let the javascript compiler bind document page maps in RAM."
+      },
+      {
+        "step": 4,
+        "title": "Save the Merged Document",
+        "desc": "Click download to save the unified PDF package to your desktop."
+      }
+    ],
+    "example": "Merging a cover sheet PDF and a 5-page report PDF into one consolidated file in under 1 second.",
+    "relatedToolId": "merge-pdf",
+    "bestPractices": [
+      "Ensure all PDFs are decrypted before merging.",
+      "Sort files logically in the upload layout grid before running the compiler."
+    ],
+    "commonMistakes": [
+      "Trying to merge protected PDFs without unlocking them first."
+    ],
+    "summary": "Dynamic client-side PDF merging is secure, fast, and requires no registration.",
+    "faqs": [
+      {
+        "q": "Is there a limit to how many files I can merge?",
+        "a": "No, but browser RAM limits apply. We recommend merging up to 20 files at a time."
+      }
+    ]
+  },
+  "password-generator-guide": {
+    "type": "how-to",
+    "definition": "A Password Generator calculates cryptographically secure string combinations locally inside client browser threads using window.crypto entropy.",
+    "mainContent": "<p>Standard online generators send passwords to remote databases, exposing keys. ToolTari computes password combinations locally using window.crypto.getRandomValues APIs.</p>",
+    "steps": [
+      {
+        "step": 1,
+        "title": "Open Password Generator",
+        "desc": "Select the generator tool from the Developer Tools workspace."
+      },
+      {
+        "step": 2,
+        "title": "Configure Complexity",
+        "desc": "Specify character length (16+ recommended) and toggle upper, lower, numbers, and special symbols."
+      },
+      {
+        "step": 3,
+        "title": "Generate & Check Strength",
+        "desc": "Click 'Generate' to create the secure string. The engine immediately computes its entropy score."
+      },
+      {
+        "step": 4,
+        "title": "Copy Securely",
+        "desc": "Copy the password. It exists only in your browser clipboard buffer."
+      }
+    ],
+    "example": "Generating a 20-character password like 'kF8#vP2!aL9$sD1*qR6&' which provides over 120 bits of cryptographic entropy.",
+    "relatedToolId": "password-generator",
+    "bestPractices": [
+      "Always include special characters and numbers in your password.",
+      "Use at least 16 characters for critical email and banking credentials."
+    ],
+    "commonMistakes": [
+      "Saving generated passwords in cleartext text files. Use a secure manager instead."
+    ],
+    "summary": "Cryptographically secure random values guarantee safe password generation locally.",
+    "faqs": [
+      {
+        "q": "What is password entropy?",
+        "a": "Entropy measures password strength in bits of randomness. High entropy passwords are safe against brute-force attacks."
+      }
+    ]
+  },
+  "zip-compressor-guide": {
+    "type": "how-to",
+    "definition": "ZIP Compression compiles binary document packages into a single archive stream using deflate and inflate formatting routines client-side.",
+    "mainContent": "<p>Packing files into a single ZIP archive is useful for bulk email sharing. ToolTari packages files locally using JSZip, avoiding server queues.</p>",
+    "steps": [
+      {
+        "step": 1,
+        "title": "Select the ZIP Compressor",
+        "desc": "Navigate to the ZIP Compressor under the Archive Tools tab."
+      },
+      {
+        "step": 2,
+        "title": "Upload Multiple Files",
+        "desc": "Select files of any extension (images, PDFs, documents) and drag them into the upload zone."
+      },
+      {
+        "step": 3,
+        "title": "Process Archive",
+        "desc": "Click to compile the ZIP stream. All files are compressed and packed in memory."
+      },
+      {
+        "step": 4,
+        "title": "Download ZIP",
+        "desc": "Save the compiled archive file instantly."
+      }
+    ],
+    "example": "Packing 15 JPEG photos into a single unified zip archive for immediate sharing.",
+    "relatedToolId": "zip-compressor",
+    "bestPractices": [
+      "Compress large images first to minimize final ZIP size.",
+      "Ensure filenames do not contain invalid filesystem characters before packing."
+    ],
+    "commonMistakes": [
+      "Trying to compress files exceeding browser RAM storage capacity (limit ~500MB)."
+    ],
+    "summary": "Fast, queue-free client-side archive packaging for immediate developer and designer workflows.",
+    "faqs": [
+      {
+        "q": "Can I unzip files here?",
+        "a": "Yes! The ZIP extractor tool lets you inspect and unpack zip contents locally."
+      }
+    ]
+  },
+  "pdf-vs-word": {
+    "type": "comparison",
+    "definition": "PDF and Word (DOCX) are standard formats with complementary use cases: PDF preserves exact visual layout, while Word offers editable layout blocks.",
+    "mainContent": "<p>When preparing documents, deciding between PDF and Word format is crucial for business, legal, and educational exchange. This article outlines key format details.</p>",
+    "comparisonTable": {
+      "headers": ["Feature", "PDF Format", "Word Format (DOCX)"],
+      "rows": [
+        ["Layout Preservation", "100% fixed layout. Identical across all devices.", "Fluid layout. Can shift based on screen size, fonts, and OS."],
+        ["Editability", "Difficult to edit without specialized editors.", "Designed for dynamic editing and text collaboration."],
+        ["File Size", "Optimized and compact, ideal for attachments.", "Can grow large when containing multimedia items."],
+        ["Security", "Supports digital signatures and password encryption.", "Macros can contain security vulnerabilities."],
+        ["Standard", "ISO standard (PDF/A) for archiving.", "Proprietary standard managed by Microsoft."]
+      ]
+    },
+    "pros": [
+      {
+        "item": "PDF format",
+        "pros": [
+          "Preserves exact document visual layout.",
+          "Safe and widely supported by all browsers and devices.",
+          "Compact file sizes with custom compression algorithms."
+        ]
+      },
+      {
+        "item": "Word format (DOCX)",
+        "pros": [
+          "Highly collaborative and easy to edit.",
+          "Supports tracked changes and comment threads.",
+          "Excellent for templates and raw content drafts."
+        ]
+      }
+    ],
+    "cons": [
+      {
+        "item": "PDF format",
+        "cons": [
+          "Cannot be easily edited without OCR or layout mapping.",
+          "Fixed layout can be hard to read on very small mobile screens."
+        ]
+      },
+      {
+        "item": "Word format (DOCX)",
+        "cons": [
+          "Layout shifts can ruin professional contract layouts.",
+          "Different software versions can break document alignments."
+        ]
+      }
+    ],
+    "recommendation": "Use PDF when distributing finalized files (contracts, resumes, invoices) to ensure they render identically. Use Word for drafting and internal document collaboration.",
+    "summary": "Choosing PDF vs Word depends on whether layout fidelity or dynamic editability is the priority.",
+    "faqs": [
+      {
+        "q": "Can I convert Word to PDF without MS Word installed?",
+        "a": "Yes! ToolTari's Word to PDF tool extracts DOCX text structures and compiles a PDF locally."
+      }
+    ]
+  },
+  "pdf-not-opening": {
+    "type": "troubleshooting",
+    "definition": "PDF rendering failures can occur due to corrupted object headers, decryption faults, or incompatibilities in browser viewer stacks.",
+    "mainContent": "<p>When a PDF fails to load or open in browser viewers, it usually results from object header corruption or unresolved security locks. Here are the diagnostics and solutions.</p>",
+    "issues": [
+      {
+        "problem": "Adobe reader throws 'Document Corrupt' error",
+        "cause": "The file was saved with incomplete closing blocks (%%EOF marker missing).",
+        "solution": "Open the file in ToolTari's local editor and export it to force rebuild the xref directory."
+      },
+      {
+        "problem": "PDF prompts for password but none was set",
+        "cause": "The document has owner security settings restriction applied.",
+        "solution": "Use the Unlock PDF utility to decrypt and flatten the security structure."
+      },
+      {
+        "problem": "Blank pages render on browser viewer",
+        "cause": "The page mapping elements utilize non-standard font encoding formats.",
+        "solution": "Convert the PDF pages to high-resolution JPEG images locally to preserve text."
+      }
+    ],
+    "diagnostics": [
+      "Check if the file opening byte header starts with '%PDF-'.",
+      "Verify the file size is greater than 0 bytes.",
+      "Test opening the PDF in a browser private tab to ensure extension conflicts are cleared."
+    ],
+    "summary": "Most PDF opening issues can be fixed by reconstructing object catalogs or removing password encryptions.",
+    "faqs": [
+      {
+        "q": "Can a corrupted PDF be recovered?",
+        "a": "If the binary stream is missing key page catalogs, only partial text extraction may be possible. Re-compiling the PDF is recommended."
+      }
+    ]
+  },
+  "what-is-ocr": {
+    "type": "glossary",
+    "definition": "OCR (Optical Character Recognition) is a technology that converts scanned paper documents, PDF files, or digital images into editable and searchable text data.",
+    "mainContent": "<p>OCR is crucial for paperless document management. It scans pixel grids inside images, identifies letters and symbols, and maps them to text character codes (like Unicode).</p>",
+    "term": "OCR",
+    "phonetic": "/ˌoʊ siː ˈɑːr/",
+    "synonyms": ["text recognition", "optical character reader", "image extraction"],
+    "keyRelationships": [
+      {
+        "term": "PDF Format",
+        "relationship": "OCR is used to add a searchable text layer behind raw scanned image pages in a PDF document."
+      },
+      {
+        "term": "Base64 Encoding",
+        "relationship": "Scanned document frames are converted to base64 images to run OCR analysis locally in the browser."
+      }
+    ],
+    "summary": "OCR bridges the gap between static image scans and searchable digital text formats.",
+    "faqs": [
+      {
+        "q": "Does ToolTari run OCR locally?",
+        "a": "Yes! Our OCR tools execute locally using client-side javascript libraries, keeping your text drafts safe from servers."
+      }
+    ]
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "cleanUrls": true,
+  "redirects": [
+    { "source": "/tools/add-page-numbers.html", "destination": "/pdf-tools/add-page-numbers", "permanent": true },
+    { "source": "/tools/compress-pdf.html", "destination": "/pdf-tools/compress-pdf", "permanent": true },
+    { "source": "/tools/delete-pages.html", "destination": "/pdf-tools/delete-pages", "permanent": true },
+    { "source": "/tools/extract-pdf.html", "destination": "/pdf-tools/extract-pdf", "permanent": true },
+    { "source": "/tools/image-to-pdf.html", "destination": "/pdf-tools/image-to-pdf", "permanent": true },
+    { "source": "/tools/merge-pdf.html", "destination": "/pdf-tools/merge-pdf", "permanent": true },
+    { "source": "/tools/pdf-to-image.html", "destination": "/pdf-tools/pdf-to-image", "permanent": true },
+    { "source": "/tools/pdf-to-word.html", "destination": "/pdf-tools/pdf-to-word", "permanent": true },
+    { "source": "/tools/protect-pdf.html", "destination": "/pdf-tools/protect-pdf", "permanent": true },
+    { "source": "/tools/reorder-pdf.html", "destination": "/pdf-tools/reorder-pdf", "permanent": true },
+    { "source": "/tools/rotate-pdf.html", "destination": "/pdf-tools/rotate-pdf", "permanent": true },
+    { "source": "/tools/split-pdf.html", "destination": "/pdf-tools/split-pdf", "permanent": true },
+    { "source": "/tools/unlock-pdf.html", "destination": "/pdf-tools/unlock-pdf", "permanent": true },
+    { "source": "/tools/watermark-pdf.html", "destination": "/pdf-tools/watermark-pdf", "permanent": true },
+    { "source": "/tools/word-to-pdf.html", "destination": "/pdf-tools/word-to-pdf", "permanent": true },
+    
+    { "source": "/tools/compress-image.html", "destination": "/image-tools/compress-image", "permanent": true },
+    { "source": "/tools/crop-image.html", "destination": "/image-tools/crop-image", "permanent": true },
+    { "source": "/tools/image-blur.html", "destination": "/image-tools/image-blur", "permanent": true },
+    { "source": "/tools/image-converter.html", "destination": "/image-tools/image-converter", "permanent": true },
+    { "source": "/tools/image-filter.html", "destination": "/image-tools/image-filter", "permanent": true },
+    { "source": "/tools/image-metadata.html", "destination": "/image-tools/image-metadata", "permanent": true },
+    { "source": "/tools/resize-image.html", "destination": "/image-tools/resize-image", "permanent": true },
+    { "source": "/tools/rotate-image.html", "destination": "/image-tools/rotate-image", "permanent": true },
+    { "source": "/tools/watermark-image.html", "destination": "/image-tools/watermark-image", "permanent": true },
+    
+    { "source": "/tools/base64-converter.html", "destination": "/developer-tools/base64-converter", "permanent": true },
+    { "source": "/tools/c-code-editor.html", "destination": "/developer-tools/c-code-editor", "permanent": true },
+    { "source": "/tools/color-converter.html", "destination": "/developer-tools/color-converter", "permanent": true },
+    { "source": "/tools/file-renamer.html", "destination": "/developer-tools/file-renamer", "permanent": true },
+    { "source": "/tools/image-to-base64.html", "destination": "/developer-tools/image-to-base64", "permanent": true },
+    { "source": "/tools/password-generator.html", "destination": "/developer-tools/password-generator", "permanent": true },
+    { "source": "/tools/password-strength.html", "destination": "/developer-tools/password-strength", "permanent": true },
+    { "source": "/tools/random-number-generator.html", "destination": "/developer-tools/random-number-generator", "permanent": true },
+    
+    { "source": "/tools/text-converter.html", "destination": "/text-tools/text-converter", "permanent": true },
+    { "source": "/tools/word-counter.html", "destination": "/text-tools/word-counter", "permanent": true },
+    
+    { "source": "/tools/qr-tools.html", "destination": "/qr-tools/qr-tools", "permanent": true },
+    
+    { "source": "/tools/instagram-downloader.html", "destination": "/video-tools/instagram-downloader", "permanent": true },
+    { "source": "/tools/youtube-thumbnail.html", "destination": "/video-tools/youtube-thumbnail", "permanent": true },
+    
+    { "source": "/tools/zip-compressor.html", "destination": "/archive-tools/zip-compressor", "permanent": true },
+    
+    { "source": "/tools/image-editor.html", "destination": "/image-tools/image-editor", "permanent": true },
+    { "source": "/tools/remove-bg.html", "destination": "/image-tools/remove-bg", "permanent": true },
+    { "source": "/tools/code-editor.html", "destination": "/developer-tools/code-editor", "permanent": true },
+    { "source": "/tools/c-code-editor.html", "destination": "/developer-tools/c-code-editor", "permanent": true },
+    { "source": "/tools/universal-file-viewer.html", "destination": "/developer-tools/universal-file-viewer", "permanent": true },
+    { "source": "/tools/yt-creator-toolbox.html", "destination": "/video-tools/yt-creator-toolbox", "permanent": true },
+    { "source": "/tools/yt-video.html", "destination": "/video-tools/yt-video", "permanent": true }
+  ],
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}

@@ -1,0 +1,27 @@
+[
+  {
+    "id": "privacy",
+    "q": "Are my files uploaded to your servers?",
+    "a": "No. ToolTari runs 100% locally in your browser memory stack using JavaScript/WebAssembly. Your private files never leave your device. All processing is secure and secure from leaks."
+  },
+  {
+    "id": "cost",
+    "q": "Is ToolTari completely free?",
+    "a": "Yes! All tools are 100% free with no hidden fees, premium tiers, or download limits. We do not insert watermarks into your documents."
+  },
+  {
+    "id": "registration",
+    "q": "Do I need to sign up or create an account?",
+    "a": "No registration is required. You can use all tools instantly without providing an email address or creating an account."
+  },
+  {
+    "id": "security",
+    "q": "How secure is ToolTari?",
+    "a": "Because we process files directly on your machine, it is more secure than standard online tools. Your files are never uploaded to a cloud server, making it compliant with strict corporate and privacy policies."
+  },
+  {
+    "id": "offline",
+    "q": "Does ToolTari work offline?",
+    "a": "Yes. Once the web application is loaded in your browser, the tools execute client-side and can continue processing files even without active internet access."
+  }
+]

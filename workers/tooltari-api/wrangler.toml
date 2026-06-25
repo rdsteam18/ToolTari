@@ -1,0 +1,13 @@
+name = "tooltari-api"
+main = "src/index.ts"
+compatibility_date = "2026-06-25"
+
+# Environment Variables
+[vars]
+FIREBASE_PROJECT_ID = "tooltari-prod"
+
+# KV namespaces for rate limiting, caching and feature flags
+[[kv_namespaces]]
+binding = "TOOLTARI_KV"
+id = "rate_limit_and_flags_kv_id"
+preview_id = "preview_rate_limit_and_flags_kv_id"

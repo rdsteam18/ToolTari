@@ -1,0 +1,384 @@
+{
+  "tools": [
+    {
+      "id": "merge-pdf",
+      "name": "Merge PDF",
+      "description": "Combine multiple PDF files into one document. Drag and drop to reorder pages.",
+      "category": "pdf",
+      "slug": "/tools/merge-pdf.html",
+      "icon": "fa-object-group",
+      "popularity": 5,
+      "status": "active"
+    },
+    {
+      "id": "split-pdf",
+      "name": "Split PDF",
+      "description": "Split PDF into multiple files. Extract specific pages or split at intervals.",
+      "category": "pdf",
+      "slug": "/tools/split-pdf.html",
+      "icon": "fa-cut",
+      "popularity": 5,
+      "status": "active"
+    },
+    {
+      "id": "compress-pdf",
+      "name": "Compress PDF",
+      "description": "Reduce PDF file size while maintaining quality. Perfect for email attachments.",
+      "category": "pdf",
+      "slug": "/tools/compress-pdf.html",
+      "icon": "fa-compress",
+      "popularity": 5,
+      "status": "active"
+    },
+    {
+      "id": "pdf-to-word",
+      "name": "PDF to Word",
+      "description": "Extract text from PDF and convert to editable Word document (RTF).",
+      "category": "pdf",
+      "slug": "/tools/pdf-to-word.html",
+      "icon": "fa-file-word",
+      "popularity": 5,
+      "status": "active"
+    },
+    {
+      "id": "pdf-to-ppt",
+      "name": "PDF to PowerPoint",
+      "description": "Transform PDF slides into editable PowerPoint presentations.",
+      "category": "pdf",
+      "slug": "/tools/pdf-to-ppt.html",
+      "icon": "fa-chalkboard",
+      "popularity": 3,
+      "status": "coming-soon"
+    },
+    {
+      "id": "protect-pdf",
+      "name": "Protect PDF",
+      "description": "Add password protection to your PDF files.",
+      "category": "pdf",
+      "slug": "/tools/protect-pdf.html",
+      "icon": "fa-lock",
+      "popularity": 4,
+      "status": "active"
+    },
+    {
+      "id": "unlock-pdf",
+      "name": "Unlock PDF",
+      "description": "Remove password protection from PDF files.",
+      "category": "pdf",
+      "slug": "/tools/unlock-pdf.html",
+      "icon": "fa-unlock-alt",
+      "popularity": 4,
+      "status": "active"
+    },
+    {
+      "id": "pdf-editor",
+      "name": "PDF Page Editor",
+      "description": "Delete, reorder, rotate, and extract pages from your PDF documents.",
+      "category": "pdf",
+      "slug": "/tools/pdf-editor.html",
+      "icon": "fa-edit",
+      "popularity": 4,
+      "status": "active"
+    },
+    {
+      "id": "reorder-pdf",
+      "name": "Reorder PDF Pages",
+      "description": "Drag and drop to rearrange pages in your PDF document.",
+      "category": "pdf",
+      "slug": "/tools/reorder-pdf.html",
+      "icon": "fa-arrows-alt",
+      "popularity": 3,
+      "status": "active"
+    },
+    {
+      "id": "rotate-pdf",
+      "name": "Rotate PDF Pages",
+      "description": "Rotate pages in your PDF document 90°, 180°, or 270°.",
+      "category": "pdf",
+      "slug": "/tools/rotate-pdf.html",
+      "icon": "fa-redo-alt",
+      "popularity": 3,
+      "status": "active"
+    },
+    {
+      "id": "add-page-numbers",
+      "name": "Add Page Numbers",
+      "description": "Add page numbers to your PDF document with custom positioning.",
+      "category": "pdf",
+      "slug": "/tools/add-page-numbers.html",
+      "icon": "fa-sort-numeric-up",
+      "popularity": 3,
+      "status": "active"
+    },
+    {
+      "id": "watermark-pdf",
+      "name": "Watermark PDF",
+      "description": "Add text watermark to your PDF document for protection.",
+      "category": "pdf",
+      "slug": "/tools/watermark-pdf.html",
+      "icon": "fa-paintbrush",
+      "popularity": 3,
+      "status": "active"
+    },
+    {
+      "id": "pdf-to-image",
+      "name": "PDF to Image",
+      "description": "Convert PDF pages to JPG or PNG images. Extract every page as an image.",
+      "category": "pdf",
+      "slug": "/tools/pdf-to-image.html",
+      "icon": "fa-image",
+      "popularity": 4,
+      "status": "active"
+    },
+    {
+      "id": "image-to-pdf",
+      "name": "Image to PDF",
+      "description": "Convert JPG, PNG, WebP images to PDF. Multiple images supported.",
+      "category": "image",
+      "slug": "/tools/image-to-pdf.html",
+      "icon": "fa-file-pdf",
+      "popularity": 5,
+      "status": "active"
+    },
+    {
+      "id": "compress-image",
+      "name": "Compress Image",
+      "description": "Reduce image file size while maintaining quality.",
+      "category": "image",
+      "slug": "/tools/compress-image.html",
+      "icon": "fa-compress",
+      "popularity": 5,
+      "status": "active"
+    },
+    {
+      "id": "resize-image",
+      "name": "Resize Image",
+      "description": "Change image dimensions. Maintain aspect ratio option.",
+      "category": "image",
+      "slug": "/tools/resize-image.html",
+      "icon": "fa-expand",
+      "popularity": 5,
+      "status": "active"
+    },
+    {
+      "id": "crop-image",
+      "name": "Crop Image",
+      "description": "Select area and crop your images to the perfect size.",
+      "category": "image",
+      "slug": "/tools/crop-image.html",
+      "icon": "fa-crop",
+      "popularity": 4,
+      "status": "active"
+    },
+    {
+      "id": "image-converter",
+      "name": "Image Converter",
+      "description": "Convert between JPG, PNG, WebP, GIF, BMP, TIFF, SVG, ICO formats.",
+      "category": "image",
+      "slug": "/tools/image-converter.html",
+      "icon": "fa-exchange-alt",
+      "popularity": 5,
+      "status": "active"
+    },
+    {
+      "id": "rotate-image",
+      "name": "Rotate Image",
+      "description": "Rotate images 90°, 180°, 270° or flip horizontally/vertically.",
+      "category": "image",
+      "slug": "/tools/rotate-image.html",
+      "icon": "fa-redo-alt",
+      "popularity": 3,
+      "status": "active"
+    },
+    {
+      "id": "image-filter",
+      "name": "Image Filter",
+      "description": "Apply grayscale, sepia, brightness, and contrast filters.",
+      "category": "image",
+      "slug": "/tools/image-filter.html",
+      "icon": "fa-magic",
+      "popularity": 3,
+      "status": "active"
+    },
+    {
+      "id": "blur-image",
+      "name": "Blur Image",
+      "description": "Apply Gaussian blur effect to your photos with adjustable intensity.",
+      "category": "image",
+      "slug": "/tools/image-blur.html",
+      "icon": "fa-tint",
+      "popularity": 3,
+      "status": "active"
+    },
+    {
+      "id": "image-metadata",
+      "name": "Image Metadata Viewer",
+      "description": "View EXIF data including camera settings, dimensions, and date taken.",
+      "category": "image",
+      "slug": "/tools/image-metadata.html",
+      "icon": "fa-info-circle",
+      "popularity": 3,
+      "status": "active"
+    },
+    {
+      "id": "watermark-image",
+      "name": "Watermark Image",
+      "description": "Add text watermark to images with position and opacity control.",
+      "category": "image",
+      "slug": "/tools/watermark-image.html",
+      "icon": "fa-paintbrush",
+      "popularity": 3,
+      "status": "active"
+    },
+    {
+      "id": "image-to-base64",
+      "name": "Image to Base64",
+      "description": "Convert images to Base64 string for embedding in HTML/CSS.",
+      "category": "utility",
+      "slug": "/tools/image-to-base64.html",
+      "icon": "fa-code",
+      "popularity": 3,
+      "status": "active"
+    },
+    {
+      "id": "word-to-pdf",
+      "name": "Word to PDF",
+      "description": "Convert Word (DOCX) documents to PDF format.",
+      "category": "converter",
+      "slug": "/tools/word-to-pdf.html",
+      "icon": "fa-file-pdf",
+      "popularity": 4,
+      "status": "active"
+    },
+    {
+      "id": "qr-generator",
+      "name": "QR Code Generator",
+      "description": "Create QR codes for URLs, text, and contact information.",
+      "category": "utility",
+      "slug": "/tools/qr-tools.html",
+      "icon": "fa-qrcode",
+      "popularity": 5,
+      "status": "active"
+    },
+    {
+      "id": "qr-scanner",
+      "name": "QR Code Scanner",
+      "description": "Scan QR codes using your device camera.",
+      "category": "utility",
+      "slug": "/tools/qr-tools.html",
+      "icon": "fa-camera",
+      "popularity": 4,
+      "status": "active"
+    },
+    {
+      "id": "zip-compressor",
+      "name": "ZIP File Compressor",
+      "description": "Compress multiple files into a single ZIP archive.",
+      "category": "utility",
+      "slug": "/tools/zip-compressor.html",
+      "icon": "fa-file-archive",
+      "popularity": 4,
+      "status": "active"
+    },
+    {
+      "id": "file-renamer",
+      "name": "File Renamer",
+      "description": "Batch rename files with prefix, suffix, or find/replace.",
+      "category": "utility",
+      "slug": "/tools/file-renamer.html",
+      "icon": "fa-i-cursor",
+      "popularity": 3,
+      "status": "active"
+    },
+    {
+      "id": "word-counter",
+      "name": "Word Counter",
+      "description": "Count words, characters, sentences, and paragraphs instantly.",
+      "category": "text",
+      "slug": "/tools/word-counter.html",
+      "icon": "fa-calculator",
+      "popularity": 4,
+      "status": "active"
+    },
+    {
+      "id": "text-converter",
+      "name": "Text Converter",
+      "description": "Convert text to UPPERCASE, lowercase, Title Case, and more.",
+      "category": "text",
+      "slug": "/tools/text-converter.html",
+      "icon": "fa-underline",
+      "popularity": 3,
+      "status": "active"
+    },
+    {
+      "id": "password-generator",
+      "name": "Password Generator",
+      "description": "Generate strong random passwords with custom options.",
+      "category": "security",
+      "slug": "/tools/password-generator.html",
+      "icon": "fa-key",
+      "popularity": 4,
+      "status": "active"
+    },
+    {
+      "id": "password-strength",
+      "name": "Password Strength Checker",
+      "description": "Check how secure your password is with real-time analysis.",
+      "category": "security",
+      "slug": "/tools/password-strength.html",
+      "icon": "fa-shield-alt",
+      "popularity": 3,
+      "status": "active"
+    },
+    {
+      "id": "random-number",
+      "name": "Random Number Generator",
+      "description": "Generate random numbers for giveaways, lotteries, or games.",
+      "category": "utility",
+      "slug": "/tools/random-number-generator.html",
+      "icon": "fa-random",
+      "popularity": 3,
+      "status": "active"
+    },
+    {
+      "id": "color-converter",
+      "name": "Color Converter",
+      "description": "Convert between HEX and RGB color formats. Pick random colors.",
+      "category": "design",
+      "slug": "/tools/color-converter.html",
+      "icon": "fa-palette",
+      "popularity": 3,
+      "status": "active"
+    },
+    {
+      "id": "base64-converter",
+      "name": "Base64 Converter",
+      "description": "Encode text to Base64 or decode Base64 to text.",
+      "category": "developer",
+      "slug": "/tools/base64-converter.html",
+      "icon": "fa-code",
+      "popularity": 3,
+      "status": "active"
+    },
+    {
+      "id": "youtube-thumbnail",
+      "name": "YouTube Thumbnail Downloader",
+      "description": "Download high-quality thumbnails from any YouTube video.",
+      "category": "media",
+      "slug": "/tools/youtube-thumbnail.html",
+      "icon": "fab fa-youtube",
+      "popularity": 4,
+      "status": "active"
+    },
+    {
+      "id": "instagram-downloader",
+      "name": "Instagram Downloader",
+      "description": "Preview Instagram posts and get download instructions.",
+      "category": "media",
+      "slug": "/tools/instagram-downloader.html",
+      "icon": "fab fa-instagram",
+      "popularity": 3,
+      "status": "active"
+    }
+  ]
+}

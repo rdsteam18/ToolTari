@@ -1,0 +1,206 @@
+{
+  "pdf-tools": {
+    "title": "PDF Tools",
+    "description": "Merge, compress, split, protect, reorder, and convert PDF documents online. All tools run 100% locally in your browser memory for absolute file safety.",
+    "intro_h2": "Ultimate PDF Manipulation and Optimization Hub",
+    "introduction": "Welcome to the ToolTari PDF Tools category hub. The Portable Document Format (PDF) has become the global standard for business, legal, and academic document exchange. However, modifying these files traditionally required expensive licenses or uploading confidential papers to remote servers, exposing private data to security breaches. ToolTari solves this by offering a complete suite of browser-native PDF utilities. Whether you need to merge digital contracts, compress heavy file sizes under 2MB for portal uploads, split pages, protect files with password layers, or convert PDFs to editable formats, everything runs client-side. Using modern JavaScript libraries and WebAssembly sandboxes, your document files are parsed and compiled in local volatile memory, keeping your data 100% secure and private.",
+    "beginner_guide_title": "Beginner: Working with Portable Document Formats",
+    "beginner_guide_text": "PDF is a fixed-layout file format designed to preserve exact visual alignment, fonts, and graphics across all platforms. Unlike Word files which change layout depending on screen size or operating system, PDFs look identical on a phone, laptop, or paper. To start, simply select a tool, drop your document into our drag-and-drop zone, apply options, and download the output. There is no signup required, and no watermarks are added.",
+    "advanced_guide_title": "Advanced: PDF Objects Dictionary & Structure",
+    "advanced_guide_text": "A PDF file is structured as a hierarchical catalog of objects (dictionary) mapping page arrays, content streams, fonts, annotations, and outlines. When ToolTari merges or splits PDFs, the client-side compiler reads this cross-reference (xref) table, extracts the page object descriptors, rebuilds the catalog index mapping tree, and outputs a sanitized object stream. This client-side approach ensures files remain fully integrated and secure.",
+    "faqs": [
+      {
+        "q": "Are my PDF files uploaded to your servers during processing?",
+        "a": "No. ToolTari uses a modern browser-native architecture. All operations (merging, splitting, compressing, converting) execute locally in your browser memory stack using JavaScript/WebAssembly. Your private files never leave your device."
+      },
+      {
+        "q": "Does ToolTari keep copies of my documents on its servers?",
+        "a": "No. Since files are processed client-side, we have no servers that store your document files. When you close the browser tab, all document data is cleared from memory."
+      },
+      {
+        "q": "Is ToolTari compliant with privacy laws like GDPR and HIPAA?",
+        "a": "Yes. Because no files are uploaded, stored, or analyzed on remote servers, ToolTari is highly compliant with data safety regulations like GDPR, HIPAA, and corporate data security policies."
+      }
+    ]
+  },
+  "image-tools": {
+    "title": "Image Tools",
+    "description": "Resize, crop, compress, convert, and edit images online for free. All operations occur in-browser to protect your privacy.",
+    "intro_h2": "High-Performance Image Optimization & Conversion",
+    "introduction": "Welcome to the ToolTari Image Tools category hub. Visual assets are vital for websites, social media, and digital reports. However, raw images are often too large or in formats incompatible with various platforms. ToolTari provides a comprehensive suite of image editing and optimization utilities. Compress heavy images without visual degradation, resize graphics for responsive web layouts, convert formats (PNG, JPEG, WebP, SVG), apply filters, blur layers, or extract image metadata. Every action runs 100% locally inside your web browser, utilizing HTML5 Canvas APIs and WebGL rendering stacks. Your private photos never touch external servers, guaranteeing zero data exposure.",
+    "beginner_guide_title": "Beginner: Mastering Image Formats & Casing",
+    "beginner_guide_text": "Digital images are broadly divided into raster formats (like JPG, PNG, and WebP, which are made of pixels) and vector formats (like SVG, which are made of math lines). JPG is best for photographs because of its small size, PNG is best for logos because it supports transparency, and WebP is a modern format offering smaller sizes with high quality. Simply select a tool, drag your image in, adjust your settings, and save your output.",
+    "advanced_guide_title": "Advanced: Browser-Native Canvas & WebGL Processing",
+    "advanced_guide_text": "When you compress or resize images on ToolTari, the file is parsed into a local `Image` object and drawn into an offscreen HTML5 `CanvasElement`. Compressions are executed via custom quantization algorithms that reduce the color palette depth or compress pixel matrices directly on your machine. This browser-native canvas drawing ensures fast processing speed and absolute security.",
+    "faqs": [
+      {
+        "q": "Is my image quality degraded during compression?",
+        "a": "Our image tools use smart lossy and lossless algorithms to reduce file sizes by up to 80% while keeping visual changes completely indistinguishable to the human eye."
+      },
+      {
+        "q": "Can I convert images to WebP format?",
+        "a": "Yes. The Image Converter tool allows you to convert JPEG, PNG, BMP, and SVG files into WebP for modern web performance."
+      }
+    ]
+  },
+  "developer-tools": {
+    "title": "Developer Tools",
+    "description": "JSON formatters, base64 encoders, code editors, and security utilities. Run code securely inside local browser sandboxes.",
+    "intro_h2": "Browser-Native Utility Workspace for Developers",
+    "introduction": "ToolTari Developer Tools provide essential utilities for web development, software engineering, and systems administration. When formatting JSON, writing scripts, converting color channels, encoding Base64 sequences, or generating passwords, standard online tools often upload data to external databases, exposing sensitive keys or tokens. ToolTari runs completely inside a sandboxed local environment. Format, compile, encode, rename files, or test password strengths in complete privacy.",
+    "beginner_guide_title": "Beginner: Essential Developer Operations",
+    "beginner_guide_text": "Developer utilities are designed to format code, convert formats, or evaluate safety standards. For instance, the Base64 Converter encodes text to binary format for HTML embeds. Just choose your tool, paste your code, and let the local engine display the output instantly.",
+    "advanced_guide_title": "Advanced: Sandboxed Code Compilers",
+    "advanced_guide_text": "ToolTari's Code Editor and C compiler run within local client WebAssembly runtimes or custom sandboxed web worker scripts. Data is never posted to a backend compiler. This allows developers to safely evaluate snippets, test logic, and inspect metadata without data leaks.",
+    "faqs": [
+      {
+        "q": "Is it safe to format API payloads containing client secrets here?",
+        "a": "Yes. Because formatting is done purely in client-side Javascript, none of your credentials, API keys, or payload data are ever sent over the network."
+      }
+    ]
+  },
+  "text-tools": {
+    "title": "Text Tools",
+    "description": "Word counters, text case converters, casing adjusters, and formatting utilities. Private browser-based text editing.",
+    "intro_h2": "Private Text Formatting & Readability Suite",
+    "introduction": "Optimize and format raw text copy, essays, articles, and code blocks using our quick browser-native Text Tools. ToolTari offers real-time word counting, capitalization adjustments, slug generation, regex replacements, and formatting cleaning. Because your text is processed entirely within local memory, sensitive drafts and documents remain protected from server-side indexing.",
+    "beginner_guide_title": "Beginner: Text Formatting and Cleaning",
+    "beginner_guide_text": "Text processing helps format paragraphs, clean spacing, or count document elements. Copy and paste your text into the editor, click your formatting choice, and copy the cleaned results.",
+    "advanced_guide_title": "Advanced: String Buffers & Regular Expressions",
+    "advanced_guide_text": "String tools run on native JavaScript V8 RegExp stacks and buffer arrays, processing complex replace and analysis operations in sub-millisecond execution times.",
+    "faqs": [
+      {
+        "q": "Does this tool support word counting for long essays?",
+        "a": "Yes. Our word counter is optimized for large documents and counts words, sentences, characters, and paragraphs instantly."
+      }
+    ]
+  },
+  "qr-tools": {
+    "title": "QR Tools",
+    "description": "Generate customized QR codes or scan matrices using your webcam. 100% local camera scanning.",
+    "intro_h2": "Secure QR Code Generation & Scanning",
+    "introduction": "Create and read QR codes in absolute privacy. ToolTari QR Tools allow you to encode URLs, custom text, emails, or Wi-Fi configurations into PNG/SVG matrices, and read scan data directly from webcams. Camera streams are processed locally via browser APIs; no video frames are uploaded.",
+    "beginner_guide_title": "Beginner: Generating & Scanning QR Codes",
+    "beginner_guide_text": "Enter any text or link to instantly generate a downloadable QR code. To scan, allow webcam permissions or drop an image containing a QR code to read its data.",
+    "advanced_guide_title": "Advanced: Matrix Rendering & Local Scanning",
+    "advanced_guide_text": "QR generators use canvas drawing methods to construct QR grid patterns based on alignment markers and Reed-Solomon error correction. Scanning is computed local-only via visual scan frameworks.",
+    "faqs": [
+      {
+        "q": "Are my webcam streams uploaded to servers during scanning?",
+        "a": "No. The camera video stream is rendered onto a local canvas where JavaScript checks matrix patterns frame by frame. No video is ever transmitted."
+      }
+    ]
+  },
+  "archive-tools": {
+    "title": "Archive Tools",
+    "description": "Pack files into ZIP archives or extract compressed folders in your browser.",
+    "intro_h2": "Local Archive Compressions & Decompressions",
+    "introduction": "Compile multiple files, images, or documents into unified compressed ZIP archives or extract existing packages. All compressions run locally on client CPU threads, offering superfast ZIP packing without cloud upload queues.",
+    "beginner_guide_title": "Beginner: Packing ZIP Folders",
+    "beginner_guide_text": "ZIP archives gather files together and reduce size. Drop files to package them, choose compression density, and download the output ZIP instantly.",
+    "advanced_guide_title": "Advanced: Client-Side Deflate/Inflate Operations",
+    "advanced_guide_text": "ZIP packing utilizes library utilities like JSZip to construct zip header structures, local file headers, and compressed file data using browser memory array blocks.",
+    "faqs": [
+      {
+        "q": "What is the maximum file size for creating a ZIP?",
+        "a": "Since compression is done in-browser, it is limited by your system's available memory, usually supporting file packs up to 500MB."
+      }
+    ]
+  },
+  "ai-tools": {
+    "title": "AI Tools",
+    "description": "Free browser-native AI helpers for text creation, image tagging, and layout optimization.",
+    "intro_h2": "Browser-Native AI Productivity Hub",
+    "introduction": "Harness the power of lightweight AI models executing directly inside your browser sandbox or secure local worker scripts. Analyze images, build prompts, organize files, and optimize text structures without remote API data leakage.",
+    "beginner_guide_title": "Beginner: Getting Started with Local AI",
+    "beginner_guide_text": "Select your AI helper, input text or drag-and-drop a file, and let the model compute response blocks locally in real-time.",
+    "advanced_guide_title": "Advanced: WebGL & WASM Acceleration",
+    "advanced_guide_text": "AI execution is accelerated via browser WebGL or WebGPU configurations, enabling hardware-accelerated local inference directly inside client browser processes.",
+    "faqs": [
+      {
+        "q": "Do my AI queries cost anything?",
+        "a": "No, AI tools on ToolTari are 100% free and run local-only, bypassing expensive cloud APIs."
+      }
+    ]
+  },
+  "audio-tools": {
+    "title": "Audio Tools",
+    "description": "Cut, compress, and convert audio files locally. Secure and private sound editing.",
+    "intro_h2": "Browser-Native Audio Optimization Suite",
+    "introduction": "Cut, convert, and compress audio files without uploading them to remote servers. All audio processing runs 100% client-side using browser Web Audio APIs.",
+    "beginner_guide_title": "Beginner: Sound File Editing",
+    "beginner_guide_text": "Select an audio tool, upload your MP3 or WAV file, adjust settings, and download your optimized soundtrack.",
+    "advanced_guide_title": "Advanced: Web Audio API & Audio Buffers",
+    "advanced_guide_text": "Sound editing is performed by decoding audio files into local array buffers, applying cuts or compression algorithms, and re-encoding using browser audio nodes.",
+    "faqs": [
+      {
+        "q": "Are my recordings or sound files stored on ToolTari?",
+        "a": "No, all audio files are processed in your browser's temporary memory and are never uploaded."
+      }
+    ]
+  },
+  "video-tools": {
+    "title": "Video Tools",
+    "description": "Download YouTube thumbnails, analyze video metadata, and extract clips in your browser.",
+    "intro_h2": "Browser-Native Video & Metadata Suite",
+    "introduction": "Download video thumbnails, analyze stream formats, or crop video clips. All operations run directly in your browser without cloud-side processing queues.",
+    "beginner_guide_title": "Beginner: Simple Video Tools",
+    "beginner_guide_text": "Enter video URLs to preview, inspect, or extract details like thumbnails. No installation or registration required.",
+    "advanced_guide_title": "Advanced: Video Demuxing and Canvas Extraction",
+    "advanced_guide_text": "Clip editing and frame extraction draw media streams directly onto HTML5 canvas elements, processing frames locally.",
+    "faqs": [
+      {
+        "q": "Is downloading YouTube thumbnails legal?",
+        "a": "Yes, downloading video thumbnails is completely legal for educational and personal use."
+      }
+    ]
+  },
+  "converter-tools": {
+    "title": "Converter Tools",
+    "description": "Convert file formats (documents, images, videos, data types) online in complete privacy.",
+    "intro_h2": "Secure Client-Side Format Conversion Hub",
+    "introduction": "Convert files between major document, image, and utility formats. All processing is computed inside the browser, securing files from remote server logs.",
+    "beginner_guide_title": "Beginner: How to Convert Files",
+    "beginner_guide_text": "Drop files in, select the desired format from the dropdown, and download the converted output in seconds.",
+    "advanced_guide_title": "Advanced: Browser-Based File Serialization",
+    "advanced_guide_text": "File conversions decode binary structures into JS buffers, serializing them into target MIME-types client-side.",
+    "faqs": [
+      {
+        "q": "Is there a limit on conversions?",
+        "a": "There are no limits! You can run as many conversions as you need without signup."
+      }
+    ]
+  },
+  "calculator-tools": {
+    "title": "Calculator Tools",
+    "description": "Calculate finance equations, web conversions, math utilities, and data benchmarks.",
+    "intro_h2": "High-Precision Calculator Suite",
+    "introduction": "Perform math, financial, and web development calculations in real-time. Calculate loan interest, data bandwidths, CSS sizes, and pixel aspects instantly.",
+    "beginner_guide_title": "Beginner: Using Calculator Tools",
+    "beginner_guide_text": "Enter inputs into numerical fields, and calculations are computed and displayed instantly in real-time.",
+    "advanced_guide_title": "Advanced: Double Precision Calculations",
+    "advanced_guide_text": "Numerical calculations run on JavaScript's double-precision floating-point format, ensuring high precision.",
+    "faqs": [
+      {
+        "q": "Are calculator inputs sent to servers?",
+        "a": "No, all calculation formulas evaluate client-side. No input data is transmitted."
+      }
+    ]
+  },
+  "document-tools": {
+    "title": "Document Tools",
+    "description": "View, edit, and convert documents locally in your browser memory.",
+    "intro_h2": "Secure Office Document Processing Hub",
+    "introduction": "Read, structure, format, and edit office document extensions without cloud uploads. Everything is processed locally in browser sandbox configurations.",
+    "beginner_guide_title": "Beginner: Editing Office Documents",
+    "beginner_guide_text": "Select your tool, upload your document, edit content layout, and save the result.",
+    "advanced_guide_title": "Advanced: In-Memory File Buffers",
+    "advanced_guide_text": "Documents are parsed using JavaScript object wrappers, mapping content nodes directly in the client browser.",
+    "faqs": [
+      {
+        "q": "Does this tool support DOCX files?",
+        "a": "Yes, you can edit and view DOCX files locally in your browser memory."
+      }
+    ]
+  }
+}
