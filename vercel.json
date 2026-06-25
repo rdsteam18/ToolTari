@@ -55,6 +55,6 @@
     { "source": "/tools/yt-video.html", "destination": "/video-tools/yt-video", "permanent": true }
   ],
   "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
+    { "source": "/:path*", "destination": "/index.html" }
   ]
 }
