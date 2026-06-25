@@ -1,5 +1,4 @@
 {
-  "cleanUrls": true,
   "redirects": [
     { "source": "/tools/add-page-numbers.html", "destination": "/pdf-tools/add-page-numbers", "permanent": true },
     { "source": "/tools/compress-pdf.html", "destination": "/pdf-tools/compress-pdf", "permanent": true },
