@@ -12,6 +12,7 @@ import ImageComparisonSlider from './ImageComparisonSlider';
 import { videoEngine } from '../../services/videoEngine';
 import { audioEngine } from '../../services/audioEngine';
 import AudioWaveform from './AudioWaveform';
+import { historyEngine } from '../../services/history/historyEngine';
 
 interface ToolEngineProps {
   toolId: string;
@@ -197,6 +198,12 @@ export default function ToolEngine({ toolId }: ToolEngineProps) {
 
       if (result.error) {
         setError(result.error);
+        historyEngine.addRecord({
+          toolId,
+          fileName: files[0]?.name || 'Input payload',
+          fileSize: files[0]?.size || 0,
+          status: 'failed'
+        });
         setLoading(false);
         return;
       }
@@ -207,10 +214,22 @@ export default function ToolEngine({ toolId }: ToolEngineProps) {
         if (result.outputName) {
           setOutputFilename(result.outputName);
         }
+        historyEngine.addRecord({
+          toolId,
+          fileName: files[0]?.name || 'Processed output',
+          fileSize: files[0]?.size || 0,
+          outputSize: result.blob.size,
+          status: 'success'
+        });
         confetti({ particleCount: 50, spread: 60, origin: { y: 0.8 } });
       } else if (result.data) {
-        // Handle tools that return direct metadata / string outputs
         setDevOutput(JSON.stringify(result.data, null, 2));
+        historyEngine.addRecord({
+          toolId,
+          fileName: files[0]?.name || 'Input payload',
+          fileSize: files[0]?.size || 0,
+          status: 'success'
+        });
       }
     } catch (err: any) {
       setError(err.message || 'An error occurred during processing.');
@@ -236,13 +255,16 @@ export default function ToolEngine({ toolId }: ToolEngineProps) {
       });
       if (result.error) {
         setError(result.error);
+        historyEngine.addRecord({ toolId, fileName: 'N/A', fileSize: 0, status: 'failed' });
       } else if (result.data) {
         setDevOutput(result.data.password);
         setPassStrength(result.data.strength);
+        historyEngine.addRecord({ toolId, fileName: 'Secure key parameters', fileSize: 0, status: 'success' });
         confetti({ particleCount: 20, spread: 30 });
       }
     } catch (e: any) {
       setError(e.message);
+      historyEngine.addRecord({ toolId, fileName: 'N/A', fileSize: 0, status: 'failed' });
     } finally {
       setLoading(false);
     }
@@ -267,11 +289,14 @@ export default function ToolEngine({ toolId }: ToolEngineProps) {
       });
       if (result.error) {
         setError(result.error);
+        historyEngine.addRecord({ toolId, fileName: 'Base64 stream', fileSize: 0, status: 'failed' });
       } else if (result.data) {
         setDevOutput(result.data);
+        historyEngine.addRecord({ toolId, fileName: 'Base64 stream', fileSize: 0, status: 'success' });
       }
     } catch (e: any) {
       setError(e.message);
+      historyEngine.addRecord({ toolId, fileName: 'Base64 stream', fileSize: 0, status: 'failed' });
     } finally {
       setLoading(false);
     }
@@ -296,11 +321,14 @@ export default function ToolEngine({ toolId }: ToolEngineProps) {
       });
       if (result.error) {
         setError(result.error);
+        historyEngine.addRecord({ toolId, fileName: 'Text payload', fileSize: 0, status: 'failed' });
       } else if (result.data) {
         setDevOutput(result.data);
+        historyEngine.addRecord({ toolId, fileName: 'Text payload', fileSize: 0, status: 'success' });
       }
     } catch (e: any) {
       setError(e.message);
+      historyEngine.addRecord({ toolId, fileName: 'Text payload', fileSize: 0, status: 'failed' });
     } finally {
       setLoading(false);
     }

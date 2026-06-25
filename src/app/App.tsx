@@ -10,6 +10,7 @@ import About from '../pages/About';
 import Contact from '../pages/Contact';
 import StaticPages from '../pages/StaticPages';
 import AuthorPage from '../pages/AuthorPage';
+import History from '../pages/History';
 
 function App() {
   return (
@@ -20,6 +21,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/tools.html" element={<Tools />} />
           <Route path="/tools" element={<Tools />} />
+          <Route path="/history" element={<History />} />
+          <Route path="/history.html" element={<History />} />
           
           {/* Static Info Pages */}
           <Route path="/about" element={<About />} />

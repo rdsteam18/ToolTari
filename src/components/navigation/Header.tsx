@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { SITE_CONFIG } from '../../config/site';
-import { Menu, X, ChevronDown, Search as SearchIcon, Sun, Moon } from 'lucide-react';
+import { Menu, X, ChevronDown, Search as SearchIcon, Sun, Moon, History as HistoryIcon } from 'lucide-react';
 import { getAllTools } from '../../toolRegistry';
 import type { ToolRegistryEntry } from '../../types/tool';
 
@@ -188,6 +188,16 @@ export default function Header() {
             )}
           </div>
 
+          {/* History Page Link */}
+          <Link
+            to="/history"
+            className="p-2 text-text-secondary hover:text-text-primary hover:bg-bg-base rounded-md transition-smooth select-none focus-visible:outline-none"
+            title="View Activity History & Local Savings"
+            aria-label="View Activity History"
+          >
+            <HistoryIcon className="h-5 w-5" />
+          </Link>
+
           {/* Theme Toggle Button */}
           <button
             onClick={() => setTheme(prev => prev === 'dark' ? 'light' : 'dark')}
@@ -260,6 +270,9 @@ export default function Header() {
               </div>
             </li>
             <li className="border-t border-border-base/40 pt-3">
+              <Link to="/history" className="block py-1 hover:text-primary">My History & Savings</Link>
+            </li>
+            <li>
               <Link to="/blog" className="block py-1 hover:text-primary">Blog</Link>
             </li>
             <li>
